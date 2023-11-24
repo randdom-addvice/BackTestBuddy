@@ -10,6 +10,7 @@ _prism/*
 .vscode/*
 .idea/
 dist
+esm
 .env
 
 # Stores VSCode versions used for testing VSCode extensions

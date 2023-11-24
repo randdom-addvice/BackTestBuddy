@@ -9,6 +9,8 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
 import logger from "@/config/logger";
 import { mergedResolvers, mergedSchemas } from "@/graphql/index";
 import { altairExpress } from "altair-express-middleware";
+import connectDb from "@/config/db";
+import { seedDatabase } from "@/utils/seedData";
 
 const NAMESPACE = "Server";
 
@@ -17,11 +19,11 @@ class App {
   public port: number;
   private readonly graphQLPath: string = "/graphql";
 
-  constructor(port: number, resolvers?: any[]) {
+  constructor(port: number) {
     this.app = express();
     this.port = port;
+    (async () => await seedDatabase(connectDb))();
 
-    // connectDb();
     this.initializeMiddleware();
   }
 
