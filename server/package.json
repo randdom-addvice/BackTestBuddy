@@ -1,0 +1,53 @@
+{
+  "name": "backtest-buddy-server",
+  "version": "1.0.0",
+  "description": "server",
+  "main": "index.js",
+  "dependencies": {
+    "@graphql-tools/load": "^8.0.1",
+    "@graphql-tools/schema": "^10.0.2",
+    "apollo-server-express": "^3.13.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-healthcheck": "^0.1.0",
+    "graphql": "^16.8.1",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.3",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.10.0",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "tsc-watch": "^6.0.4",
+    "typescript": "^5.3.2"
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "compile": "tsc",
+    "dev-watch": "tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "dev": "tsc -w & nodemon -q -w dist dist/index.js",
+    "build": "npm run compiler",
+    "compiler": "npm run clean && tsc --pretty && babel --extensions '.ts' source -d esm",
+    "babel-build": "babel --extensions .ts ./source -d dist",
+    "postinstall": "npm run build",
+    "clean": "rimraf esm",
+    "prettier": "prettier --config ./.prettierrc --write \"**/*.ts\"",
+    "lint2": "npm run prettier --check --config ./.prettierrc \"**/*.ts\"",
+    "lint": "eslint source/**",
+    "lint-format": "npm run prettier --write --check --config ./.prettierrc \"**/*.ts\" && eslint --fix ./source",
+    "format": "npm run prettier -- --write",
+    "check-format": "npm run prettier -- --list-different",
+    "validate": "npm run check-format & npm run lint"
+  },
+  "author": "",
+  "license": "ISC"
+}
