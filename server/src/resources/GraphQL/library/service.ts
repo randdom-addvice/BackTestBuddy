@@ -2,35 +2,41 @@ import { FilterQuery, QueryOptions, UpdateQuery } from "mongoose";
 import { ILibrary } from "./types";
 import LibraryModel from "./model";
 
-class DirectoryService {
+class LibraryService {
   // MONGOOSE SERVICES
-  public async getLibraries(
+  public static async getLibraries(
     query: FilterQuery<ILibrary>,
     options: QueryOptions = { lean: true }
   ): Promise<ILibrary[]> {
     return await LibraryModel.find(query, {}, options);
   }
 
-  public async getLibrary(
+  public static async getLibrary(
     query: FilterQuery<ILibrary>,
     options: QueryOptions = { lean: true }
   ): Promise<ILibrary | null> {
     return await LibraryModel.findOne(query, {}, options);
   }
 
-  public async createLibrary(input: ILibrary): Promise<ILibrary> {
+  public static async createLibrary(input: ILibrary): Promise<ILibrary> {
     return await LibraryModel.create(input);
   }
 
-  public async findAndUpdate(
+  public static async findAndUpdate(
     query: FilterQuery<ILibrary>,
     update: UpdateQuery<ILibrary>,
     options?: QueryOptions
   ): Promise<ILibrary | null> {
-    return await LibraryModel.findOneAndUpdate(query, update, options);
+    // console.log(update);
+    return await LibraryModel.findOneAndUpdate(
+      query,
+      // { $set: update },
+      update,
+      options
+    );
   }
 
-  public async deleteLibrary(
+  public static async deleteLibrary(
     query: FilterQuery<ILibrary>
   ): Promise<{ acknowledged: boolean; deletedCount: number }> {
     const t = await LibraryModel.deleteOne(query);
@@ -38,4 +44,4 @@ class DirectoryService {
   }
 }
 
-export default DirectoryService;
+export default LibraryService;
