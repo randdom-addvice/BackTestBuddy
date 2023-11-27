@@ -12,7 +12,7 @@ const strategies = [
       "1:1.5rr, session= 14:00 - 19:00(Server Time mt5) (CTRADER 11:00 - 16:00), Start=April 3 to April 28th (1 month); Risk=1%\nTenkan sen+Kijun sen and kumo confirmations must be checked on the 5M chart\n",
     id: 1695181719305,
     history: [],
-    tradeDetails: {
+    tradeStats: {
       totalTrades: 25,
       totalLossesPercent: 12,
       totalWinningsPercent: 88,
@@ -34,7 +34,7 @@ const strategies = [
     id: 1696079388485,
     name: "Tests",
     description: "test",
-    tradeDetails: {
+    tradeStats: {
       totalTrades: 25,
       totalLossesPercent: 12,
       totalWinningsPercent: 88,

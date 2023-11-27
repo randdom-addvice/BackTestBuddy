@@ -2,21 +2,29 @@ import { ObjectId } from "mongoose";
 import LibraryModel from "../library/model";
 import MongooseServices from "../services";
 import StrategyModel from "./model";
-import { IStrategy } from "./types";
+import { IStrategy, ITradeStats } from "./types";
 
 const resolvers = {
   Query: {
     getStrategies: async (_: any, { library_id }: { library_id: string }) => {
-      const library = await MongooseServices.getEntity(LibraryModel, {
-        _id: library_id,
-      });
+      const library = await MongooseServices.getEntity(
+        LibraryModel,
+        {
+          _id: library_id,
+        },
+        { lean: false }
+      );
       const strategies = library?.strategies ?? [];
       return strategies;
     },
     getStrategy: async (_: any, { id }: { id: string }) => {
-      const strategy = await MongooseServices.getEntity(StrategyModel, {
-        _id: id,
-      });
+      const strategy = await MongooseServices.getEntity(
+        StrategyModel,
+        {
+          _id: id,
+        },
+        { lean: false }
+      );
       return strategy;
     },
   },
@@ -72,6 +80,59 @@ const resolvers = {
           { _id: id }
         );
         if (!deleteSuccess) return false;
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+    updateStrategyDetails: async (
+      _: any,
+      {
+        updateStrategyInput: { name, description, startegy_id },
+      }: {
+        updateStrategyInput: {
+          name: string;
+          description: string;
+          startegy_id: string;
+        };
+      }
+    ) => {
+      try {
+        await MongooseServices.findAndUpdate(
+          StrategyModel,
+          { _id: startegy_id },
+          {
+            $set: {
+              name: name,
+              description: description,
+            },
+          }
+        );
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+    updateStrategyStats: async (
+      _: any,
+      {
+        updateStrategyStatsInput,
+        strategy_id,
+      }: {
+        updateStrategyStatsInput: ITradeStats;
+        strategy_id: string;
+      }
+    ) => {
+      try {
+        await MongooseServices.findAndUpdate(
+          StrategyModel,
+          { _id: strategy_id },
+          {
+            $set: {
+              tradeStats: { ...updateStrategyStatsInput },
+            },
+          }
+        );
         return true;
       } catch (error) {
         return false;

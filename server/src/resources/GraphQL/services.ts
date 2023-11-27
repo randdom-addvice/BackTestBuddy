@@ -26,10 +26,13 @@ class MongooseServices {
   public static async getEntity<T>(
     model: Model<T>,
     query: FilterQuery<ILibrary>,
-    options: QueryOptions = { lean: true }
+    options: QueryOptions = { lean: true }, //Note: setting this true, you would't be able to use .save() methods on the retreieved object
+    fieldToPopulate: string = "strategies"
   ): Promise<T | null> {
-    const result = await model.findOne(query, {}, options).exec();
-
+    const result = await model
+      .findOne(query, {}, options)
+      .populate(fieldToPopulate)
+      .exec();
     return result as T | null;
   }
 
