@@ -1,0 +1,59 @@
+import {
+  Document,
+  FilterQuery,
+  Model,
+  QueryOptions,
+  UpdateQuery,
+} from "mongoose";
+import Library from "./library/model";
+import { ILibrary } from "./library/types";
+// import { ILibrary } from "./types";
+// import LibraryModel from "./model";
+
+class MongooseServices {
+  public static async getEntities<T>(
+    model: Model<T>,
+    query: FilterQuery<T>,
+    fieldToPopulate: string = "",
+    options: QueryOptions = { lean: true }
+  ): Promise<T[]> {
+    return await model
+      .find(query, {}, options)
+      .populate(fieldToPopulate)
+      .exec();
+  }
+
+  public static async getEntity<T>(
+    model: Model<T>,
+    query: FilterQuery<ILibrary>,
+    options: QueryOptions = { lean: true }
+  ): Promise<T | null> {
+    const result = await model.findOne(query, {}, options).exec();
+
+    return result as T | null;
+  }
+
+  public static async createEntity<T>(model: Model<T>, input: T): Promise<T> {
+    return await model.create(input);
+  }
+
+  public static async findAndUpdate<T>(
+    model: Model<T>,
+    query: FilterQuery<T>,
+    update: UpdateQuery<T>,
+    options?: QueryOptions
+  ): Promise<T | null> {
+    return await model.findOneAndUpdate(query, update, options);
+    // return await model.findOneAndUpdate(query, { $set: update }, options);
+  }
+
+  public static async deleteEntity<T>(
+    model: Model<T>,
+    query: FilterQuery<T>
+  ): Promise<T | null> {
+    const t = await model.findOneAndDelete(query);
+    return t;
+  }
+}
+
+export default MongooseServices;
