@@ -3,6 +3,7 @@ import LibraryModel from "../library/model";
 import MongooseServices from "../services";
 import StrategyModel from "./model";
 import { IStrategy, ITradeStats } from "./types";
+import { throwGraphQLError } from "@/resources/services/errorHandler";
 
 const resolvers = {
   Query: {
@@ -18,14 +19,19 @@ const resolvers = {
       return strategies;
     },
     getStrategy: async (_: any, { id }: { id: string }) => {
-      const strategy = await MongooseServices.getEntity(
-        StrategyModel,
-        {
-          _id: id,
-        },
-        { lean: false }
-      );
-      return strategy;
+      try {
+        const strategy = await MongooseServices.getEntity(
+          StrategyModel,
+          {
+            _id: id,
+          },
+          { lean: false }
+        );
+        if (!strategy) throwGraphQLError("NOT_FOUND", "strategy not found");
+        return strategy;
+      } catch (error) {
+        throwGraphQLError("INTERNAL_SERVER_ERROR", "Something went wrong");
+      }
     },
   },
   Mutation: {
@@ -69,8 +75,7 @@ const resolvers = {
 
         return "Success";
       } catch (error) {
-        console.log(error);
-        return "Internal Server Erro";
+        throwGraphQLError("INTERNAL_SERVER_ERROR", "Something went wrong");
       }
     },
     deleteStrategy: async (_: any, { id }: { id: string }) => {

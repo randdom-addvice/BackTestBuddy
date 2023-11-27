@@ -13,7 +13,7 @@ import connectDb from "@/config/db";
 import { seedDatabase } from "@/utils/seedData";
 import { makeExecutableSchema } from "graphql-tools";
 import { IUser } from "@/graphql/user/types";
-import getUserFromToken from "@/resources/services/auth";
+import { getUserFromToken } from "@/resources/services/auth";
 
 const NAMESPACE = "Server";
 class App {

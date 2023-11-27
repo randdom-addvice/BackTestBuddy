@@ -27,12 +27,17 @@ class MongooseServices {
     model: Model<T>,
     query: FilterQuery<ILibrary>,
     options: QueryOptions = { lean: true }, //Note: setting this true, you would't be able to use .save() methods on the retreieved object
-    fieldToPopulate: string = "strategies"
+    fieldToPopulate?: string
   ): Promise<T | null> {
-    const result = await model
-      .findOne(query, {}, options)
-      .populate(fieldToPopulate)
-      .exec();
+    const queryBuilder = model.findOne(query, {}, options);
+
+    if (fieldToPopulate) queryBuilder.populate(fieldToPopulate);
+
+    const result = await queryBuilder.exec();
+    // const result = await model
+    //   .findOne(query, {}, options)
+    //   .populate(fieldToPopulate)
+    //   .exec();
     return result as T | null;
   }
 
