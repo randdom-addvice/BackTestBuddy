@@ -4,6 +4,7 @@ export default /* GraphQL */ `
     name: String!
     description: String!
     user_id: String!
+    strategies: [Strategy]
   }
 
   input ModfiyLibraryInput {
@@ -17,5 +18,7 @@ export default /* GraphQL */ `
 
   type Mutation {
     modifyLibrary(modifyLibraryInput: ModfiyLibraryInput): Boolean
+    createLibrary(createLibraryInput: ModfiyLibraryInput): Boolean
+    deleteLibrary(id: ID!): Boolean
   }
 `;

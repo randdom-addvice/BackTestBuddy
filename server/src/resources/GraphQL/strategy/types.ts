@@ -15,6 +15,7 @@ export interface ITradeDetails {
 
 export interface IStrategy extends Document {
   _id: Schema.Types.ObjectId | string;
+  library_id: Schema.Types.ObjectId | string;
   name: string;
   description: string;
   id: number;

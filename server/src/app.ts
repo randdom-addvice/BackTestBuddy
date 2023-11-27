@@ -11,6 +11,7 @@ import { mergedResolvers, mergedSchemas } from "@/graphql/index";
 import { altairExpress } from "altair-express-middleware";
 import connectDb from "@/config/db";
 import { seedDatabase } from "@/utils/seedData";
+import { makeExecutableSchema } from "graphql-tools";
 
 const NAMESPACE = "Server";
 
@@ -29,9 +30,15 @@ class App {
   }
 
   public async bootstrap(): Promise<void> {
-    const server = new ApolloServer({
+    const schema = makeExecutableSchema({
       typeDefs: mergedSchemas,
       resolvers: mergedResolvers,
+    });
+
+    const server = new ApolloServer({
+      // typeDefs: mergedSchemas,
+      // resolvers: mergedResolvers,
+      schema,
       plugins: [
         ApolloServerPluginLandingPageGraphQLPlayground({
           settings: {
