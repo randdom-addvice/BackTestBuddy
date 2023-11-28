@@ -10,6 +10,7 @@ export default /* GraphQL */ `
   input ModfiyLibraryInput {
     name: String
     description: String
+    library_id: String!
   }
 
   type Query {

@@ -12,9 +12,10 @@ import { altairExpress } from "altair-express-middleware";
 import connectDb from "@/config/db";
 import { seedDatabase } from "@/utils/seedData";
 import { makeExecutableSchema } from "graphql-tools";
+import { IUser } from "@/graphql/user/types";
+import { getUserFromToken } from "@/resources/services/auth";
 
 const NAMESPACE = "Server";
-
 class App {
   public app: Application;
   public port: number;
@@ -39,6 +40,12 @@ class App {
       // typeDefs: mergedSchemas,
       // resolvers: mergedResolvers,
       schema,
+      context: ({ req }) => {
+        const token = req.headers.authorization || "";
+        const user = getUserFromToken(token);
+
+        return { user };
+      },
       plugins: [
         ApolloServerPluginLandingPageGraphQLPlayground({
           settings: {

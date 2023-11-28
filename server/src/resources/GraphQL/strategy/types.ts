@@ -1,7 +1,9 @@
 // src/models/Strategy.ts
 import { Document, Schema } from "mongoose";
 
-export interface ITradeDetails {
+export interface ITradeStats {
+  winCountValue: number;
+  lossCountValue: number;
   totalTrades: number;
   totalLossesPercent: number;
   totalWinningsPercent: number;
@@ -9,6 +11,7 @@ export interface ITradeDetails {
   totalWinnings: number;
   percentageWin: number;
   profitGain: number;
+  profitFactor: number;
   tradesSequence: number[];
   growth: number[];
 }
@@ -20,7 +23,7 @@ export interface IStrategy extends Document {
   description: string;
   id: number;
   history: any[]; // Adjust the type based on the actual structure of your history field
-  tradeDetails: ITradeDetails;
+  tradeStats: ITradeStats;
 }
 
 export interface IGraphQLResolverArgs {

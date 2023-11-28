@@ -1,10 +1,10 @@
-// src/models/User.ts
-import mongoose, { Document, Schema } from "mongoose";
-import { ILibrary } from "@/graphql/library/types";
+import { Document } from "mongoose";
 
 export interface IUser extends Document {
   username: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
-  // libraries: Schema.Types.ObjectId[] | ILibrary[];
+  email_verified: boolean;
 }

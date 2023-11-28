@@ -2,22 +2,40 @@ import { ObjectId } from "mongoose";
 import LibraryModel from "../library/model";
 import MongooseServices from "../services";
 import StrategyModel from "./model";
-import { IStrategy } from "./types";
+import { IStrategy, ITradeStats } from "./types";
+import {
+  catchGraphQLError,
+  throwGraphQLError,
+} from "@/resources/services/errorHandler";
+import { IUser } from "../user/types";
 
 const resolvers = {
   Query: {
     getStrategies: async (_: any, { library_id }: { library_id: string }) => {
-      const library = await MongooseServices.getEntity(LibraryModel, {
-        _id: library_id,
-      });
+      const library = await MongooseServices.getEntity(
+        LibraryModel,
+        {
+          _id: library_id,
+        },
+        { lean: false }
+      );
       const strategies = library?.strategies ?? [];
       return strategies;
     },
     getStrategy: async (_: any, { id }: { id: string }) => {
-      const strategy = await MongooseServices.getEntity(StrategyModel, {
-        _id: id,
-      });
-      return strategy;
+      try {
+        const strategy = await MongooseServices.getEntity(
+          StrategyModel,
+          {
+            _id: id,
+          },
+          { lean: false }
+        );
+        if (!strategy) throwGraphQLError("NOT_FOUND", "strategy not found!");
+        return strategy;
+      } catch (error) {
+        catchGraphQLError(error);
+      }
     },
   },
   Mutation: {
@@ -29,16 +47,21 @@ const resolvers = {
         createStrategyInput: Pick<IStrategy, "name" | "description"> & {
           library_id: string;
         };
-      }
+      },
+      { user }: { user?: IUser }
     ) => {
       try {
-        const user_id = "656353bf5da794ccd711cf17";
+        if (!user)
+          return throwGraphQLError(
+            "FORBIDDEN",
+            "You are not authorized to perform this action."
+          );
         const createdStrategy = await MongooseServices.createEntity(
           StrategyModel,
           {
             name,
             description,
-            user_id,
+            user_id: user._id,
             library_id,
           } as never as IStrategy
         );
@@ -61,8 +84,7 @@ const resolvers = {
 
         return "Success";
       } catch (error) {
-        console.log(error);
-        return "Internal Server Erro";
+        throwGraphQLError("INTERNAL_SERVER_ERROR", "Something went wrong");
       }
     },
     deleteStrategy: async (_: any, { id }: { id: string }) => {
@@ -72,6 +94,59 @@ const resolvers = {
           { _id: id }
         );
         if (!deleteSuccess) return false;
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+    updateStrategyDetails: async (
+      _: any,
+      {
+        updateStrategyInput: { name, description, startegy_id },
+      }: {
+        updateStrategyInput: {
+          name: string;
+          description: string;
+          startegy_id: string;
+        };
+      }
+    ) => {
+      try {
+        await MongooseServices.findAndUpdate(
+          StrategyModel,
+          { _id: startegy_id },
+          {
+            $set: {
+              name: name,
+              description: description,
+            },
+          }
+        );
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+    updateStrategyStats: async (
+      _: any,
+      {
+        updateStrategyStatsInput,
+        strategy_id,
+      }: {
+        updateStrategyStatsInput: ITradeStats;
+        strategy_id: string;
+      }
+    ) => {
+      try {
+        await MongooseServices.findAndUpdate(
+          StrategyModel,
+          { _id: strategy_id },
+          {
+            $set: {
+              tradeStats: { ...updateStrategyStatsInput },
+            },
+          }
+        );
         return true;
       } catch (error) {
         return false;

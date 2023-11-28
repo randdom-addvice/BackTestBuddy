@@ -1,5 +1,8 @@
 export default /* GraphQL */ `
-  type TradeDetails {
+  type TradeStats {
+    _id: ID
+    winCountValue: Float!
+    lossCountValue: Float!
     totalTrades: Int!
     totalLossesPercent: Int!
     totalWinningsPercent: Int!
@@ -7,8 +10,10 @@ export default /* GraphQL */ `
     totalWinnings: Int!
     percentageWin: Int!
     profitGain: Int!
+    profitFactor: Int!
     tradesSequence: [Float]!
     growth: [Float]!
+    percentage: String
   }
 
   type Strategy {
@@ -16,13 +21,30 @@ export default /* GraphQL */ `
     library_id: ID!
     name: String!
     description: String!
-    tradeDetails: TradeDetails!
+    tradeStats: TradeStats!
   }
 
   input CreateStrategyInput {
     name: String!
     description: String!
     library_id: ID!
+  }
+
+  input UpdateStrategyDetailsInput {
+    winCountValue: Float!
+    description: String!
+    strategy_id: ID!
+  }
+
+  input UpdateStrategyStatsInput {
+    winCountValue: Float!
+    lossCountValue: Float!
+    totalLosses: Int!
+    totalWinnings: Int!
+    profitGain: Float!
+    profitFactor: Float!
+    tradesSequence: [Float]!
+    growth: [Float]!
   }
 
   type Query {
@@ -32,6 +54,13 @@ export default /* GraphQL */ `
 
   type Mutation {
     createStrategy(createStrategyInput: CreateStrategyInput): String!
-    deleteStrategy(id: ID!): Boolean
+    updateStrategyDetails(
+      updateStrategyInput: UpdateStrategyDetailsInput
+    ): Boolean!
+    updateStrategyStats(
+      updateStrategyStatsInput: UpdateStrategyStatsInput
+      strategy_id: ID!
+    ): Boolean!
+    deleteStrategy(id: ID!): Boolean!
   }
 `;
