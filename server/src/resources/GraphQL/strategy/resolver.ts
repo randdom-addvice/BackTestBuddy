@@ -3,7 +3,11 @@ import LibraryModel from "../library/model";
 import MongooseServices from "../services";
 import StrategyModel from "./model";
 import { IStrategy, ITradeStats } from "./types";
-import { throwGraphQLError } from "@/resources/services/errorHandler";
+import {
+  catchGraphQLError,
+  throwGraphQLError,
+} from "@/resources/services/errorHandler";
+import { IUser } from "../user/types";
 
 const resolvers = {
   Query: {
@@ -27,10 +31,10 @@ const resolvers = {
           },
           { lean: false }
         );
-        if (!strategy) throwGraphQLError("NOT_FOUND", "strategy not found");
+        if (!strategy) throwGraphQLError("NOT_FOUND", "strategy not found!");
         return strategy;
       } catch (error) {
-        throwGraphQLError("INTERNAL_SERVER_ERROR", "Something went wrong");
+        catchGraphQLError(error);
       }
     },
   },
@@ -43,16 +47,21 @@ const resolvers = {
         createStrategyInput: Pick<IStrategy, "name" | "description"> & {
           library_id: string;
         };
-      }
+      },
+      { user }: { user?: IUser }
     ) => {
       try {
-        const user_id = "656353bf5da794ccd711cf17";
+        if (!user)
+          return throwGraphQLError(
+            "FORBIDDEN",
+            "You are not authorized to perform this action."
+          );
         const createdStrategy = await MongooseServices.createEntity(
           StrategyModel,
           {
             name,
             description,
-            user_id,
+            user_id: user._id,
             library_id,
           } as never as IStrategy
         );

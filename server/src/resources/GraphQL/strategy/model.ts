@@ -40,6 +40,11 @@ const strategySchema = new Schema<IStrategy>(
   }
 );
 
+tradeDetailsSchema.virtual("percentageWin").get(function () {
+  return Math.round(
+    (this.totalWinnings / (this.totalLosses + this.totalWinnings)) * 100
+  );
+});
 tradeDetailsSchema.virtual("totalTrades").get(function () {
   return this.totalLosses + this.totalWinnings;
 });

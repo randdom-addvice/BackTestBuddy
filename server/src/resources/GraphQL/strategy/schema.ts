@@ -1,5 +1,6 @@
 export default /* GraphQL */ `
   type TradeStats {
+    _id: ID
     winCountValue: Float!
     lossCountValue: Float!
     totalTrades: Int!

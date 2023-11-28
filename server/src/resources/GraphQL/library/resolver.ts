@@ -1,18 +1,36 @@
+import {
+  catchGraphQLError,
+  throwGraphQLError,
+} from "@/resources/services/errorHandler";
 import MongooseServices from "../services";
+import { IUser } from "../user/types";
 import LibraryModel from "./model";
 import { ILibrary } from "./types";
 
 const libraryResolvers = {
   Query: {
-    getLibraries: async () => {
-      const libraries = await MongooseServices.getEntities(
-        LibraryModel,
-        {
-          user_id: "656287e350ac7fb861957c42",
-        },
-        "strategies"
-      );
-      return libraries;
+    getLibraries: async (
+      _: unknown,
+      __: unknown,
+      { user }: { user?: IUser }
+    ) => {
+      try {
+        if (!user)
+          return throwGraphQLError(
+            "FORBIDDEN",
+            "You are not authorized to perform this action."
+          );
+        const libraries = await MongooseServices.getEntities(
+          LibraryModel,
+          {
+            user_id: user._id,
+          },
+          "strategies"
+        );
+        return libraries;
+      } catch (error) {
+        catchGraphQLError(error);
+      }
     },
   },
   Mutation: {
@@ -20,33 +38,50 @@ const libraryResolvers = {
       _: any,
       {
         createLibraryInput,
-      }: { createLibraryInput: Pick<ILibrary, "name" | "description"> }
+      }: { createLibraryInput: Pick<ILibrary, "name" | "description"> },
+      { user }: { user: IUser }
     ) => {
       try {
-        const user_id = "656353bf5da794ccd711cf17";
+        if (!user)
+          throwGraphQLError(
+            "FORBIDDEN",
+            "You are not authorized to perform this action."
+          );
         const createdLibrary = await MongooseServices.createEntity(
           LibraryModel,
           {
             ...createLibraryInput,
-            user_id,
+            user_id: user._id,
           } as never as ILibrary
         );
         if (!createdLibrary) return false;
         return true;
-      } catch (error) {
-        return false;
+      } catch (error: any) {
+        catchGraphQLError(error);
       }
     },
     modifyLibrary: async (
       _: any,
       {
-        modifyLibraryInput: { name, description },
-      }: { modifyLibraryInput: { name?: string; description?: string } }
+        modifyLibraryInput: { name, description, library_id },
+      }: {
+        modifyLibraryInput: {
+          name?: string;
+          description?: string;
+          library_id: string;
+        };
+      },
+      { user }: { user: IUser }
     ) => {
       try {
+        if (!user)
+          throwGraphQLError(
+            "FORBIDDEN",
+            "You are not authorized to perform this action."
+          );
         const query = {
-          user_id: "656287e350ac7fb861957c42",
-          _id: "656287e350ac7fb861957c46",
+          user_id: user._id,
+          _id: library_id,
         };
         const libraryToUpdate = await MongooseServices.getEntity(
           LibraryModel,
@@ -60,7 +95,7 @@ const libraryResolvers = {
         });
         return true;
       } catch (error) {
-        return false;
+        catchGraphQLError(error);
       }
     },
     deleteLibrary: async (_: any, { id }: { id: string }) => {
