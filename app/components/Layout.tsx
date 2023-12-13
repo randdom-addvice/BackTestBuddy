@@ -17,6 +17,7 @@ const Layout = ({ children, title = "BackTest Buddy" }: Props) => (
     <header>
       <nav>
         <Link href="/">Home</Link> | <Link href="/about">About</Link> |{" "}
+        <Link href="/app">App</Link>
         <Link href="/users">Users List</Link> |{" "}
         <a href="/api/users">Users API</a>
       </nav>
