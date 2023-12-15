@@ -14,19 +14,7 @@ const Layout = ({ children, title = "BackTest Buddy" }: Props) => (
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
-    <header>
-      <nav>
-        <Link href="/">Home</Link> | <Link href="/about">About</Link> |{" "}
-        <Link href="/app">App</Link>
-        <Link href="/users">Users List</Link> |{" "}
-        <a href="/api/users">Users API</a>
-      </nav>
-    </header>
     {children}
-    <footer>
-      <hr />
-      <span>I'm here to stay (Footer)</span>
-    </footer>
   </div>
 );
 

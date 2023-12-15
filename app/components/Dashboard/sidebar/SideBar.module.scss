@@ -1,0 +1,167 @@
+.container {
+  width: 56px;
+  height: 100vh;
+  position: relative;
+  border-right: 1px #e4e4e4 solid;
+
+  .subContainer {
+    width: 96px;
+    height: 67px;
+    left: 0;
+    top: 10px;
+    position: absolute;
+
+    .child1 {
+      width: 96px;
+      height: 67px;
+      left: 0;
+      top: 0;
+      position: absolute;
+    }
+
+    .child2 {
+      width: 47px;
+      height: 47px;
+      left: 24px;
+      top: 10px;
+      position: absolute;
+      background: black;
+    }
+  }
+
+  .subContainer2 {
+    width: 47px;
+    height: 46px;
+    left: 25px;
+    top: 232px;
+    position: absolute;
+
+    .child1 {
+      width: 47px;
+      height: 46px;
+      left: 0;
+      top: 0;
+      position: absolute;
+    }
+
+    .child2 {
+      width: 47px;
+      height: 46px;
+      left: 0;
+      top: 0;
+      position: absolute;
+
+      .nestedChild {
+        width: 7.83px;
+        height: 26.83px;
+        left: 31.33px;
+        top: 11.5px;
+        position: absolute;
+        border: 1px black solid;
+      }
+      /* Add more nested child styles as needed */
+    }
+  }
+
+  .subContainer3 {
+    width: 47px;
+    height: 46px;
+    left: 25px;
+    top: 148px;
+    position: absolute;
+
+    .child1 {
+      width: 47px;
+      height: 46px;
+      left: 0;
+      top: 0;
+      position: absolute;
+    }
+
+    .child2 {
+      width: 47px;
+      height: 44px;
+      left: 0;
+      top: 0;
+      position: absolute;
+
+      .nestedChild1 {
+        width: 30.48px;
+        height: 18.91px;
+        left: 8.26px;
+        top: 12.55px;
+        position: absolute;
+        background: #d9d9d9;
+      }
+
+      .nestedChild2 {
+        width: 36.72px;
+        height: 30.25px;
+        left: 5.14px;
+        top: 6.88px;
+        position: absolute;
+        background: black;
+      }
+    }
+  }
+
+  .subContainer4 {
+    width: 47px;
+    height: 46px;
+    left: 23px;
+    top: 310px;
+    position: absolute;
+
+    .child1 {
+      width: 47px;
+      height: 46px;
+      left: 0;
+      top: 0;
+      position: absolute;
+    }
+
+    .child2 {
+      left: 8px;
+      top: 11px;
+      position: absolute;
+      color: #3a5a40;
+      font-size: 20px;
+      font-family: "Inter";
+      font-weight: 300;
+      word-wrap: break-word;
+    }
+  }
+
+  .subContainer5 {
+    width: 47px;
+    height: 46px;
+    left: 25px;
+    top: 400px;
+    position: absolute;
+
+    .child1 {
+      width: 47px;
+      height: 46px;
+      left: 0;
+      top: 0;
+      position: absolute;
+    }
+
+    .child2 {
+      width: 45px;
+      height: 44px;
+      left: 1px;
+      top: 1px;
+      position: absolute;
+
+      .nestedChild {
+        width: 43.59px;
+        height: 42.62px;
+        left: 0.7px;
+        top: 0.69px;
+        position: absolute;
+        background: black;
+      }
+    }
+  }
+}
