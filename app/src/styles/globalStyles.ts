@@ -7,6 +7,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: K2D, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-family: Open-Sans, Helvetica, Sans-Serif;
+    font-family: Inter;
     overflow: hidden;
   }
   * {
