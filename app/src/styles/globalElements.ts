@@ -21,6 +21,7 @@ export const StyledFlex = styled.div<{
   align?: AlignContent;
   width?: string;
   height?: string;
+  gap?: string;
 }>`
   display: flex;
   flex-direction: ${(props) => props.direction ?? "row"};
@@ -28,6 +29,7 @@ export const StyledFlex = styled.div<{
   align-items: ${(props) => props.align ?? "center"};
   width: ${(props) => props.width ?? "100%"};
   height: ${(props) => props.height ?? "initial"};
+  gap: ${(props) => props.gap ?? "initial"};
 `;
 
 export const StyledContainer = styled.div<{ width?: string }>`

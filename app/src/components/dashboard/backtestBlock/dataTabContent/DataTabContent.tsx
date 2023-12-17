@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaExpand } from "react-icons/fa";
 import {
   Container,
@@ -11,14 +11,19 @@ import {
   ExpandButton,
 } from "./elements";
 import { StyledFlex } from "../../../../styles/globalElements";
+import ExpandedDataModal from "../../../modal/ExpandedDataModal/ExpandedDataModal";
 
 const DataTabContent = () => {
+  const [showExpandedData, setShowExpandedData] = useState(false);
   return (
     <Container>
       <Sections>
         <StyledFlex>
           <StatListHeader>General</StatListHeader>
-          <ExpandButton title="view enlarged details">
+          <ExpandButton
+            title="view enlarged details"
+            onClick={() => setShowExpandedData(true)}
+          >
             <FaExpand />
           </ExpandButton>
         </StyledFlex>
@@ -46,6 +51,10 @@ const DataTabContent = () => {
           </StatListItem>
         </StatList>
       </Sections>
+      <ExpandedDataModal
+        showModal={showExpandedData}
+        setShowModal={setShowExpandedData}
+      />
     </Container>
   );
 };
