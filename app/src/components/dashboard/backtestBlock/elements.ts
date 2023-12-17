@@ -165,3 +165,23 @@ export const SpanRed = styled.span`
 export const SpanGreen = styled.span`
   color: ${({ theme }) => theme.colors.accent1};
 `;
+export const Group = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+`;
+export const UndoButton = styled(InputButton)`
+  margin: 15px 0 auto;
+  width: 50%;
+  background: ${({ theme }) => theme.colors.grey};
+  &:hover {
+    background: #514b3a radial-gradient(circle, transparent 1%, #514b3a 1%)
+      center/15000%;
+  }
+  &:active {
+    background-color: ${({ theme }) => theme.colors.grey};
+    background-size: 100%;
+    transition: background 0s;
+  }
+`;

@@ -13,7 +13,10 @@ import {
   ShortDataGridText,
   SpanRed,
   SpanGreen,
+  UndoButton,
+  Group,
 } from "./elements";
+import Switch from "./Switch";
 
 const BacktestTabContent = () => {
   return (
@@ -29,6 +32,12 @@ const BacktestTabContent = () => {
             <InputButtonGreen>Add profit</InputButtonGreen>
           </InputGroup>
         </InputBlock>
+        <Group>
+          <UndoButton>Undo</UndoButton>
+          <div>
+            <Switch />
+          </div>
+        </Group>
         <ResetButton>Reset</ResetButton>
       </InputSection>
       <ShortDataContainer>

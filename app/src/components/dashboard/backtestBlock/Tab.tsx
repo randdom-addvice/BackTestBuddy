@@ -7,7 +7,7 @@ import {
   TabWrapper,
 } from "./elements";
 import BacktestTabContent from "./BacktestTabContent";
-import DataTabContent from "./DataTabContent";
+import DataTabContent from "./dataTabContent/DataTabContent";
 
 interface SwitchableTabsProps {
   tabs: string[];
