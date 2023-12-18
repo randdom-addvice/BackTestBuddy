@@ -18,6 +18,8 @@ declare module "styled-components" {
       black: string;
       white: string;
       red: string;
+      blue: string;
+      primary: string;
       primaryColor: string;
       secondaryColor: string;
     };

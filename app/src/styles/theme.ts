@@ -12,6 +12,8 @@ const colors = {
   black: "#191919",
   white: "#ffffff",
   red: "#e63946",
+  blue: "#4070F4",
+  primary: "#4070F4",
   primaryColor: "#ceff7b",
   secondaryColor: "#2ecc71",
 };
