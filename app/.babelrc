@@ -1,0 +1,4 @@
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"]
+  // You can add more Babel plugins or configuration here if needed
+}

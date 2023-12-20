@@ -18,7 +18,7 @@ export const StyledLogin = styled.div`
   justify-content: center;
   align-items: center;
 `;
-export const Container = styled.div<{ active: boolean }>`
+export const Container = styled.div<{ active: string }>`
   /* border: 3px solid; */
   /* background-color: #fff; */
   border-radius: 10px;
@@ -31,7 +31,7 @@ export const Container = styled.div<{ active: boolean }>`
   min-height: 480px;
 
   ${(props) =>
-    props.active &&
+    props.active === "true" &&
     css`
       ${OverlayPanel} {
         transform: translateX(0);
@@ -90,7 +90,7 @@ export const FormHeader = styled.h1`
 export const Input = styled.input`
   width: 100%;
   padding: 10px;
-  margin-bottom: 1.5rem;
+
   border: 1px solid ${({ theme }) => theme.colors.lightGrey};
   border-radius: 5px;
   font-size: 16px;
@@ -99,6 +99,17 @@ export const Input = styled.input`
     border: 2px solid ${({ theme }) => theme.colors.primary};
     outline: none;
   }
+`;
+export const InputGroup = styled.div`
+  margin-bottom: 1.5rem;
+  width: 100%;
+`;
+export const InputErrorField = styled.p`
+  width: 100%;
+  color: ${({ theme }) => theme.colors.red};
+  text-align: left;
+  font-size: 0.75rem;
+  margin-top: 0.2rem;
 `;
 export const Button = styled.button`
   width: 100%;
@@ -149,7 +160,7 @@ export const OverlayContainer = styled.div`
   transition: transform 0.6s ease-in-out;
   z-index: 100;
 `;
-export const Overlay = styled.div<{ isLogin: boolean }>`
+export const Overlay = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -160,7 +171,7 @@ export const Overlay = styled.div<{ isLogin: boolean }>`
   width: 200%;
   transition: transform 0.6s ease-in-out;
 `;
-export const OverlayPanel = styled.div<{ isLogin: boolean }>`
+export const OverlayPanel = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
@@ -181,160 +192,3 @@ export const OverlayPanelRight = styled(OverlayPanel)`
   right: 0;
   transform: translateX(0);
 `;
-
-// import styled from "styled-components";
-
-// export export const dynamicColor = "#4070F4"; // Set your dynamic color here
-
-// export export const StyledLogin = styled.div`
-//   display: flex;
-//   height: 100%;
-//   background-color: ${dynamicColor};
-//   width: 100%;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
-// export export const ColoredContainer = styled.div<{ isLogin: boolean }>`
-//   /* position: absolute; */
-//   background-color: #4070f4;
-//   transition: all 0.5s linear;
-//   width: 50%;
-//   height: 100vh;
-//   z-index: 1;
-//   transform: ${(props) =>
-//     props.isLogin ? "translateX(0)" : "translateX(100%)"};
-
-//   &.left {
-//     transform: translateX(0);
-//   }
-
-//   &.right {
-//     transform: translateX(100%);
-//   }
-// `;
-// export const ColoredContainer2 = styled(ColoredContainer)`
-//   transform: ${(props) =>
-//     !props.isLogin ? "translateX(0)" : "translateX(-100%)"};
-// `;
-// export const Header = styled.h1``;
-// export const SubHeader = styled.h1``;
-// export const ActionButton = styled.button``;
-
-// export const FormContainer = styled.div<{ isLogin: boolean }>`
-//   width: 24rem;
-//   background: #fff;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: fit-content;
-//   flex-direction: column;
-//   transition: all 0.5s linear;
-//   transform: ${(props) =>
-//     props.isLogin ? "translateX(0)" : "translateX(-100%)"};
-// `;
-// export const FormContainer2 = styled(FormContainer)`
-//   transform: ${(props) =>
-//     !props.isLogin ? "translateX(0)" : "translateX(-200%)"};
-// `;
-// export const Form = styled.form``;
-
-// export const WelcomeBack = styled.div`
-//   z-index: 2;
-//   transition: all 0.8s ease-in-out;
-//   position: absolute;
-//   transition: all 0.8s ease-in-out;
-//   width: 30%;
-
-//   &.active {
-//     visibility: visible;
-//     transform: translateX(0%);
-//   }
-
-//   &.inactive {
-//     visibility: hidden;
-//     transform: translateX(-100%);
-//   }
-
-//   &__logo-container {
-//     padding: 15px;
-//     display: flex;
-//     flex-direction: row;
-//     align-items: center;
-//     color: white;
-//     font-weight: bold;
-
-//     &--image {
-//       width: 38px;
-//       height: 38px;
-//       margin-right: 4px;
-//     }
-
-//     @media (max-width: 768px) {
-//       font-size: 0px;
-//       justify-content: center;
-//     }
-//   }
-
-//   &__main-container {
-//     margin-top: 20%;
-//     width: 100%;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     color: white;
-
-//     &__text-container {
-//       display: flex;
-//       flex-direction: column;
-//       align-items: center;
-//       width: 60%;
-//       text-align: center;
-
-//       &--title {
-//         font-size: 30px;
-//         font-weight: bold;
-//       }
-
-//       &--secondary {
-//         margin-top: 12px;
-//         font-size: 13px;
-//         font-weight: lighter;
-//       }
-
-//       @media (max-width: 768px) {
-//         display: none;
-//       }
-//     }
-
-//     &__button-container {
-//       margin-top: 40px;
-//       border: solid 2px white;
-//       width: 50%;
-//       height: 40px;
-//       border-radius: 30px;
-//       font-size: 18px;
-//       display: flex;
-//       flex-direction: row;
-//       align-items: center;
-//       justify-content: center;
-//       cursor: pointer;
-
-//       @media (max-width: 768px) {
-//         font-size: 3vw;
-//       }
-//     }
-//   }
-// `;
-
-// export const CreateContainer = styled.div`
-//   // Add styling for CreateContainer
-// `;
-
-// export const LoginContainer = styled.div`
-//   // Add styling for LoginContainer
-// `;
-
-// export const HelloContainer = styled.div`
-//   // Add styling for HelloContainer
-// `;

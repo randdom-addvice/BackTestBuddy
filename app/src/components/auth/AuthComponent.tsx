@@ -1,24 +1,16 @@
-//@ts-nocheck
 import { useState } from "react";
 import {
-  Button,
   Container,
-  Form,
-  ActionLink,
   Heading,
-  Input,
   Overlay,
   OverlayContainer,
   OverlayPanelLeft,
   OverlayPanelRight,
-  SignInContainer,
-  SignUpContainer,
   StyledLogin,
   SubHeading,
-  ActionLinkButton,
-  FormHeader,
 } from "./elements";
-import { StyledFlex } from "../../styles/globalElements";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 
 const AuthComponent = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -27,42 +19,13 @@ const AuthComponent = () => {
   }
   return (
     <StyledLogin>
-      <Container active={isLogin}>
-        <SignUpContainer id="SignUpContainer">
-          <Form id="Form">
-            <FormHeader>Create Account</FormHeader>
-            <StyledFlex gap="4px">
-              <Input type="text" placeholder="First Name" />
-              <Input type="text" placeholder="Last Name" />
-            </StyledFlex>
-            <Input type="email" placeholder="Email" />
-            <Input type="password" placeholder="Password" />
-            <Button>Sign Up</Button>
-            <ActionLink>
-              Already have an account?
-              <ActionLinkButton onClick={handleToggle}>Login</ActionLinkButton>
-            </ActionLink>
-          </Form>
-        </SignUpContainer>
-
-        <SignInContainer id="SignInContainer">
-          <Form id="Form">
-            <FormHeader>Sign in</FormHeader>
-            <Input type="email" placeholder="Email" />
-            <Input type="password" placeholder="Password" />
-            <Button>Sign In</Button>
-            <ActionLink>
-              Need an account?
-              <ActionLinkButton onClick={handleToggle}>
-                Sign Up
-              </ActionLinkButton>
-            </ActionLink>
-          </Form>
-        </SignInContainer>
+      <Container active={isLogin.toString()}>
+        <RegisterForm handleToggle={handleToggle} />
+        <LoginForm handleToggle={handleToggle} />
 
         <OverlayContainer id="OverlayContainer">
           <Overlay>
-            <OverlayPanelLeft left>
+            <OverlayPanelLeft>
               <Heading>Hi There 👋</Heading>
               <SubHeading>
                 Begin your experience with us – enter your personal details.
