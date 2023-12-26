@@ -176,7 +176,6 @@ export type User = {
   email_verified: Scalars['Boolean']['output'];
   first_name: Scalars['String']['output'];
   last_name: Scalars['String']['output'];
-  password: Scalars['String']['output'];
   username: Scalars['String']['output'];
 };
 
@@ -198,7 +197,7 @@ export type LoginUserMutation = { __typename?: 'Mutation', loginUser: string };
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename?: 'User', _id: string } | null };
+export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename?: 'User', _id: string, username: string, first_name: string, last_name: string, email: string, email_verified: boolean } | null };
 
 
 export const RegisterUserDocument = gql`
@@ -268,6 +267,11 @@ export const GetUserDocument = gql`
     query GetUser {
   getUser {
     _id
+    username
+    first_name
+    last_name
+    email
+    email_verified
   }
 }
     `;

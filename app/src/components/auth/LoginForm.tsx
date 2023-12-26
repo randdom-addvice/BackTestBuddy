@@ -24,6 +24,52 @@ import { AppRoutes } from "@/routes/routesDeclaration";
 import { useNavigate } from "react-router-dom";
 import ActionButton from "./ActionButton";
 import useAuth from "@/hooks/auth/useAuth";
+import {
+  useGetUserQueryHook,
+  useLazyGetUserQueryHook,
+} from "@/graphql/queries/auth/auth.queries";
+
+// const MemoizedParent = ({ onSubmit, getFieldError, loading, handleToggle }) => {
+//   return (
+//     <>
+//       <Form onSubmit={onSubmit}>
+//         <FormHeader>Sign in</FormHeader>
+//         <InputGroup>
+//           <Input
+//             type="email"
+//             onChange={onChange}
+//             name="email"
+//             placeholder="Email"
+//           />
+//           {getFieldError("email") && (
+//             <InputErrorField>
+//               Please enter a valid email address
+//             </InputErrorField>
+//           )}
+//         </InputGroup>
+//         <InputGroup>
+//           <Input
+//             type="password"
+//             onChange={onChange}
+//             name="password"
+//             placeholder="Password"
+//           />
+//           {getFieldError("password") && (
+//             <InputErrorField>Password is required</InputErrorField>
+//           )}
+//           {inAppGraphQLError && (
+//             <InputErrorField>{inAppGraphQLError}</InputErrorField>
+//           )}
+//         </InputGroup>
+//         <ActionButton isLoading={loading} displayName="Sign In" />
+//         <ActionLink>
+//           Need an account?
+//           <ActionLinkButton onClick={handleToggle}>Sign Up</ActionLinkButton>
+//         </ActionLink>
+//       </Form>
+//     </>
+//   );
+// };
 
 const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
   const navigate = useNavigate();
@@ -40,6 +86,7 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
       email: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     }
   );
+  const { lazyGetUser } = useLazyGetUserQueryHook({ fetchPolicy: "no-cache" });
   const { loginUser, data, error, loading } = useLoginUserHook(formValues, {
     errorPolicy: "none",
     fetchPolicy: "no-cache",
@@ -47,6 +94,9 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
       if (completedData) {
         console.log(completedData);
         setAuthCookies(completedData.loginUser);
+        setTimeout(() => {
+          lazyGetUser();
+        }, 2000);
         // navigate(AppRoutes.DASHBOARD);
       }
     },
@@ -95,9 +145,6 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
             )}
           </InputGroup>
           <ActionButton isLoading={loading} displayName="Sign In" />
-          {/* <Button>
-            {loading ? "Authenticating, please wait..." : "Sign In"}
-          </Button> */}
           <ActionLink>
             Need an account?
             <ActionLinkButton onClick={handleToggle}>Sign Up</ActionLinkButton>

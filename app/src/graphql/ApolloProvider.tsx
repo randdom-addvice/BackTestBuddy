@@ -27,6 +27,17 @@ const ApolloProviderWrapper: React.FC<{
   const [errorMessage, setErrorMessage] = useState("");
   // const { authToken } = useAuth();
   const authToken = useAppSelector((state) => state.auth.authToken);
+  // console.log(authToken, "auth tken from apolloWrapper");
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setErrorMessage("");
+      setShowError(false);
+    }, 5000);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [errorMessage]);
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
@@ -53,14 +64,13 @@ const ApolloProviderWrapper: React.FC<{
     return {
       headers: {
         ...headers,
-        authorization: authToken ?? "",
-        // "CSRF-Token": getCSRFToken(),
+        ...(authToken && { authorization: authToken }),
       },
     };
   });
 
   const apolloClient = new ApolloClient({
-    link: from([errorLink, httpLink, authLink]), //authLink.concat(httpLink),
+    link: from([authLink, errorLink, httpLink]), //authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 

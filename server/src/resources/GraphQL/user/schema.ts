@@ -5,7 +5,6 @@ export default /* GraphQL */ `
     first_name: String!
     last_name: String!
     email: String!
-    password: String!
     email_verified: Boolean!
   }
 

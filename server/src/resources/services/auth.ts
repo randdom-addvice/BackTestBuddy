@@ -13,10 +13,10 @@ export const getUserFromToken = (token: string | null): any | null => {
     if (!token) return null;
 
     const decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
-
+    // console.log(decoded);
     return decoded;
   } catch (error) {
-    // console.error("Error decoding JWT:", error);
+    console.error("Error decoding JWT:");
     return null;
   }
 };
@@ -25,11 +25,9 @@ export const generateToken = (user: IUser) => {
   return jwt.sign(
     {
       _id: user._id,
-      email: user.email,
-      username: user.username,
     },
     JWT_SECRET,
-    { expiresIn: "5m" }
+    { expiresIn: "50m" }
   );
 };
 
