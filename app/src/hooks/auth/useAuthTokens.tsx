@@ -10,15 +10,6 @@ const useAuthTokens = () => {
     return () => {};
   }, []);
 
-  function setCookie(
-    name: string,
-    value: string,
-    expires: Date,
-    path: string = "/"
-  ) {
-    CookieUtility.setCookie(name, value, { expires, path });
-  }
-
   function setAuthCookies(token: string) {
     const expirationTime = new Date(Date.now() + 60 * 60 * 1000 * 24);
     setAuthToken(token);

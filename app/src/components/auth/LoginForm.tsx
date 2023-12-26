@@ -22,12 +22,12 @@ import { useForm } from "../../hooks/useForm";
 import { useLoginUserHook } from "../../graphql/mutations/auth/auth.mutations";
 import { AppRoutes } from "../../routes/routesDeclaration";
 import { useNavigate } from "react-router-dom";
-import useAuthTokens from "../../hooks/auth/useAuthTokens";
 import ActionButton from "./ActionButton";
+import useAuth from "../../hooks/auth/useAuth";
 
 const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
   const navigate = useNavigate();
-  const { setAuthCookies } = useAuthTokens();
+  const { setAuthCookies } = useAuth();
   const [inAppGraphQLError, setInAppGraphQLError] = useState("");
   const { formValues, onChange, onSubmit, getFieldError } = useForm(
     handleLogInUser,
