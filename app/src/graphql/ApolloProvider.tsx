@@ -12,9 +12,10 @@ import {
 import { onError } from "@apollo/client/link/error";
 import GlobalErrorMessageToast from "../components/global/GlobalErrorMessageToast";
 import useAuthTokens from "../hooks/auth/useAuthTokens";
+import useAuth from "../hooks/auth/useAuth";
+import { useAppSelector } from "../redux/hooks";
 
 if (process.env.NODE_ENV !== "production") {
-  // Adds messages only in a dev environment
   loadDevMessages();
   loadErrorMessages();
 }
@@ -24,7 +25,8 @@ const ApolloProviderWrapper: React.FC<{
 }> = ({ children }) => {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const { authToken } = useAuthTokens();
+  // const { authToken } = useAuth();
+  const authToken = useAppSelector((state) => state.auth.authToken);
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)

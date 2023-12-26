@@ -18,12 +18,12 @@ import {
   InputErrorField,
   InputGroup,
 } from "./elements";
-import { useForm } from "../../hooks/useForm";
-import { useLoginUserHook } from "../../graphql/mutations/auth/auth.mutations";
-import { AppRoutes } from "../../routes/routesDeclaration";
+import { useForm } from "@/hooks/useForm";
+import { useLoginUserHook } from "@/graphql/mutations/auth/auth.mutations";
+import { AppRoutes } from "@/routes/routesDeclaration";
 import { useNavigate } from "react-router-dom";
 import ActionButton from "./ActionButton";
-import useAuth from "../../hooks/auth/useAuth";
+import useAuth from "@/hooks/auth/useAuth";
 
 const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
   const navigate = useNavigate();

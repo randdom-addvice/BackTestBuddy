@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import CookieUtility from "../../utils/cookieUtils";
+import CookieUtility from "@/utils/cookieUtils";
 import { jwtDecode } from "jwt-decode";
+import { useAppDispatch } from "@/redux/hooks";
+import { authActions } from "@/redux/reducers/auth/authSlice";
 
 const JWT_TOKEN_NAMESPACE = "authToken";
 
 const useAuth = () => {
+  const dispatch = useAppDispatch();
   const [authToken, setAuthToken] = useState<string | null | undefined>(null);
   const [isTokenValid, setIsTokenValid] = useState(false);
 
@@ -21,9 +24,10 @@ const useAuth = () => {
           console.log(decodedToken);
           if (decodedToken.exp) {
             const isTokenStillValid = decodedToken.exp * 1000 > Date.now();
-            CookieUtility.deleteCookie(JWT_TOKEN_NAMESPACE);
-            console.log("jwt token valid? ", isTokenStillValid);
             setIsTokenValid(isTokenStillValid);
+            dispatch(authActions.setAuthToken(authToken));
+          } else {
+            CookieUtility.deleteCookie(JWT_TOKEN_NAMESPACE);
           }
         } catch (error) {
           console.error("Error decoding JWT:", error);

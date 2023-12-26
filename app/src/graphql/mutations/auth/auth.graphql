@@ -5,9 +5,3 @@ mutation RegisterUser($registerUserInput: RegisterUserInput) {
 mutation LoginUser($email: String!, $password: String!) {
   loginUser(email: $email, password: $password)
 }
-
-query GetUser {
-  getUser {
-    _id
-  }
-}
