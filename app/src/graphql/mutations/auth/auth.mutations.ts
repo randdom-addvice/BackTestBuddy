@@ -16,6 +16,8 @@ export const useLoginUserHook = (
     variables: args,
     ...options,
   });
+  // console.log(data);
+  // console.log(error);
 
   return { loginUser, data, loading, error };
 };

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ApolloProvider } from "@apollo/client";
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+
 import { setContext } from "@apollo/client/link/context";
 import {
   ApolloClient,
@@ -9,12 +11,21 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import GlobalErrorMessageToast from "../components/global/GlobalErrorMessageToast";
+import useAuthTokens from "../hooks/auth/useAuthTokens";
+
+if (process.env.NODE_ENV !== "production") {
+  // Adds messages only in a dev environment
+  loadDevMessages();
+  loadErrorMessages();
+}
 
 const ApolloProviderWrapper: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const { authToken } = useAuthTokens();
+
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
       graphQLErrors.forEach(({ message, locations, path }) => {
@@ -25,7 +36,8 @@ const ApolloProviderWrapper: React.FC<{
         setShowError(true);
       });
     if (networkError) {
-      console.log(`[Network error]: ${networkError}`);
+      console.log(`[Network error]: ${networkError.message}`);
+      console.log(`[Network error]: ${networkError.cause}`);
       setErrorMessage("Network Error");
       setShowError(true);
     }
@@ -36,14 +48,15 @@ const ApolloProviderWrapper: React.FC<{
   });
 
   const authLink = setContext((_, { headers }) => {
-    const token = null;
     return {
       headers: {
         ...headers,
-        authorization: token ?? "",
+        authorization: authToken ?? "",
+        // "CSRF-Token": getCSRFToken(),
       },
     };
   });
+
   const apolloClient = new ApolloClient({
     link: from([errorLink, httpLink, authLink]), //authLink.concat(httpLink),
     cache: new InMemoryCache(),

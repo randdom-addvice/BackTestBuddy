@@ -19,7 +19,6 @@ export const useForm = <T extends {}>(
       ...prevErrors,
       [fieldName]: isValid ? "" : "Invalid",
     }));
-    console.log(validationRules, fieldName);
     return isValid;
   };
 

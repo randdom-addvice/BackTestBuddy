@@ -1,5 +1,6 @@
 import { ApolloError } from "apollo-server";
 import { GraphQLError } from "graphql";
+import { csrfSync } from "csrf-sync";
 import MongooseServices from "../services";
 import UserModel from "./model";
 import { IUser } from "./types";
@@ -24,7 +25,7 @@ type RegisterUserInput = {
 
 const resolvers = {
   Query: {
-    getUser: async (_: any, args: unknown, { user }: { user: IUser }) => {
+    getUser: async (_: unknown, __: unknown, { user }: { user: IUser }) => {
       try {
         if (!user)
           throwGraphQLError(
@@ -72,7 +73,7 @@ const resolvers = {
       try {
         const user = await MongooseServices.getEntity(UserModel, { email });
         if (!user)
-          return throwGraphQLError("FORBIDDEN", "Incorrect Email Or Password");
+          return throwGraphQLError("FORBIDDEN", "Incorrect Email Or Password!");
         const checkValidPassword = validPassword(password, user.password);
         if (!checkValidPassword)
           return throwGraphQLError("FORBIDDEN", "Incorrect Email Or Password");

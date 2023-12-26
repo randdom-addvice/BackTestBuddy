@@ -20,8 +20,14 @@ import {
 } from "./elements";
 import { useForm } from "../../hooks/useForm";
 import { useLoginUserHook } from "../../graphql/mutations/auth/auth.mutations";
+import { AppRoutes } from "../../routes/routesDeclaration";
+import { useNavigate } from "react-router-dom";
+import useAuthTokens from "../../hooks/auth/useAuthTokens";
+import ActionButton from "./ActionButton";
 
 const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
+  const navigate = useNavigate();
+  const { setAuthCookies } = useAuthTokens();
   const [inAppGraphQLError, setInAppGraphQLError] = useState("");
   const { formValues, onChange, onSubmit, getFieldError } = useForm(
     handleLogInUser,
@@ -34,25 +40,27 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
       email: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     }
   );
-  const { loginUser, data, error } = useLoginUserHook(formValues, {
+  const { loginUser, data, error, loading } = useLoginUserHook(formValues, {
     errorPolicy: "none",
     fetchPolicy: "no-cache",
+    onCompleted(completedData, clientOptions) {
+      if (completedData) {
+        console.log(completedData);
+        setAuthCookies(completedData.loginUser);
+        // navigate(AppRoutes.DASHBOARD);
+      }
+    },
   });
 
   async function handleLogInUser() {
     try {
       setInAppGraphQLError("");
       await loginUser();
-      console.log(data, "<======== data");
-      console.log(error, "<======= error");
-      console.log("run here to");
     } catch (error) {
       console.log((error as Error).message, "error logging");
       setInAppGraphQLError((error as Error).message ?? "Something went wrong");
     }
   }
-
-  function handleLoginValidation() {}
 
   return (
     <>
@@ -86,7 +94,10 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
               <InputErrorField>{inAppGraphQLError}</InputErrorField>
             )}
           </InputGroup>
-          <Button>Sign In</Button>
+          <ActionButton isLoading={loading} displayName="Sign In" />
+          {/* <Button>
+            {loading ? "Authenticating, please wait..." : "Sign In"}
+          </Button> */}
           <ActionLink>
             Need an account?
             <ActionLinkButton onClick={handleToggle}>Sign Up</ActionLinkButton>
