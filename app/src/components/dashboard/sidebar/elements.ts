@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
-export const SidebarContainer = styled.div`
+export const SidebarContainer = styled.div<{ expanded: boolean }>`
   flex-shrink: 0;
-  width: 56px;
+  width: ${(props) => (props.expanded ? "150px" : "56px")};
   height: 100vh;
   border-right: 1px ${({ theme }) => theme.colors.lightGrey} solid;
+  transition: width 0.5s ease;
 `;
 
 export const SidebarMenuIcon = styled.div`
@@ -13,6 +14,7 @@ export const SidebarMenuIcon = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 40px;
+  cursor: pointer;
 `;
 
 export const SidebarItem = styled.div`

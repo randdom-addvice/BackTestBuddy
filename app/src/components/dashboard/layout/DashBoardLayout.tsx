@@ -1,8 +1,9 @@
 import React from "react";
+
+import SideBar from "@/components/dashboard/sidebar/SideBar";
+import BacktestBlock from "@/components/dashboard/backtestBlock/BacktestBlock";
+import DetailsBlock from "@/components/dashboard/detailsBlock/DetailsBlock";
 import { LayoutContainer } from "./elements";
-import SideBar from "../sidebar/SideBar";
-import BacktestBlock from "../backtestBlock/BacktestBlock";
-import DetailsBlock from "../detailsBlock/DetailsBlock";
 
 const DashBoardLayout = () => {
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FcCandleSticks } from "react-icons/fc";
 import { FaRegUser } from "react-icons/fa";
@@ -13,9 +13,10 @@ import {
 const iconSize = "30px";
 
 const SideBar = () => {
+  const [expandSidebar, setExpandSidebar] = useState(false);
   return (
-    <SidebarContainer>
-      <SidebarMenuIcon>
+    <SidebarContainer expanded={expandSidebar}>
+      <SidebarMenuIcon onClick={() => setExpandSidebar(!expandSidebar)}>
         <RxHamburgerMenu size={iconSize} />
       </SidebarMenuIcon>
       <SidebarCategory>
