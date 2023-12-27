@@ -63,6 +63,10 @@ const resolvers = {
         const token = generateToken(createdUser);
         return token;
       } catch (error: any) {
+        if (error instanceof Error && error.name === "ValidationError") {
+          throwGraphQLError("USER_INPUT_ERROR", "Invalid user input");
+        }
+
         catchGraphQLError(error);
       }
     },

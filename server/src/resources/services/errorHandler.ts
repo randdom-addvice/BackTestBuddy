@@ -10,7 +10,7 @@ export function throwGraphQLError(code: string, message: string) {
 }
 
 export function catchGraphQLError(error: any) {
-  // console.log(error);
+  console.log(error);
   const message =
     error?.message ??
     "Internal server error. something went wrong, make sure to fill every required field correctl";
