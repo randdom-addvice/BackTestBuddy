@@ -1,12 +1,12 @@
 import React, { lazy } from "react";
 import {
-  BrowserRouter,
-  // Routes as AppRoutes,
-  Route,
   createBrowserRouter,
   RouterProvider,
+  redirect,
 } from "react-router-dom";
 import { AppRoutes } from "./routesDeclaration";
+import { checkTokenValidity } from "@/utils/auth";
+import CookieUtility from "@/utils/cookieUtils";
 
 const LazyHomePage = lazy(() => import("../pages/Home"));
 const LazyDashboardPage = lazy(() => import("../pages/Dashboard"));
@@ -19,10 +19,24 @@ const router = createBrowserRouter([
   },
   {
     path: AppRoutes.DASHBOARD,
+    loader: async () => {
+      const authToken = CookieUtility.getCookie("authToken");
+      if (!checkTokenValidity(authToken)) {
+        throw redirect(AppRoutes.AUTH);
+      }
+      return null;
+    },
     element: <LazyDashboardPage />,
   },
   {
     path: AppRoutes.AUTH,
+    loader: async () => {
+      const authToken = CookieUtility.getCookie("authToken");
+      if (checkTokenValidity(authToken)) {
+        throw redirect(AppRoutes.DASHBOARD);
+      }
+      return null;
+    },
     element: <LazyAuthPage />,
   },
 ]);

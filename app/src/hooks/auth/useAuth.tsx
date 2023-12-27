@@ -18,22 +18,22 @@ const useAuth = () => {
 
   useEffect(() => {
     const checkTokenValidity = () => {
-      if (authToken) {
-        try {
-          const decodedToken = jwtDecode(authToken);
-          //   console.log(decodedToken);
-          if (decodedToken.exp) {
-            const isTokenStillValid = decodedToken.exp * 1000 > Date.now();
-            setIsTokenValid(isTokenStillValid);
-            dispatch(authActions.setAuthToken(authToken));
-          } else {
-            CookieUtility.deleteCookie(JWT_TOKEN_NAMESPACE);
-          }
-        } catch (error) {
-          console.error("Error decoding JWT:", error);
+      if (!authToken) {
+        setIsTokenValid(false);
+        return;
+      }
+      try {
+        const decodedToken = jwtDecode(authToken);
+
+        if (decodedToken.exp && decodedToken.exp * 1000 > Date.now()) {
+          setIsTokenValid(true);
+          dispatch(authActions.setAuthToken(authToken));
+        } else {
+          CookieUtility.deleteCookie(JWT_TOKEN_NAMESPACE);
           setIsTokenValid(false);
         }
-      } else {
+      } catch (error) {
+        console.error("Error decoding JWT:", error);
         setIsTokenValid(false);
       }
     };
