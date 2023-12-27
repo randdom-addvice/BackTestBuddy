@@ -14,7 +14,22 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+      "@components/*": ["components/*"],
+      "@ui/*": ["components/common/ui/*"],
+      "@pages/*": ["pages/*"],
+      "@hooks/*": ["hooks/*"],
+      "@api/*": ["api/*"],
+      "@graphql/*": ["graphql/*"],
+      "@reducers/*": ["redux/reducers/*"],
+      "@redux/*": ["redux/*"],
+      "@utils/*": ["utils/*"],
+      "@routes/*": ["routes/*"],
+      "@styles/*": ["styles/*"]
+    }
   },
   "include": ["src", "custom.d.ts"]
 }

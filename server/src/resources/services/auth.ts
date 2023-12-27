@@ -8,15 +8,17 @@ interface DecodedToken {
   user: IUser;
 }
 
-export const getUserFromToken = (token: string | null): any | null => {
+export const getUserFromToken = (
+  token: string | null | undefined
+): any | null => {
   try {
     if (!token) return null;
 
     const decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
-
+    // console.log(decoded);
     return decoded;
   } catch (error) {
-    console.error("Error decoding JWT:", error);
+    console.error("Error decoding JWT:");
     return null;
   }
 };
@@ -25,13 +27,19 @@ export const generateToken = (user: IUser) => {
   return jwt.sign(
     {
       _id: user._id,
-      email: user.email,
-      username: user.username,
     },
     JWT_SECRET,
-    { expiresIn: "24h" }
+    { expiresIn: "50m" }
   );
 };
+
+export function generateCSRFToken(): string {
+  const array = new Uint32Array(32);
+  crypto.getRandomValues(array);
+  return Array.from(array, (byte) => byte.toString(16).padStart(2, "0")).join(
+    ""
+  );
+}
 
 export const generateHash = (password: string) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));

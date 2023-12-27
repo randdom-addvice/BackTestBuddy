@@ -5,14 +5,13 @@ export default /* GraphQL */ `
     first_name: String!
     last_name: String!
     email: String!
-    password: String!
     email_verified: Boolean!
   }
 
   input RegisterUserInput {
-    username: String!
-    first_name: String
-    last_name: String
+    username: String
+    first_name: String!
+    last_name: String!
     email: String!
     password: String!
   }
