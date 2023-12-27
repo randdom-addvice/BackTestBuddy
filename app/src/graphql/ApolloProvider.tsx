@@ -25,9 +25,8 @@ const ApolloProviderWrapper: React.FC<{
 }> = React.memo(({ children }) => {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  // const { authToken } = useAuth();
-  const authToken = useAppSelector((state) => state.auth.authToken);
-  console.log(authToken, "auth tken from apolloWrapper");
+  const { authToken } = useAuth();
+  // const authToken = useAppSelector((state) => state.auth.authToken);
 
   // useEffect(() => {
   //   const timeoutId = setTimeout(() => {

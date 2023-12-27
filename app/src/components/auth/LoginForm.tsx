@@ -90,10 +90,6 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
     fetchPolicy: "network-only",
   });
   const memoizedLazyGetUser = useCallback(() => {
-    console.log("just once");
-    lazyGetUser();
-  }, []);
-  useEffect(() => {
     lazyGetUser();
   }, []);
   const { loginUser, data, error, loading } = useLoginUserHook(formValues, {
@@ -103,6 +99,7 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
       if (completedData) {
         console.log(completedData);
         setAuthCookies(completedData.loginUser);
+        window.location.reload();
         // setTimeout(() => {
         //   lazyGetUser();
         // }, 5000);

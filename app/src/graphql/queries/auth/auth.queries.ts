@@ -28,7 +28,6 @@ export const useLazyGetUserQueryHook = (
 
   return {
     lazyGetUser: () => {
-      console.log("call getUser Query");
       lazyGetUser();
     },
     data,
