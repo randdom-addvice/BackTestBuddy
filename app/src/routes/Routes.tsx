@@ -7,6 +7,7 @@ import {
 import { AppRoutes } from "./routesDeclaration";
 import { checkTokenValidity } from "@/utils/auth";
 import CookieUtility from "@/utils/cookieUtils";
+import { JWT_TOKEN_NAMESPACE } from "@/utils/globalConstants";
 
 const LazyHomePage = lazy(() => import("../pages/Home"));
 const LazyDashboardPage = lazy(() => import("../pages/Dashboard"));
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
   {
     path: AppRoutes.DASHBOARD,
     loader: async () => {
-      const authToken = CookieUtility.getCookie("authToken");
+      const authToken = CookieUtility.getCookie(JWT_TOKEN_NAMESPACE);
       if (!checkTokenValidity(authToken)) {
         throw redirect(AppRoutes.AUTH);
       }
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
   {
     path: AppRoutes.AUTH,
     loader: async () => {
-      const authToken = CookieUtility.getCookie("authToken");
+      const authToken = CookieUtility.getCookie(JWT_TOKEN_NAMESPACE);
       if (checkTokenValidity(authToken)) {
         throw redirect(AppRoutes.DASHBOARD);
       }

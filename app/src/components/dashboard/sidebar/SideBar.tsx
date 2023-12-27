@@ -18,11 +18,20 @@ import {
   SidebarMenuIcon,
 } from "./elements";
 import { StyledFlex } from "@/styles/globalElements";
+import { useAppSelector } from "@/redux/hooks";
+import CookieUtility from "@/utils/cookieUtils";
 
 const iconSize = "30px";
 
 const SideBar = () => {
   const [expandSidebar, setExpandSidebar] = useState(true);
+  const userData = useAppSelector((state) => state.auth.user);
+
+  function logoutUser() {
+    CookieUtility.deleteCookie("authToken");
+    window.location.reload();
+  }
+
   return (
     <SidebarContainer expanded={expandSidebar}>
       <SidebarMenuIcon onClick={() => setExpandSidebar(!expandSidebar)}>
@@ -55,14 +64,19 @@ const SideBar = () => {
       </SidebarCategory>
 
       <SidebarFooterContainer>
-        <StyledFlex justify={expandSidebar ? "space-between" : "center"}>
-          <SidebarFooterName>FA</SidebarFooterName>
+        <StyledFlex justify={expandSidebar ? "flex-start" : "center"}>
+          <SidebarFooterName>
+            {userData?.first_name[0]}
+            {userData?.last_name[0]}
+          </SidebarFooterName>
           {expandSidebar && (
-            <SidebarFooterFullName>Faruq Akolade</SidebarFooterFullName>
+            <SidebarFooterFullName>
+              {userData?.first_name} {userData?.last_name}
+            </SidebarFooterFullName>
           )}
         </StyledFlex>
-        <SidebarFooterLogoutButton title="logout">
-          <StyledFlex>
+        <SidebarFooterLogoutButton title="logout" onClick={logoutUser}>
+          <StyledFlex justify="space-around">
             {expandSidebar && <span>Logout</span>}
             <IoIosLogOut fill="white" />
           </StyledFlex>

@@ -18,6 +18,7 @@ export const useGetUserQueryHook = (
 
   return { data, loading, error };
 };
+
 export const useLazyGetUserQueryHook = (
   options?: QueryHookOptions<GetUserQuery, GetUserQueryVariables>
 ) => {

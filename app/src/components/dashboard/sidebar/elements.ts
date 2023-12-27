@@ -73,6 +73,7 @@ export const SidebarFooterName = styled.div`
   background: green;
   color: #fff;
   border-radius: 50%;
+  text-transform: uppercase;
 `;
 export const SidebarFooterFullName = styled.div`
   font-size: 0.7rem;

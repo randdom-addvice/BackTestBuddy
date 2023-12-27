@@ -3,8 +3,7 @@ import CookieUtility from "@/utils/cookieUtils";
 import { jwtDecode } from "jwt-decode";
 import { useAppDispatch } from "@/redux/hooks";
 import { authActions } from "@/redux/reducers/auth/authSlice";
-
-const JWT_TOKEN_NAMESPACE = "authToken";
+import { JWT_TOKEN_NAMESPACE } from "@/utils/globalConstants";
 
 const useAuth = () => {
   const dispatch = useAppDispatch();
