@@ -63,7 +63,7 @@ const ApolloProviderWrapper: React.FC<{
     return {
       headers: {
         ...headers,
-        ...(authToken !== null && { authorization: authToken }),
+        ...(authToken !== null && { authorization: `Bearer ${authToken}` }),
       },
     };
   });

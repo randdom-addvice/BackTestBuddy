@@ -8,7 +8,9 @@ interface DecodedToken {
   user: IUser;
 }
 
-export const getUserFromToken = (token: string | null): any | null => {
+export const getUserFromToken = (
+  token: string | null | undefined
+): any | null => {
   try {
     if (!token) return null;
 

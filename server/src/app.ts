@@ -53,7 +53,8 @@ class App {
       csrfPrevention: true,
       schema,
       context: ({ req }) => {
-        const token = req.headers.authorization || "";
+        // const token = req.headers.authorization || "";
+        const token = req.headers.authorization?.split("Bearer ")[1];
         const user = getUserFromToken(token);
         // req.session.user = user;
 
