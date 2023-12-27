@@ -21,8 +21,8 @@ export const useGetUserQueryHook = (
 export const useLazyGetUserQueryHook = (
   options?: QueryHookOptions<GetUserQuery, GetUserQueryVariables>
 ) => {
-  const dispatch = useAppDispatch();
   const [lazyGetUser, { loading, data, error }] = useGetUserLazyQuery(options);
+  const dispatch = useAppDispatch();
 
   if (data?.getUser) dispatch(authActions.setUserData(data?.getUser));
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useState } from "react";
 import { isApolloError } from "@apollo/client";
 import {
@@ -86,7 +86,16 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
       email: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     }
   );
-  const { lazyGetUser } = useLazyGetUserQueryHook({ fetchPolicy: "no-cache" });
+  const { lazyGetUser } = useLazyGetUserQueryHook({
+    fetchPolicy: "network-only",
+  });
+  const memoizedLazyGetUser = useCallback(() => {
+    console.log("just once");
+    lazyGetUser();
+  }, []);
+  useEffect(() => {
+    lazyGetUser();
+  }, []);
   const { loginUser, data, error, loading } = useLoginUserHook(formValues, {
     errorPolicy: "none",
     fetchPolicy: "no-cache",
@@ -94,9 +103,11 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
       if (completedData) {
         console.log(completedData);
         setAuthCookies(completedData.loginUser);
-        setTimeout(() => {
-          lazyGetUser();
-        }, 2000);
+        // setTimeout(() => {
+        //   lazyGetUser();
+        // }, 5000);
+        // memoizedLazyGetUser();
+        // }, 2000);
         // navigate(AppRoutes.DASHBOARD);
       }
     },

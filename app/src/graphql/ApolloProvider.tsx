@@ -22,22 +22,22 @@ if (process.env.NODE_ENV !== "production") {
 
 const ApolloProviderWrapper: React.FC<{
   children: React.ReactNode;
-}> = ({ children }) => {
+}> = React.memo(({ children }) => {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   // const { authToken } = useAuth();
   const authToken = useAppSelector((state) => state.auth.authToken);
-  // console.log(authToken, "auth tken from apolloWrapper");
+  console.log(authToken, "auth tken from apolloWrapper");
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setErrorMessage("");
-      setShowError(false);
-    }, 5000);
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [errorMessage]);
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     setErrorMessage("");
+  //     setShowError(false);
+  //   }, 5000);
+  //   return () => {
+  //     clearTimeout(timeoutId);
+  //   };
+  // }, [errorMessage]);
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
@@ -45,14 +45,14 @@ const ApolloProviderWrapper: React.FC<{
         console.log(
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
         );
-        setErrorMessage(message);
-        setShowError(true);
+        // setErrorMessage(message);
+        // setShowError(true);
       });
     if (networkError) {
       console.log(`[Network error]: ${networkError.message}`);
       console.log(`[Network error]: ${networkError.cause}`);
-      setErrorMessage("Network Error");
-      setShowError(true);
+      // setErrorMessage("Network Error");
+      // setShowError(true);
     }
   });
 
@@ -64,7 +64,7 @@ const ApolloProviderWrapper: React.FC<{
     return {
       headers: {
         ...headers,
-        ...(authToken && { authorization: authToken }),
+        ...(authToken !== null && { authorization: authToken }),
       },
     };
   });
@@ -76,14 +76,22 @@ const ApolloProviderWrapper: React.FC<{
 
   return (
     <ApolloProvider client={apolloClient}>
+      {/* 
+       //TBD: Move this Error Toast to a global scope to prevent unnecessary apollo rerenders
       <GlobalErrorMessageToast
         showError={showError}
         setShowError={setShowError}
         errorMessage={errorMessage}
-      />
+      /> */}
       {children}
     </ApolloProvider>
   );
-};
+});
+
+// const ApolloProviderWrapper: React.FC<{
+//   children: React.ReactNode;
+// }> = ({ children }) => {
+
+// };
 
 export default ApolloProviderWrapper;
