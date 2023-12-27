@@ -13,6 +13,7 @@ type AlignContent =
   | "start"
   | "flex-start"
   | "flex-end"
+  | "normal"
   | "initial";
 
 export const StyledFlex = styled.div<{
