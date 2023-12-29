@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, BrandSectionContainer } from "./elements";
-import Brand from "../../../assets/icons/Brand";
 import Tab from "./Tab";
+import Brand from "@/assets/icons/Brand";
 
 const BacktestBlock = () => {
   return (

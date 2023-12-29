@@ -1,5 +1,5 @@
+import { StyledCenteredDiv } from "@/styles/globalElements";
 import styled from "styled-components";
-import { StyledCenteredDiv } from "../../../styles/globalElements";
 import { keyframes } from "styled-components";
 
 const rippleAnimation = keyframes`

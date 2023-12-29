@@ -199,6 +199,13 @@ export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename?: 'User', _id: string, username: string, first_name: string, last_name: string, email: string, email_verified: boolean } | null };
 
+export type GetStrategyQueryVariables = Exact<{
+  getStrategyId: Scalars['ID']['input'];
+}>;
+
+
+export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<number | null>, growth: Array<number | null>, percentage?: string | null } } | null };
+
 
 export const RegisterUserDocument = gql`
     mutation RegisterUser($registerUserInput: RegisterUserInput) {
@@ -307,3 +314,62 @@ export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
 export type GetUserSuspenseQueryHookResult = ReturnType<typeof useGetUserSuspenseQuery>;
 export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export const GetStrategyDocument = gql`
+    query GetStrategy($getStrategyId: ID!) {
+  getStrategy(id: $getStrategyId) {
+    _id
+    library_id
+    name
+    description
+    tradeStats {
+      _id
+      winCountValue
+      lossCountValue
+      totalTrades
+      totalLossesPercent
+      totalWinningsPercent
+      totalLosses
+      totalWinnings
+      percentageWin
+      profitGain
+      profitFactor
+      tradesSequence
+      growth
+      percentage
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetStrategyQuery__
+ *
+ * To run a query within a React component, call `useGetStrategyQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStrategyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStrategyQuery({
+ *   variables: {
+ *      getStrategyId: // value for 'getStrategyId'
+ *   },
+ * });
+ */
+export function useGetStrategyQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetStrategyQuery, GetStrategyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetStrategyQuery, GetStrategyQueryVariables>(GetStrategyDocument, options);
+      }
+export function useGetStrategyLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetStrategyQuery, GetStrategyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetStrategyQuery, GetStrategyQueryVariables>(GetStrategyDocument, options);
+        }
+export function useGetStrategySuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetStrategyQuery, GetStrategyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetStrategyQuery, GetStrategyQueryVariables>(GetStrategyDocument, options);
+        }
+export type GetStrategyQueryHookResult = ReturnType<typeof useGetStrategyQuery>;
+export type GetStrategyLazyQueryHookResult = ReturnType<typeof useGetStrategyLazyQuery>;
+export type GetStrategySuspenseQueryHookResult = ReturnType<typeof useGetStrategySuspenseQuery>;
+export type GetStrategyQueryResult = Apollo.QueryResult<GetStrategyQuery, GetStrategyQueryVariables>;

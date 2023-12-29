@@ -1,41 +1,42 @@
 import React, { lazy, Suspense, useCallback, useEffect } from "react";
 import { LayoutContainer } from "./elements";
 import { useLazyGetUserQueryHook } from "@/graphql/queries/auth/auth.queries";
+import { useGetStrategyQueryHook } from "@/graphql/queries/strategy/strategy.queries";
+import ErrorBoundary from "@/components/global/ErrorBoundary";
 
 const LazySideBar = lazy(
   () => import("@/components/dashboard/sidebar/SideBar")
 );
 const LazyBacktestBlock = lazy(
-  () => import("@/components/dashboard/backtestBlock/BacktestBlock")
+  () => import("@/components/dashboard/metrix/backtestBlock/BacktestBlock")
 );
 const LazyDetailsBlock = lazy(
-  () => import("@/components/dashboard/detailsBlock/DetailsBlock")
+  () => import("@/components/dashboard/metrix/detailsBlock/DetailsBlock")
 );
+type Props = {
+  children: React.ReactNode | JSX.Element;
+};
 
-const DashBoardLayout = () => {
+const DashBoardLayout = ({ children }: Props) => {
   const { lazyGetUser } = useLazyGetUserQueryHook({
     fetchPolicy: "cache-first",
   });
-
-  // const memoizedSetUser = useCallback(() => {
-  //   if (data?.getUser) {
-  //     console.log("run once");
-  //     dispatch(authActions.setUserData(data?.getUser));
-  //   }
-  // }, []);
-
+  const { data, error } = useGetStrategyQueryHook({
+    getStrategyId: "65644ebe62cef9f6092a15e4",
+  });
+  console.log(error, "rx");
+  console.log(data);
   useEffect(() => {
     lazyGetUser();
   }, []);
 
   return (
-    <LayoutContainer>
-      <Suspense fallback={<div>Loading your dashboard ... Please wait</div>}>
+    <Suspense fallback={<div>Loading your dashboard ... Please wait</div>}>
+      <LayoutContainer>
         <LazySideBar />
-        <LazyBacktestBlock />
-        <LazyDetailsBlock />
-      </Suspense>
-    </LayoutContainer>
+        {children}
+      </LayoutContainer>
+    </Suspense>
   );
 };
 

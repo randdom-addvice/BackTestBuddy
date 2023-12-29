@@ -10,8 +10,8 @@ import {
   StatListItemTitle,
   ExpandButton,
 } from "./elements";
-import { StyledFlex } from "../../../../styles/globalElements";
-import ExpandedDataModal from "../../../modal/ExpandedDataModal/ExpandedDataModal";
+import { StyledFlex } from "@/styles/globalElements";
+import ExpandedDataModal from "@/components/modal/ExpandedDataModal/ExpandedDataModal";
 
 const DataTabContent = () => {
   const [showExpandedData, setShowExpandedData] = useState(false);

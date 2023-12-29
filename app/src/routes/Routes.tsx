@@ -3,15 +3,18 @@ import {
   createBrowserRouter,
   RouterProvider,
   redirect,
+  Outlet,
 } from "react-router-dom";
 import { AppRoutes } from "./routesDeclaration";
 import { checkTokenValidity } from "@/utils/auth";
 import CookieUtility from "@/utils/cookieUtils";
 import { JWT_TOKEN_NAMESPACE } from "@/utils/globalConstants";
+import { ErrorBoundary } from "react-error-boundary";
 
 const LazyHomePage = lazy(() => import("../pages/Home"));
 const LazyDashboardPage = lazy(() => import("../pages/Dashboard"));
 const LazyAuthPage = lazy(() => import("../pages/AuthPage"));
+const LazyMetrixPage = lazy(() => import("../pages/MetrixPage"));
 
 const router = createBrowserRouter([
   {
@@ -27,7 +30,26 @@ const router = createBrowserRouter([
       }
       return null;
     },
-    element: <LazyDashboardPage />,
+    element: (
+      <ErrorBoundary
+        fallback={<h2>Something went wrong. Please try again later.</h2>}
+      >
+        <LazyDashboardPage />
+        <Outlet />
+      </ErrorBoundary>
+    ),
+    children: [
+      {
+        path: AppRoutes.METRIX,
+        element: (
+          <ErrorBoundary
+            fallback={<h2>Something went wrong. Please try again later.</h2>}
+          >
+            <LazyMetrixPage />
+          </ErrorBoundary>
+        ),
+      },
+    ],
   },
   {
     path: AppRoutes.AUTH,
