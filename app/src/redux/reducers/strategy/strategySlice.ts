@@ -1,21 +1,20 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
-import { JWT_TOKEN_NAMESPACE } from "@/utils/globalConstants";
 import { Strategy } from "@/graphql/api";
 
-interface AuthState {
-  selectedStrategy: Strategy | null;
+interface StrategyState {
+  selectedStrategyMetrix: Strategy | null;
 }
 
-const initialState: AuthState = {
-  selectedStrategy: null,
+const initialState: StrategyState = {
+  selectedStrategyMetrix: null,
 };
 
 export const strategy = createSlice({
   name: "strategy",
   initialState,
   reducers: {
-    setSelectedStrategy: (state, action: PayloadAction<Strategy>) => {
-      return { ...state, selectedStrategy: action.payload };
+    setSelectedStrategyMetrix: (state, action: PayloadAction<Strategy>) => {
+      return { ...state, selectedStrategyMetrix: action.payload };
     },
   },
 });
