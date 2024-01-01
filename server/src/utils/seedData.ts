@@ -4,6 +4,7 @@ import Library from "@/resources/GraphQL/library/model";
 import Strategy from "@/resources/GraphQL/strategy/model";
 import User from "@/resources/GraphQL/user/model";
 import config from "@/config/config";
+import { generateHash } from "@/resources/services/auth";
 
 const strategies = [
   {
@@ -13,6 +14,7 @@ const strategies = [
     id: 1695181719305,
     history: [],
     tradeStats: {
+      initialbalance: 10000,
       totalTrades: 25,
       totalLossesPercent: 12,
       totalWinningsPercent: 88,
@@ -35,6 +37,7 @@ const strategies = [
     name: "Tests",
     description: "test",
     tradeStats: {
+      initialbalance: 10000,
       totalTrades: 25,
       totalLossesPercent: 12,
       totalWinningsPercent: 88,
@@ -58,13 +61,13 @@ const userData = [
   {
     username: "user",
     email: "user@mail.com",
-    password: "password",
+    password: "pass",
     libraries: [],
   },
   {
     username: "user 2",
     email: "user2@mail.com",
-    password: "password",
+    password: "pass",
     libraries: [],
   },
 ];
@@ -79,7 +82,10 @@ export async function seedDatabase(cb: any) {
     await Strategy.deleteMany({});
 
     userData.forEach(async (i, index) => {
-      const user = await User.create(i);
+      const user = await User.create({
+        ...i,
+        password: generateHash(i.password),
+      });
       const seedData = [
         {
           name: "ULTIMATE_ICHI HF_Confirmation2",

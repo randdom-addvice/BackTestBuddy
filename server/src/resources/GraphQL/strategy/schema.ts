@@ -3,6 +3,8 @@ export default /* GraphQL */ `
     _id: ID
     winCountValue: Float!
     lossCountValue: Float!
+    balance: Int!
+    initialBalance: Int!
     totalTrades: Int!
     totalLossesPercent: Int!
     totalWinningsPercent: Int!

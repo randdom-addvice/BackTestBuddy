@@ -2,6 +2,8 @@
 import { Document, Schema } from "mongoose";
 
 export interface ITradeStats {
+  initialBalance: number;
+  balance: number;
   winCountValue: number;
   lossCountValue: number;
   totalTrades: number;
