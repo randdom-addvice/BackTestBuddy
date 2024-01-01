@@ -24,7 +24,7 @@ import CookieUtility from "@/utils/cookieUtils";
 const iconSize = "30px";
 
 const SideBar = () => {
-  const [expandSidebar, setExpandSidebar] = useState(true);
+  const [expandSidebar, setExpandSidebar] = useState(false);
   const userData = useAppSelector((state) => state.auth.user);
 
   function logoutUser() {

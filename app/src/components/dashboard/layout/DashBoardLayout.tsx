@@ -1,8 +1,6 @@
 import React, { lazy, Suspense, useCallback, useEffect } from "react";
 import { LayoutContainer } from "./elements";
 import { useLazyGetUserQueryHook } from "@/graphql/queries/auth/auth.queries";
-import { useGetStrategyQueryHook } from "@/graphql/queries/strategy/strategy.queries";
-import ErrorBoundary from "@/components/global/ErrorBoundary";
 
 const LazySideBar = lazy(
   () => import("@/components/dashboard/sidebar/SideBar")
@@ -21,11 +19,7 @@ const DashBoardLayout = ({ children }: Props) => {
   const { lazyGetUser } = useLazyGetUserQueryHook({
     fetchPolicy: "cache-first",
   });
-  const { data, error } = useGetStrategyQueryHook({
-    getStrategyId: "65644ebe62cef9f6092a15e4",
-  });
-  console.log(error, "rx");
-  console.log(data);
+
   useEffect(() => {
     lazyGetUser();
   }, []);
