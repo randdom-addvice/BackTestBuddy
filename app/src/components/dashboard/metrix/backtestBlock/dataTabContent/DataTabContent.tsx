@@ -36,8 +36,16 @@ const DataTabContent = () => {
             <StatListItemText>{tradeStats?.profitGain}%</StatListItemText>
           </StatListItem>
           <StatListItem>
+            <StatListItemTitle>Initial Balalnce: </StatListItemTitle>
+            <StatListItemText>
+              {tradeStats?.initialBalance.toLocaleString()}$
+            </StatListItemText>
+          </StatListItem>
+          <StatListItem>
             <StatListItemTitle>Balalnce: </StatListItemTitle>
-            {/* <StatListItemText>{tradeStats?.}</StatListItemText> */}
+            <StatListItemText>
+              {tradeStats?.balance.toLocaleString()}$
+            </StatListItemText>
           </StatListItem>
         </StatList>
       </Sections>
@@ -46,11 +54,11 @@ const DataTabContent = () => {
         <StatList>
           <StatListItem>
             <StatListItemTitle>Profitability: </StatListItemTitle>
-            <StatListItemText>50%</StatListItemText>
+            <StatListItemText>{tradeStats?.percentageWin}%</StatListItemText>
           </StatListItem>
           <StatListItem>
             <StatListItemTitle>Total Trades: </StatListItemTitle>
-            <StatListItemText>20</StatListItemText>
+            <StatListItemText>{tradeStats?.totalTrades}</StatListItemText>
           </StatListItem>
         </StatList>
       </Sections>
