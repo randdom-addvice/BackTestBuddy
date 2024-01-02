@@ -21,7 +21,7 @@ export const useGetStrategyQueryHook = (
     ...options,
   });
   useEffect(() => {
-    if (data?.getStrategy)
+    if (data?.getStrategy && data.getStrategy !== undefined)
       dispatch(strategyActions.setSelectedStrategyMetrix(data.getStrategy));
   }, [data]);
 

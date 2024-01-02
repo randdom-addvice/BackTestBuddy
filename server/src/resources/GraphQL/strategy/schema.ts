@@ -15,7 +15,7 @@ export default /* GraphQL */ `
     profitFactor: Int!
     tradesSequence: [Float]!
     growth: [Float]!
-    percentage: String
+    percentage: Float
   }
 
   type Strategy {

@@ -137,9 +137,11 @@ export type Strategy = {
 export type TradeStats = {
   __typename?: 'TradeStats';
   _id?: Maybe<Scalars['ID']['output']>;
+  balance: Scalars['Int']['output'];
   growth: Array<Maybe<Scalars['Float']['output']>>;
+  initialBalance: Scalars['Int']['output'];
   lossCountValue: Scalars['Float']['output'];
-  percentage?: Maybe<Scalars['String']['output']>;
+  percentage?: Maybe<Scalars['Float']['output']>;
   percentageWin: Scalars['Int']['output'];
   profitFactor: Scalars['Int']['output'];
   profitGain: Scalars['Int']['output'];
@@ -204,7 +206,7 @@ export type GetStrategyQueryVariables = Exact<{
 }>;
 
 
-export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<number | null>, growth: Array<number | null>, percentage?: string | null } } | null };
+export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<number | null>, growth: Array<number | null>, percentage?: number | null, initialBalance: number, balance: number } } | null };
 
 
 export const RegisterUserDocument = gql`
@@ -336,6 +338,8 @@ export const GetStrategyDocument = gql`
       tradesSequence
       growth
       percentage
+      initialBalance
+      balance
     }
   }
 }

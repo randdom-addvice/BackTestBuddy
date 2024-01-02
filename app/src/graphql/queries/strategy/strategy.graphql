@@ -19,6 +19,8 @@ query GetStrategy($getStrategyId: ID!) {
       tradesSequence
       growth
       percentage
+      initialBalance
+      balance
     }
   }
 }
