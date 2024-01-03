@@ -201,6 +201,11 @@ export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename?: 'User', _id: string, username: string, first_name: string, last_name: string, email: string, email_verified: boolean } | null };
 
+export type GetLibrariesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLibrariesQuery = { __typename?: 'Query', getLibraries?: Array<{ __typename?: 'Library', _id: string, name: string, description: string, user_id: string } | null> | null };
+
 export type GetStrategyQueryVariables = Exact<{
   getStrategyId: Scalars['ID']['input'];
 }>;
@@ -316,6 +321,48 @@ export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
 export type GetUserSuspenseQueryHookResult = ReturnType<typeof useGetUserSuspenseQuery>;
 export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export const GetLibrariesDocument = gql`
+    query GetLibraries {
+  getLibraries {
+    _id
+    name
+    description
+    user_id
+  }
+}
+    `;
+
+/**
+ * __useGetLibrariesQuery__
+ *
+ * To run a query within a React component, call `useGetLibrariesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLibrariesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLibrariesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetLibrariesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetLibrariesQuery, GetLibrariesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetLibrariesQuery, GetLibrariesQueryVariables>(GetLibrariesDocument, options);
+      }
+export function useGetLibrariesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetLibrariesQuery, GetLibrariesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetLibrariesQuery, GetLibrariesQueryVariables>(GetLibrariesDocument, options);
+        }
+export function useGetLibrariesSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetLibrariesQuery, GetLibrariesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetLibrariesQuery, GetLibrariesQueryVariables>(GetLibrariesDocument, options);
+        }
+export type GetLibrariesQueryHookResult = ReturnType<typeof useGetLibrariesQuery>;
+export type GetLibrariesLazyQueryHookResult = ReturnType<typeof useGetLibrariesLazyQuery>;
+export type GetLibrariesSuspenseQueryHookResult = ReturnType<typeof useGetLibrariesSuspenseQuery>;
+export type GetLibrariesQueryResult = Apollo.QueryResult<GetLibrariesQuery, GetLibrariesQueryVariables>;
 export const GetStrategyDocument = gql`
     query GetStrategy($getStrategyId: ID!) {
   getStrategy(id: $getStrategyId) {

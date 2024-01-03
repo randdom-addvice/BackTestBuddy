@@ -20,6 +20,8 @@ import {
 import { StyledFlex } from "@/styles/globalElements";
 import { useAppSelector } from "@/redux/hooks";
 import CookieUtility from "@/utils/cookieUtils";
+import { NavLink } from "react-router-dom";
+import { AppRoutes } from "@/routes/routesDeclaration";
 
 const iconSize = "30px";
 
@@ -39,28 +41,36 @@ const SideBar = () => {
       </SidebarMenuIcon>
 
       <SidebarCategory active={true}>
-        <SidebarItem>
-          <FcCandleSticks size={iconSize} />
-          <IconText visible={expandSidebar}>Dashboard</IconText>
-        </SidebarItem>
+        <NavLink to={AppRoutes.METRIX}>
+          <SidebarItem>
+            <FcCandleSticks size={iconSize} />
+            <IconText visible={expandSidebar}>Dashboard</IconText>
+          </SidebarItem>
+        </NavLink>
       </SidebarCategory>
       <SidebarCategory active={false}>
-        <SidebarItem expanded={expandSidebar}>
-          <LuLibrary size={iconSize} />
-          <IconText visible={expandSidebar}>Library</IconText>
-        </SidebarItem>
+        <NavLink to={AppRoutes.LIBRARIES}>
+          <SidebarItem expanded={expandSidebar}>
+            <LuLibrary size={iconSize} />
+            <IconText visible={expandSidebar}>Library</IconText>
+          </SidebarItem>
+        </NavLink>
       </SidebarCategory>
       <SidebarCategory active={false}>
-        <SidebarItem expanded={expandSidebar}>
-          <ProIconText>pro</ProIconText>
-          <IconText visible={expandSidebar}>Plans</IconText>
-        </SidebarItem>
+        <NavLink to={AppRoutes.PLANS}>
+          <SidebarItem expanded={expandSidebar}>
+            <ProIconText>pro</ProIconText>
+            <IconText visible={expandSidebar}>Plans</IconText>
+          </SidebarItem>
+        </NavLink>
       </SidebarCategory>
       <SidebarCategory active={false}>
-        <SidebarItem expanded={expandSidebar}>
-          <FaRegUser size={iconSize} />
-          <IconText visible={expandSidebar}>Profile</IconText>
-        </SidebarItem>
+        <NavLink to={AppRoutes.PROFILE}>
+          <SidebarItem expanded={expandSidebar}>
+            <FaRegUser size={iconSize} />
+            <IconText visible={expandSidebar}>Profile</IconText>
+          </SidebarItem>
+        </NavLink>
       </SidebarCategory>
 
       <SidebarFooterContainer>

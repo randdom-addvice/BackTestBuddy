@@ -33,9 +33,9 @@ export const StyledFlex = styled.div<{
   gap: ${(props) => props.gap ?? "initial"};
 `;
 
-export const StyledContainer = styled.div<{ width?: string }>`
+export const StyledContainer = styled.div<{ width?: string; margin?: string }>`
   width: ${(props) => props.width ?? "100%"};
-  margin: auto;
+  margin: ${(props) => props.margin ?? "auto"};
 `;
 
 export const StyledCenteredDiv = styled.div`

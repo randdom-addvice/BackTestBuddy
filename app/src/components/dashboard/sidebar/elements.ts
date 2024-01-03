@@ -41,6 +41,9 @@ export const SidebarCategory = styled.div<{ active: boolean }>`
     /* border-left: ${({ theme, active }) =>
       `7px solid ${theme.colors.accent1}`}; */
   }
+  a {
+    text-decoration: none;
+  }
 `;
 export const ProIconText = styled.div`
   color: ${({ theme }) => theme.colors.accent1};

@@ -23,6 +23,9 @@ const tradeDetailsSchema = new Schema<ITradeStats>(
     toJSON: {
       virtuals: true,
     },
+    toObject: {
+      virtuals: true,
+    },
   }
 );
 
@@ -38,10 +41,14 @@ const strategySchema = new Schema<IStrategy>(
     toJSON: {
       virtuals: true,
     },
+    toObject: {
+      virtuals: true,
+    },
   }
 );
 
 tradeDetailsSchema.virtual("percentageWin").get(function () {
+  console.log("run here");
   return Math.round(
     (this.totalWinnings / (this.totalLosses + this.totalWinnings)) * 100
   );

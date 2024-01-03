@@ -1,0 +1,8 @@
+query GetLibraries {
+  getLibraries {
+    _id
+    name
+    description
+    user_id
+  }
+}

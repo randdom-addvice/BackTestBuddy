@@ -11,10 +11,11 @@ import CookieUtility from "@/utils/cookieUtils";
 import { JWT_TOKEN_NAMESPACE } from "@/utils/globalConstants";
 import { ErrorBoundary } from "react-error-boundary";
 
-const LazyHomePage = lazy(() => import("../pages/Home"));
-const LazyDashboardPage = lazy(() => import("../pages/Dashboard"));
-const LazyAuthPage = lazy(() => import("../pages/AuthPage"));
-const LazyMetrixPage = lazy(() => import("../pages/MetrixPage"));
+const LazyHomePage = lazy(() => import("@/pages/Home"));
+const LazyDashboardPage = lazy(() => import("@/pages/Dashboard"));
+const LazyAuthPage = lazy(() => import("@/pages/AuthPage"));
+const LazyMetrixPage = lazy(() => import("@/pages/MetrixPage"));
+const LazyLibraryPage = lazy(() => import("@/pages/LibraryPage"));
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,16 @@ const router = createBrowserRouter([
             fallback={<h2>Something went wrong. Please try again later.</h2>}
           >
             <LazyMetrixPage />
+          </ErrorBoundary>
+        ),
+      },
+      {
+        path: AppRoutes.LIBRARIES,
+        element: (
+          <ErrorBoundary
+            fallback={<h2>Something went wrong. Please try again later.</h2>}
+          >
+            <LazyLibraryPage />
           </ErrorBoundary>
         ),
       },
