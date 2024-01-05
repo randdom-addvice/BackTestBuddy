@@ -34,7 +34,7 @@ const RenderMetrixContent: React.FC<{ error?: Error }> = ({ error }) => {
   useEffect(() => {
     if (error) {
       const timerId = setTimeout(() => {
-        // setRedirectToLibraries(true);
+        setRedirectToLibraries(true);
       }, 2000);
       return () => clearTimeout(timerId);
     }

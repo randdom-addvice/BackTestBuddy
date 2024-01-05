@@ -30,6 +30,8 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 10px;
     -webkit-box-shadow: rgba(0, 0, 0, 0.12) 0 3px 13px 1px;
   }
+ 
+ 
 `;
 
 export default GlobalStyle;

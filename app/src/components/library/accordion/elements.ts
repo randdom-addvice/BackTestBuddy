@@ -97,11 +97,19 @@ export const AccordionInput = styled.input`
     outline: none;
   }
 `;
+export const Description = styled.p`
+  font-size: 0.8rem;
+  font-weight: 600;
+  span {
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+`;
 //CARD
 export const CardContainer = styled.article`
   border-radius: 5px;
   box-shadow: 0 30px 40px -20px #a3a5ae;
-  margin: 20px;
+  margin: 20px 0;
   padding: 15px 30px;
   width: 300px;
   border-top: 3px solid #000;

@@ -1,5 +1,4 @@
-import React, { useRef } from "react";
-import styled from "styled-components";
+import React, { useRef, useState } from "react";
 import {
   AccordionContainer,
   AccordionContent,
@@ -8,6 +7,7 @@ import {
   AccordionInput,
   AccordionSummary,
   DeleteButton,
+  Description,
   EditButton,
 } from "./elements";
 import StrategyCard from "./StrategyCard";
@@ -17,6 +17,8 @@ import { StyledFlex } from "@/styles/globalElements";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useModifyLibraryMutationHook } from "@/graphql/mutations/library/library.mutations";
 import { useForm } from "@/hooks/useForm";
+import { shortenText } from "@/utils/text";
+import InputPromptModal from "@/components/modal/InputPrompt/InputPromptModal";
 interface Props {
   library: {
     name: string;
@@ -40,7 +42,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
   }
 
   async function handleBlur() {
-    console.log("Input lost focus");
+    if (formValues.name === library.name) return;
     await updateLibrary();
   }
 
@@ -68,6 +70,10 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
           </StyledFlex>
         </AccordionSummary>
         <AccordionContent>
+          <Description title={library.description}>
+            Library Description:{" "}
+            <span>{shortenText(library.description, 300)}</span>
+          </Description>
           <AccordionContentGrid>
             {strategies.map((strat) => (
               <StrategyCard key={strat.id} strategy={strat} />

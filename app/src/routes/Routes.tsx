@@ -67,7 +67,7 @@ const router = createBrowserRouter([
     loader: async () => {
       const authToken = CookieUtility.getCookie(JWT_TOKEN_NAMESPACE);
       if (checkTokenValidity(authToken)) {
-        throw redirect(AppRoutes.DASHBOARD);
+        throw redirect(AppRoutes.LIBRARIES);
       }
       return null;
     },
