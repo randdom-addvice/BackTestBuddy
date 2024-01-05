@@ -13,13 +13,18 @@ export default /* GraphQL */ `
     library_id: String!
   }
 
+  input CreateLibraryInput {
+    name: String!
+    description: String!
+  }
+
   type Query {
     getLibraries: [Library]!
   }
 
   type Mutation {
     modifyLibrary(modifyLibraryInput: ModfiyLibraryInput): Boolean
-    createLibrary(createLibraryInput: ModfiyLibraryInput): Boolean
+    createLibrary(createLibraryInput: CreateLibraryInput): Boolean
     deleteLibrary(id: ID!): Boolean
   }
 `;

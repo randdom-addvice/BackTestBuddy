@@ -6,6 +6,6 @@ mutation DeleteLibrary($deleteLibraryId: ID!) {
   deleteLibrary(id: $deleteLibraryId)
 }
 
-mutation CreateLibrary($createLibraryInput: ModfiyLibraryInput) {
+mutation CreateLibrary($createLibraryInput: CreateLibraryInput) {
   createLibrary(createLibraryInput: $createLibraryInput)
 }

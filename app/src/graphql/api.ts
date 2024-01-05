@@ -18,6 +18,11 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type CreateLibraryInput = {
+  description: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
 export type CreateStrategyInput = {
   description: Scalars['String']['input'];
   library_id: Scalars['ID']['input'];
@@ -54,7 +59,7 @@ export type Mutation = {
 
 
 export type MutationCreateLibraryArgs = {
-  createLibraryInput?: InputMaybe<ModfiyLibraryInput>;
+  createLibraryInput?: InputMaybe<CreateLibraryInput>;
 };
 
 
@@ -211,7 +216,7 @@ export type DeleteLibraryMutationVariables = Exact<{
 export type DeleteLibraryMutation = { __typename?: 'Mutation', deleteLibrary?: boolean | null };
 
 export type CreateLibraryMutationVariables = Exact<{
-  createLibraryInput?: InputMaybe<ModfiyLibraryInput>;
+  createLibraryInput?: InputMaybe<CreateLibraryInput>;
 }>;
 
 
@@ -361,7 +366,7 @@ export type DeleteLibraryMutationHookResult = ReturnType<typeof useDeleteLibrary
 export type DeleteLibraryMutationResult = Apollo.MutationResult<DeleteLibraryMutation>;
 export type DeleteLibraryMutationOptions = Apollo.BaseMutationOptions<DeleteLibraryMutation, DeleteLibraryMutationVariables>;
 export const CreateLibraryDocument = gql`
-    mutation CreateLibrary($createLibraryInput: ModfiyLibraryInput) {
+    mutation CreateLibrary($createLibraryInput: CreateLibraryInput) {
   createLibrary(createLibraryInput: $createLibraryInput)
 }
     `;

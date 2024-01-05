@@ -25,6 +25,7 @@ const InputPromptModal: React.FC<IProps> = ({
   showModal,
   setShowModal,
   children,
+  onSubmit,
 }) => {
   function closeModal() {
     setShowModal(false);
@@ -54,7 +55,9 @@ const InputPromptModal: React.FC<IProps> = ({
               <StyledButton className="is-secondary" onClick={closeModal}>
                 Cancel
               </StyledButton>
-              <StyledButton className="is-primary">Proceed</StyledButton>
+              <StyledButton className="is-primary" onClick={onSubmit}>
+                Proceed
+              </StyledButton>
             </StyledModalContainerFooter>
           </StyledModalContainer>
         </StyledModalContainer>

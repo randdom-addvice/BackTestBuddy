@@ -5,7 +5,7 @@ import { AccordionContainer } from "./accordion/elements";
 import { Library } from "@/graphql/api";
 
 const LibraryContainer = () => {
-  const { data, loading, error } = useGetLibrariesQueryHook();
+  const { data, loading, error, refetch } = useGetLibrariesQueryHook();
   console.log(data);
   if (loading) return <div>Loading Libraries</div>;
   if (error) return <div>Something went wrong, please contact support</div>;
@@ -18,6 +18,7 @@ const LibraryContainer = () => {
           lib && (
             <Accordion
               key={lib._id}
+              // refetchgetLibraryQuery={() => refetch()}
               library={{
                 name: lib.name,
                 description: lib.description,

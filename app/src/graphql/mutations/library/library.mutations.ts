@@ -2,7 +2,21 @@ import {
   useModifyLibraryMutation,
   ModifyLibraryMutationVariables,
   ModifyLibraryMutationOptions,
+  useCreateLibraryMutation,
+  CreateLibraryMutationVariables,
+  CreateLibraryMutationOptions,
 } from "@/graphql/api";
+
+export const useCreateLibraryMutationHook = (
+  { createLibraryInput }: CreateLibraryMutationVariables,
+  options?: CreateLibraryMutationOptions
+) => {
+  const [createLibrary, { data, loading, error }] = useCreateLibraryMutation({
+    variables: { createLibraryInput },
+    ...options,
+  });
+  return { createLibrary, data, loading, error };
+};
 
 export const useModifyLibraryMutationHook = (
   { modifyLibraryInput }: ModifyLibraryMutationVariables,
