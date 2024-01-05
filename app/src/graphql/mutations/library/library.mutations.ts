@@ -5,6 +5,9 @@ import {
   useCreateLibraryMutation,
   CreateLibraryMutationVariables,
   CreateLibraryMutationOptions,
+  useDeleteLibraryMutation,
+  DeleteLibraryMutationVariables,
+  DeleteLibraryMutationOptions,
 } from "@/graphql/api";
 
 export const useCreateLibraryMutationHook = (
@@ -27,4 +30,15 @@ export const useModifyLibraryMutationHook = (
     ...options,
   });
   return { updateLibrary, data, loading, error };
+};
+
+export const useDeleteLibraryMutationHook = (
+  { deleteLibraryId }: DeleteLibraryMutationVariables,
+  options?: DeleteLibraryMutationOptions
+) => {
+  const [deleteLibrary, { data, loading, error }] = useDeleteLibraryMutation({
+    variables: { deleteLibraryId },
+    ...options,
+  });
+  return { deleteLibrary, data, loading, error };
 };

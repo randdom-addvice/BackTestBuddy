@@ -38,6 +38,10 @@ const LibraryNav = () => {
         }
         console.log(completedData, "completedData");
       },
+      onError: (error) => {
+        console.log(error);
+        alert("Something went wrong, please retry");
+      },
       refetchQueries: ["GetLibraries"],
     }
   );
@@ -45,12 +49,6 @@ const LibraryNav = () => {
   async function onSubmit() {
     try {
       await createLibrary();
-      while (loading) {
-        // You can use a loading spinner or any other logic here
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      }
-
-      // After the mutation is complete, log data and error
       console.log(data, "data");
       console.log(error, "error");
     } catch (error) {
