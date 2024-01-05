@@ -196,6 +196,27 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser: string };
 
+export type ModifyLibraryMutationVariables = Exact<{
+  modifyLibraryInput?: InputMaybe<ModfiyLibraryInput>;
+}>;
+
+
+export type ModifyLibraryMutation = { __typename?: 'Mutation', modifyLibrary?: boolean | null };
+
+export type DeleteLibraryMutationVariables = Exact<{
+  deleteLibraryId: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteLibraryMutation = { __typename?: 'Mutation', deleteLibrary?: boolean | null };
+
+export type CreateLibraryMutationVariables = Exact<{
+  createLibraryInput?: InputMaybe<ModfiyLibraryInput>;
+}>;
+
+
+export type CreateLibraryMutation = { __typename?: 'Mutation', createLibrary?: boolean | null };
+
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -277,6 +298,99 @@ export function useLoginUserMutation(baseOptions?: ApolloReactHooks.MutationHook
 export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
 export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
 export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
+export const ModifyLibraryDocument = gql`
+    mutation ModifyLibrary($modifyLibraryInput: ModfiyLibraryInput) {
+  modifyLibrary(modifyLibraryInput: $modifyLibraryInput)
+}
+    `;
+export type ModifyLibraryMutationFn = Apollo.MutationFunction<ModifyLibraryMutation, ModifyLibraryMutationVariables>;
+
+/**
+ * __useModifyLibraryMutation__
+ *
+ * To run a mutation, you first call `useModifyLibraryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useModifyLibraryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [modifyLibraryMutation, { data, loading, error }] = useModifyLibraryMutation({
+ *   variables: {
+ *      modifyLibraryInput: // value for 'modifyLibraryInput'
+ *   },
+ * });
+ */
+export function useModifyLibraryMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ModifyLibraryMutation, ModifyLibraryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<ModifyLibraryMutation, ModifyLibraryMutationVariables>(ModifyLibraryDocument, options);
+      }
+export type ModifyLibraryMutationHookResult = ReturnType<typeof useModifyLibraryMutation>;
+export type ModifyLibraryMutationResult = Apollo.MutationResult<ModifyLibraryMutation>;
+export type ModifyLibraryMutationOptions = Apollo.BaseMutationOptions<ModifyLibraryMutation, ModifyLibraryMutationVariables>;
+export const DeleteLibraryDocument = gql`
+    mutation DeleteLibrary($deleteLibraryId: ID!) {
+  deleteLibrary(id: $deleteLibraryId)
+}
+    `;
+export type DeleteLibraryMutationFn = Apollo.MutationFunction<DeleteLibraryMutation, DeleteLibraryMutationVariables>;
+
+/**
+ * __useDeleteLibraryMutation__
+ *
+ * To run a mutation, you first call `useDeleteLibraryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteLibraryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteLibraryMutation, { data, loading, error }] = useDeleteLibraryMutation({
+ *   variables: {
+ *      deleteLibraryId: // value for 'deleteLibraryId'
+ *   },
+ * });
+ */
+export function useDeleteLibraryMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteLibraryMutation, DeleteLibraryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteLibraryMutation, DeleteLibraryMutationVariables>(DeleteLibraryDocument, options);
+      }
+export type DeleteLibraryMutationHookResult = ReturnType<typeof useDeleteLibraryMutation>;
+export type DeleteLibraryMutationResult = Apollo.MutationResult<DeleteLibraryMutation>;
+export type DeleteLibraryMutationOptions = Apollo.BaseMutationOptions<DeleteLibraryMutation, DeleteLibraryMutationVariables>;
+export const CreateLibraryDocument = gql`
+    mutation CreateLibrary($createLibraryInput: ModfiyLibraryInput) {
+  createLibrary(createLibraryInput: $createLibraryInput)
+}
+    `;
+export type CreateLibraryMutationFn = Apollo.MutationFunction<CreateLibraryMutation, CreateLibraryMutationVariables>;
+
+/**
+ * __useCreateLibraryMutation__
+ *
+ * To run a mutation, you first call `useCreateLibraryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateLibraryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createLibraryMutation, { data, loading, error }] = useCreateLibraryMutation({
+ *   variables: {
+ *      createLibraryInput: // value for 'createLibraryInput'
+ *   },
+ * });
+ */
+export function useCreateLibraryMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateLibraryMutation, CreateLibraryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateLibraryMutation, CreateLibraryMutationVariables>(CreateLibraryDocument, options);
+      }
+export type CreateLibraryMutationHookResult = ReturnType<typeof useCreateLibraryMutation>;
+export type CreateLibraryMutationResult = Apollo.MutationResult<CreateLibraryMutation>;
+export type CreateLibraryMutationOptions = Apollo.BaseMutationOptions<CreateLibraryMutation, CreateLibraryMutationVariables>;
 export const GetUserDocument = gql`
     query GetUser {
   getUser {

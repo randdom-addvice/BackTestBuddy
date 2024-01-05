@@ -91,6 +91,12 @@ export const AccordionContentGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
 `;
+export const AccordionInput = styled.input`
+  &:focus {
+    border: 2px solid ${({ theme }) => theme.colors.primary};
+    outline: none;
+  }
+`;
 //CARD
 export const CardContainer = styled.article`
   border-radius: 5px;
@@ -105,7 +111,6 @@ export const DeleteButton = styled.button`
   cursor: pointer;
   background: none;
   border: none;
-  margin-bottom: 0.5rem;
   margin-left: 0.5rem;
   svg {
     fill: red;
@@ -122,7 +127,7 @@ export const Title = styled.h5`
   width: 100%;
   font-size: 1rem;
   font-weight: 400;
-  margin-bottom: 0.7rem;
+  margin: 0.5rem 0 0.7rem 0;
 `;
 
 export const DescriptionText = styled.p`

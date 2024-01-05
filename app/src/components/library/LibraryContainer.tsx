@@ -17,7 +17,7 @@ const LibraryContainer = () => {
         (lib) =>
           lib && (
             <Accordion
-              //   key={lib._id}
+              key={lib._id}
               library={{
                 name: lib.name,
                 description: lib.description,

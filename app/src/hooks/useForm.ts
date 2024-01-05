@@ -5,7 +5,7 @@ type ValidationRules<T> = Record<keyof T, (value: string) => boolean>;
 export const useForm = <T extends {} = {}>(
   callback: () => void,
   initialState: T,
-  validationRules: ValidationRules<T>
+  validationRules?: ValidationRules<T>
 ) => {
   const [formValues, setFormValues] = useState<T>(initialState);
   const [validationErrors, setValidationErrors] = useState<
@@ -14,6 +14,7 @@ export const useForm = <T extends {} = {}>(
 
   const validateField = useCallback(
     (fieldName: keyof T, value: string) => {
+      if (!validationRules) return true;
       const validationRule = validationRules[fieldName];
       const isValid = validationRule(value);
       setValidationErrors((prevErrors) => ({
