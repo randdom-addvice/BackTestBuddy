@@ -50,10 +50,11 @@ const resolvers = {
     createStrategy: async (
       _: any,
       {
-        createStrategyInput: { library_id, name, description },
+        createStrategyInput: { library_id, name, description, startingBalance },
       }: {
         createStrategyInput: Pick<IStrategy, "name" | "description"> & {
           library_id: string;
+          startingBalance: number;
         };
       },
       { user }: { user?: IUser }
@@ -71,10 +72,13 @@ const resolvers = {
             description,
             user_id: user._id,
             library_id,
+            tradeStats: {
+              initialBalance: startingBalance,
+            },
           } as never as IStrategy
         );
 
-        if (!createdStrategy) return "Error Creating Strategy";
+        if (!createdStrategy) return false;
 
         const updatedLibrary = await MongooseServices.findAndUpdate(
           LibraryModel,
@@ -87,10 +91,10 @@ const resolvers = {
           await MongooseServices.deleteEntity(StrategyModel, {
             _id: createdStrategy._id,
           });
-          return "Error Creating Strategy";
+          return false;
         }
 
-        return "Success";
+        return true;
       } catch (error) {
         throwGraphQLError("INTERNAL_SERVER_ERROR", "Something went wrong");
       }

@@ -123,7 +123,19 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
           <PromptInputGroup>
             <PromptInput
               name="name"
+              type="text"
               placeholder="Enter Strategy Name"
+              onChange={onChange}
+            />
+            {createStrategyForm.getFieldError("name") && (
+              <p>This field is requried</p>
+            )}
+          </PromptInputGroup>
+          <PromptInputGroup>
+            <PromptInput
+              name="initialBalance"
+              type="number"
+              placeholder="Enter starting balance"
               onChange={onChange}
             />
             {createStrategyForm.getFieldError("name") && (

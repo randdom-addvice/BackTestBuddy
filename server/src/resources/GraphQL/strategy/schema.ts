@@ -1,4 +1,8 @@
 export default /* GraphQL */ `
+  type Growth {
+    asset: String!
+    value: Float!
+  }
   type TradeStats {
     _id: ID
     winCountValue: Float!
@@ -14,8 +18,7 @@ export default /* GraphQL */ `
     profitGain: Int!
     profitFactor: Int!
     tradesSequence: [Float]!
-    growth: [Float]!
-    percentage: Float
+    growth: [Growth]!
   }
 
   type Strategy {
@@ -30,6 +33,7 @@ export default /* GraphQL */ `
     name: String!
     description: String!
     library_id: ID!
+    startingBalance: Int!
   }
 
   input UpdateStrategyDetailsInput {
@@ -55,7 +59,7 @@ export default /* GraphQL */ `
   }
 
   type Mutation {
-    createStrategy(createStrategyInput: CreateStrategyInput): String!
+    createStrategy(createStrategyInput: CreateStrategyInput): Boolean!
     updateStrategyDetails(
       updateStrategyInput: UpdateStrategyDetailsInput
     ): Boolean!

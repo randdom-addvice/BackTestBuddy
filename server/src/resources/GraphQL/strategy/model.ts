@@ -5,9 +5,9 @@ import Library from "../library/model";
 
 const tradeDetailsSchema = new Schema<ITradeStats>(
   {
-    winCountValue: { type: Number, required: true, default: 1 },
-    lossCountValue: { type: Number, required: true, default: 1 },
-    initialBalance: { type: Number, required: true, default: 10000 },
+    winCountValue: { type: Number, default: 1 },
+    lossCountValue: { type: Number, default: 1 },
+    initialBalance: { type: Number, default: 10000 },
     // totalTrades: Number,
     // totalLossesPercent: Number,
     // totalWinningsPercent: Number,
@@ -17,7 +17,12 @@ const tradeDetailsSchema = new Schema<ITradeStats>(
     profitGain: { type: Number, default: 0 },
     profitFactor: { type: Number, default: 0 },
     tradesSequence: [Number],
-    growth: [Number],
+    growth: [
+      {
+        asset: { type: String, default: "EURUSD" },
+        value: { type: Number, required: true },
+      },
+    ],
   },
   {
     toJSON: {
