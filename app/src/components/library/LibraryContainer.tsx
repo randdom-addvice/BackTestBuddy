@@ -2,10 +2,11 @@ import React from "react";
 import Accordion from "./accordion/Accordion";
 import { useGetLibrariesQueryHook } from "@/graphql/queries/library/library.queries";
 import { AccordionContainer } from "./accordion/elements";
+import { Library } from "@/graphql/api";
 
 const LibraryContainer = () => {
   const { data, loading, error } = useGetLibrariesQueryHook();
-
+  console.log(data);
   if (loading) return <div>Loading Libraries</div>;
   if (error) return <div>Something went wrong, please contact support</div>;
   if (!data?.getLibraries?.length)
@@ -16,10 +17,22 @@ const LibraryContainer = () => {
         (lib) =>
           lib && (
             <Accordion
-              key={lib._id}
-              name={lib.name}
-              description={lib.description}
-              _id={lib._id}
+              //   key={lib._id}
+              library={{
+                name: lib.name,
+                description: lib.description,
+                id: lib._id,
+              }}
+              strategies={
+                lib.strategies.map((i) => ({
+                  id: i._id,
+                  name: i.name,
+                  description: i.description,
+                  totalTrades: i.tradeStats.totalTrades,
+                  percentageWin: i.tradeStats.percentageWin,
+                  profitGain: i.tradeStats.profitGain,
+                })) ?? []
+              }
             />
           )
       )}

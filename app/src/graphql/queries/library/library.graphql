@@ -4,5 +4,19 @@ query GetLibraries {
     name
     description
     user_id
+    strategies {
+      _id
+      library_id
+      name
+      description
+      tradeStats {
+        _id
+        balance
+        totalTrades
+        percentageWin
+        profitGain
+        profitFactor
+      }
+    }
   }
 }

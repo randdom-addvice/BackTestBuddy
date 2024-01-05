@@ -29,7 +29,7 @@ export type Library = {
   _id: Scalars['ID']['output'];
   description: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  strategies?: Maybe<Array<Maybe<Strategy>>>;
+  strategies: Array<Strategy>;
   user_id: Scalars['String']['output'];
 };
 
@@ -101,8 +101,8 @@ export type MutationUpdateStrategyStatsArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getLibraries?: Maybe<Array<Maybe<Library>>>;
-  getStrategies?: Maybe<Array<Maybe<Strategy>>>;
+  getLibraries: Array<Maybe<Library>>;
+  getStrategies: Array<Maybe<Strategy>>;
   getStrategy?: Maybe<Strategy>;
   getUser?: Maybe<User>;
 };
@@ -204,7 +204,7 @@ export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename?: 'Use
 export type GetLibrariesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLibrariesQuery = { __typename?: 'Query', getLibraries?: Array<{ __typename?: 'Library', _id: string, name: string, description: string, user_id: string } | null> | null };
+export type GetLibrariesQuery = { __typename?: 'Query', getLibraries: Array<{ __typename?: 'Library', _id: string, name: string, description: string, user_id: string, strategies: Array<{ __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, balance: number, totalTrades: number, percentageWin: number, profitGain: number, profitFactor: number } }> } | null> };
 
 export type GetStrategyQueryVariables = Exact<{
   getStrategyId: Scalars['ID']['input'];
@@ -328,6 +328,20 @@ export const GetLibrariesDocument = gql`
     name
     description
     user_id
+    strategies {
+      _id
+      library_id
+      name
+      description
+      tradeStats {
+        _id
+        balance
+        totalTrades
+        percentageWin
+        profitGain
+        profitFactor
+      }
+    }
   }
 }
     `;

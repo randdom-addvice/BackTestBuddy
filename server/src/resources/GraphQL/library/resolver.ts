@@ -25,9 +25,10 @@ const libraryResolvers = {
           {
             user_id: user._id,
           },
+          {},
           "strategies"
         );
-        return libraries;
+        return libraries ?? [];
       } catch (error) {
         catchGraphQLError(error);
       }

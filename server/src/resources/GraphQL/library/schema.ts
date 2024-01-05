@@ -4,7 +4,7 @@ export default /* GraphQL */ `
     name: String!
     description: String!
     user_id: String!
-    strategies: [Strategy]
+    strategies: [Strategy!]!
   }
 
   input ModfiyLibraryInput {
@@ -14,7 +14,7 @@ export default /* GraphQL */ `
   }
 
   type Query {
-    getLibraries: [Library]
+    getLibraries: [Library]!
   }
 
   type Mutation {

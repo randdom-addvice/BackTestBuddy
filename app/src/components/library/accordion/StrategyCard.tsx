@@ -13,8 +13,13 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { shortenText } from "@/utils/text";
 import { StyledFlex } from "@/styles/globalElements";
 import { AppRoutes } from "@/routes/routesDeclaration";
+import { StrategyCardType } from "../common";
 
-const StrategyCard = () => {
+interface Props {
+  strategy: StrategyCardType;
+}
+
+const StrategyCard: React.FC<Props> = ({ strategy }) => {
   return (
     <CardContainer>
       <StyledFlex justify="flex-end" align="center">
@@ -25,28 +30,26 @@ const StrategyCard = () => {
           <FaEdit />
         </EditButton>
       </StyledFlex>
-      <Title title="here">
-        {shortenText("JANUARY EURUSD M5 (HTF CONFIRMATION on 30M chart)", 25)}
-      </Title>
-      <DescriptionText title="here">
-        {shortenText(
-          "  LONDON SESSION, Start=JAN(1 month); Risk=1% 1:2 rr Tenkan sen+Kijun sen confirmations must be checked on 30M",
-          100
-        )}
+      <Title title={strategy.name}>{shortenText(strategy.name, 25)}</Title>
+      <DescriptionText title={strategy.description}>
+        {shortenText(strategy.description, 100)}
       </DescriptionText>
       <hr />
       <StatisticsList>
         <StatisticsListItem>
-          <strong>Trades:</strong> <span>33</span>
+          <strong>Trades:</strong>
+          <span>{strategy.totalTrades}</span>
         </StatisticsListItem>
         <StatisticsListItem>
-          <strong>Win rate:</strong> <span>61%</span>
+          <strong>Win rate:</strong>
+          <span>{strategy.percentageWin}%</span>
         </StatisticsListItem>
         <StatisticsListItem>
-          <strong>Profit Gain:</strong> <span>27.00%</span>
+          <strong>Profit Gain:</strong>
+          <span>{strategy.profitGain}%</span>
         </StatisticsListItem>
       </StatisticsList>
-      <ViewLink to={`${AppRoutes.METRIX_DYNAMIC}6593086205ac6203b3799711`}>
+      <ViewLink to={`${AppRoutes.METRIX_DYNAMIC}${strategy.id}`}>
         View Metrix
       </ViewLink>
     </CardContainer>

@@ -50,7 +50,7 @@ export default /* GraphQL */ `
   }
 
   type Query {
-    getStrategies(library_id: ID!): [Strategy]
+    getStrategies(library_id: ID!): [Strategy]!
     getStrategy(id: ID!): Strategy
   }
 

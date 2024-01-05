@@ -14,13 +14,15 @@ class MongooseServices {
   public static async getEntities<T>(
     model: Model<T>,
     query: FilterQuery<T>,
-    fieldToPopulate: string = "",
-    options: QueryOptions = { lean: true }
+    options: QueryOptions = { lean: true },
+    fieldToPopulate: string = ""
   ): Promise<T[]> {
-    return await model
-      .find(query, {}, options)
-      .populate(fieldToPopulate)
-      .exec();
+    const queryBuilder = model.find(query, {}, options);
+
+    if (fieldToPopulate) queryBuilder.populate(fieldToPopulate);
+
+    const result = await queryBuilder.exec();
+    return result;
   }
 
   public static async getEntity<T>(
@@ -34,10 +36,6 @@ class MongooseServices {
     if (fieldToPopulate) queryBuilder.populate(fieldToPopulate);
 
     const result = await queryBuilder.exec();
-    // const result = await model
-    //   .findOne(query, {}, options)
-    //   .populate(fieldToPopulate)
-    //   .exec();
     return result as T | null;
   }
 
