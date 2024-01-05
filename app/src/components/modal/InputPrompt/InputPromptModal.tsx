@@ -13,6 +13,7 @@ import {
   StyledModalContainerTitle,
 } from "./elements";
 interface IProps {
+  headerTitle: string;
   showModal: boolean;
   setShowModal: (
     state: boolean
@@ -26,6 +27,7 @@ const InputPromptModal: React.FC<IProps> = ({
   setShowModal,
   children,
   onSubmit,
+  headerTitle,
 }) => {
   function closeModal() {
     setShowModal(false);
@@ -42,7 +44,7 @@ const InputPromptModal: React.FC<IProps> = ({
           <StyledModalContainer>
             <StyledModalContainerHeader>
               <StyledModalContainerTitle>
-                Create new library
+                {headerTitle}
               </StyledModalContainerTitle>
               <StyledIconButton onClick={closeModal}>
                 <MdOutlineCancel />

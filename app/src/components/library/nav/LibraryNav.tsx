@@ -70,6 +70,7 @@ const LibraryNav = () => {
         onSubmit={onSubmit}
         showModal={showModal}
         setShowModal={setShowModal}
+        headerTitle="Create New Library"
       >
         <>
           <PromptInputGroup>

@@ -105,6 +105,17 @@ export const Description = styled.p`
     font-weight: 500;
   }
 `;
+export const CreateStratBtn = styled.button`
+  display: block;
+  border: none;
+  text-decoration: underline;
+  color: ${({ theme }) => theme.colors.primary};
+  margin: 0;
+  cursor: pointer;
+  background-color: transparent;
+  text-align: left;
+  margin-bottom: 0.5rem;
+`;
 //CARD
 export const CardContainer = styled.article`
   border-radius: 5px;

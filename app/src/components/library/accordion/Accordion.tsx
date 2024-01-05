@@ -6,13 +6,19 @@ import {
   AccordionDetails,
   AccordionInput,
   AccordionSummary,
+  CreateStratBtn,
   DeleteButton,
   Description,
   EditButton,
 } from "./elements";
 import StrategyCard from "./StrategyCard";
 import { GetLibrariesQuery, Library, Strategy } from "@/graphql/api";
-import { StrategyCardType } from "../common";
+import {
+  PromptInput,
+  PromptInputGroup,
+  PromptTextArea,
+  StrategyCardType,
+} from "../common";
 import { StyledFlex } from "@/styles/globalElements";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import {
@@ -33,8 +39,10 @@ interface Props {
 
 const Accordion: React.FC<Props> = ({ library, strategies }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const createStrategyForm = useForm(() => {}, { name: "", description: "" });
   const { onChange, formValues } = useForm(() => {}, { name: library.name });
-  const { updateLibrary, error, data } = useModifyLibraryMutationHook({
+  const { updateLibrary } = useModifyLibraryMutationHook({
     modifyLibraryInput: { name: formValues.name, library_id: library.id },
   });
   const { deleteLibrary } = useDeleteLibraryMutationHook(
@@ -91,6 +99,9 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
           </StyledFlex>
         </AccordionSummary>
         <AccordionContent>
+          <CreateStratBtn onClick={() => setShowModal(true)}>
+            Create Strategy
+          </CreateStratBtn>
           <Description title={library.description}>
             Library Description:{" "}
             <span>{shortenText(library.description, 300)}</span>
@@ -102,6 +113,40 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
           </AccordionContentGrid>
         </AccordionContent>
       </AccordionDetails>
+      <InputPromptModal
+        headerTitle="Add new strategy"
+        onSubmit={() => {}}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      >
+        <>
+          <PromptInputGroup>
+            <PromptInput
+              name="name"
+              placeholder="Enter Strategy Name"
+              onChange={onChange}
+            />
+            {createStrategyForm.getFieldError("name") && (
+              <p>This field is requried</p>
+            )}
+          </PromptInputGroup>
+          <PromptInputGroup>
+            <PromptTextArea
+              name="description"
+              onChange={onChange}
+              placeholder="Enter Strategy Description"
+            />
+            {createStrategyForm.getFieldError("description") && (
+              <p>This field is requried</p>
+            )}
+          </PromptInputGroup>
+          {/* {loading && (
+            <PromptInputGroup>
+              <p className="loading">Loading please wait...</p>
+            </PromptInputGroup>
+          )} */}
+        </>
+      </InputPromptModal>
     </>
   );
 };
