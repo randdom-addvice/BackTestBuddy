@@ -1,5 +1,10 @@
 export enum AppRoutes {
   HOME = "/",
-  DASHBOARD = "/dashboard",
   AUTH = "/auth",
+  DASHBOARD = "/dashboard",
+  METRIX = "/dashboard/metrix/:id",
+  METRIX_DYNAMIC = "/dashboard/metrix/",
+  PROFILE = "/dashboard/profile",
+  LIBRARIES = "/dashboard/libraries",
+  PLANS = "/dashboard/plans",
 }

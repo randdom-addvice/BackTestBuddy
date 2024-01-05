@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CookieUtility from "../../utils/cookieUtils";
+import { JWT_TOKEN_NAMESPACE } from "@/utils/globalConstants";
 
-const JWT_TOKEN_NAMESPACE = "authToken";
 const useAuthTokens = () => {
   const [authToken, setAuthToken] = useState<string | null | undefined>(null);
 

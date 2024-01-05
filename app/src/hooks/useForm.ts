@@ -1,11 +1,16 @@
 import { useState, ChangeEvent, FormEvent, useCallback } from "react";
 
-type ValidationRules<T> = Record<keyof T, (value: string) => boolean>;
+type ValueOf<T> = T[keyof T];
+
+// type ValidationRules<T> = Record<keyof T, (value: string) => boolean>;
+type ValidationRules<T> = {
+  [K in keyof T]?: (value: T[K]) => boolean;
+};
 
 export const useForm = <T extends {} = {}>(
   callback: () => void,
   initialState: T,
-  validationRules: ValidationRules<T>
+  validationRules?: ValidationRules<T>
 ) => {
   const [formValues, setFormValues] = useState<T>(initialState);
   const [validationErrors, setValidationErrors] = useState<
@@ -13,9 +18,10 @@ export const useForm = <T extends {} = {}>(
   >({} as any);
 
   const validateField = useCallback(
-    (fieldName: keyof T, value: string) => {
+    (fieldName: keyof T, value: T[keyof T]) => {
+      if (!validationRules) return true;
       const validationRule = validationRules[fieldName];
-      const isValid = validationRule(value);
+      const isValid = validationRule ? validationRule(value) : true;
       setValidationErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: isValid ? "" : "Field is invalid",
@@ -29,7 +35,7 @@ export const useForm = <T extends {} = {}>(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
       const { name, value } = event.target;
       setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
-      validateField(name as keyof T, value);
+      validateField(name as keyof T, value as T[keyof T]);
     },
     [validateField]
   );
@@ -40,7 +46,7 @@ export const useForm = <T extends {} = {}>(
       const isValidForm = Object.keys(formValues).every((fieldName) =>
         validateField(
           fieldName as keyof T,
-          formValues[fieldName as keyof T] as string
+          formValues[fieldName as keyof T] as T[keyof T]
         )
       );
 

@@ -13,6 +13,7 @@ import {
   StatListItemTitle,
 } from "./elements";
 import { MdClose } from "react-icons/md";
+import { useAppSelector } from "@/redux/hooks";
 
 interface IProps {
   showModal: boolean;
@@ -22,30 +23,33 @@ interface IProps {
 }
 
 const ExpandedDataModal = ({ showModal, setShowModal }: IProps) => {
+  const { tradeStats } =
+    useAppSelector((state) => state.strategy.selectedStrategyMetrix) || {};
+
   const analysisData = [
     {
       name: "Gain",
-      value: "%10",
+      value: `%${tradeStats?.profitGain}`,
     },
     {
       name: "Balance",
-      value: "$20000",
+      value: `$${tradeStats?.balance}`,
     },
     {
       name: "Profitability",
-      value: "%50",
+      value: `%${tradeStats?.percentageWin}`,
     },
     {
       name: "Total Trades",
-      value: "20",
+      value: `${tradeStats?.totalTrades}`,
     },
     {
       name: "Total Winning",
-      value: "10 trades",
+      value: `${tradeStats?.totalWinnings}`,
     },
     {
       name: "Total Losses",
-      value: "10 trades",
+      value: `${tradeStats?.totalLosses}`,
     },
     {
       name: "Breakeven Trades",
@@ -178,8 +182,8 @@ const ExpandedDataModal = ({ showModal, setShowModal }: IProps) => {
           <StatContainer>
             <StatListHeader>Trade Analysis</StatListHeader>
             <StatList>
-              {analysisData.map((i) => (
-                <StatListItem>
+              {analysisData.map((i, index) => (
+                <StatListItem key={index}>
                   <StatListItemTitle>{i.name}: </StatListItemTitle>
                   <StatListItemText>{i.value}</StatListItemText>
                 </StatListItem>
@@ -189,8 +193,8 @@ const ExpandedDataModal = ({ showModal, setShowModal }: IProps) => {
           <StatContainer>
             <StatListHeader>Advanced Statistics</StatListHeader>
             <StatList>
-              {advancedAnalysisData.map((i) => (
-                <StatListItem>
+              {advancedAnalysisData.map((i, index) => (
+                <StatListItem key={index}>
                   <StatListItemTitle>{i.name}: </StatListItemTitle>
                   <StatListItemText>{i.value}</StatListItemText>
                 </StatListItem>

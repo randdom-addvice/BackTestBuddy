@@ -17,18 +17,23 @@ import {
   Group,
 } from "./elements";
 import Switch from "./Switch";
+import { useAppSelector } from "@/redux/hooks";
 
 const BacktestTabContent = () => {
+  const state = useAppSelector((state) => state.strategy);
+  const { tradeStats } = state.selectedStrategyMetrix || {};
+
+  if (!state.selectedStrategyMetrix) return null;
   return (
     <>
       <InputSection>
         <InputBlock>
           <InputGroup>
-            <Input value={1} type="number" />
+            <Input value={tradeStats?.lossCountValue} type="number" />
             <InputButton>Add loss</InputButton>
           </InputGroup>
           <InputGroup position="flex-end">
-            <Input value={1} type="number" />
+            <Input value={tradeStats?.winCountValue} type="number" />
             <InputButtonGreen>Add profit</InputButtonGreen>
           </InputGroup>
         </InputBlock>
@@ -43,21 +48,24 @@ const BacktestTabContent = () => {
       <ShortDataContainer>
         <ShortDataGridItem>
           <ShortDataGridLabel>Total Trades</ShortDataGridLabel>
-          <ShortDataGridText>20</ShortDataGridText>
+          <ShortDataGridText>{tradeStats?.totalTrades}</ShortDataGridText>
         </ShortDataGridItem>
         <ShortDataGridItem>
           <ShortDataGridLabel>Wins / Losses</ShortDataGridLabel>
           <ShortDataGridText>
-            <SpanGreen>10</SpanGreen> / <SpanRed>10</SpanRed>
+            <SpanGreen>{tradeStats?.totalWinnings}</SpanGreen> /{" "}
+            <SpanRed>{tradeStats?.totalLosses}</SpanRed>
           </ShortDataGridText>
         </ShortDataGridItem>
         <ShortDataGridItem>
           <ShortDataGridLabel>Win rate</ShortDataGridLabel>
-          <ShortDataGridText>50%</ShortDataGridText>
+          <ShortDataGridText>
+            {tradeStats?.totalWinningsPercent}%
+          </ShortDataGridText>
         </ShortDataGridItem>
         <ShortDataGridItem>
           <ShortDataGridLabel>Breakeven</ShortDataGridLabel>
-          <ShortDataGridText>20</ShortDataGridText>
+          <ShortDataGridText>0</ShortDataGridText>
         </ShortDataGridItem>
       </ShortDataContainer>
     </>

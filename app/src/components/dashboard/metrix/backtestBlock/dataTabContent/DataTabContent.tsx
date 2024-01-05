@@ -10,11 +10,14 @@ import {
   StatListItemTitle,
   ExpandButton,
 } from "./elements";
-import { StyledFlex } from "../../../../styles/globalElements";
-import ExpandedDataModal from "../../../modal/ExpandedDataModal/ExpandedDataModal";
+import { StyledFlex } from "@/styles/globalElements";
+import ExpandedDataModal from "@/components/modal/ExpandedDataModal/ExpandedDataModal";
+import { useAppSelector } from "@/redux/hooks";
 
 const DataTabContent = () => {
   const [showExpandedData, setShowExpandedData] = useState(false);
+  const { tradeStats } =
+    useAppSelector((state) => state.strategy.selectedStrategyMetrix) || {};
   return (
     <Container>
       <Sections>
@@ -30,11 +33,19 @@ const DataTabContent = () => {
         <StatList>
           <StatListItem>
             <StatListItemTitle>Gain: </StatListItemTitle>
-            <StatListItemText>50%</StatListItemText>
+            <StatListItemText>{tradeStats?.profitGain}%</StatListItemText>
+          </StatListItem>
+          <StatListItem>
+            <StatListItemTitle>Initial Balalnce: </StatListItemTitle>
+            <StatListItemText>
+              {tradeStats?.initialBalance.toLocaleString()}$
+            </StatListItemText>
           </StatListItem>
           <StatListItem>
             <StatListItemTitle>Balalnce: </StatListItemTitle>
-            <StatListItemText>50%</StatListItemText>
+            <StatListItemText>
+              {tradeStats?.balance.toLocaleString()}$
+            </StatListItemText>
           </StatListItem>
         </StatList>
       </Sections>
@@ -43,11 +54,11 @@ const DataTabContent = () => {
         <StatList>
           <StatListItem>
             <StatListItemTitle>Profitability: </StatListItemTitle>
-            <StatListItemText>50%</StatListItemText>
+            <StatListItemText>{tradeStats?.percentageWin}%</StatListItemText>
           </StatListItem>
           <StatListItem>
             <StatListItemTitle>Total Trades: </StatListItemTitle>
-            <StatListItemText>20</StatListItemText>
+            <StatListItemText>{tradeStats?.totalTrades}</StatListItemText>
           </StatListItem>
         </StatList>
       </Sections>

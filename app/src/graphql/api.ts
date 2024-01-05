@@ -18,6 +18,11 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type CreateLibraryInput = {
+  description: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
 export type CreateStrategyInput = {
   description: Scalars['String']['input'];
   library_id: Scalars['ID']['input'];
@@ -29,7 +34,7 @@ export type Library = {
   _id: Scalars['ID']['output'];
   description: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  strategies?: Maybe<Array<Maybe<Strategy>>>;
+  strategies: Array<Strategy>;
   user_id: Scalars['String']['output'];
 };
 
@@ -54,7 +59,7 @@ export type Mutation = {
 
 
 export type MutationCreateLibraryArgs = {
-  createLibraryInput?: InputMaybe<ModfiyLibraryInput>;
+  createLibraryInput?: InputMaybe<CreateLibraryInput>;
 };
 
 
@@ -101,8 +106,8 @@ export type MutationUpdateStrategyStatsArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getLibraries?: Maybe<Array<Maybe<Library>>>;
-  getStrategies?: Maybe<Array<Maybe<Strategy>>>;
+  getLibraries: Array<Maybe<Library>>;
+  getStrategies: Array<Maybe<Strategy>>;
   getStrategy?: Maybe<Strategy>;
   getUser?: Maybe<User>;
 };
@@ -137,9 +142,11 @@ export type Strategy = {
 export type TradeStats = {
   __typename?: 'TradeStats';
   _id?: Maybe<Scalars['ID']['output']>;
+  balance: Scalars['Int']['output'];
   growth: Array<Maybe<Scalars['Float']['output']>>;
+  initialBalance: Scalars['Int']['output'];
   lossCountValue: Scalars['Float']['output'];
-  percentage?: Maybe<Scalars['String']['output']>;
+  percentage?: Maybe<Scalars['Float']['output']>;
   percentageWin: Scalars['Int']['output'];
   profitFactor: Scalars['Int']['output'];
   profitGain: Scalars['Int']['output'];
@@ -194,10 +201,43 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser: string };
 
+export type ModifyLibraryMutationVariables = Exact<{
+  modifyLibraryInput?: InputMaybe<ModfiyLibraryInput>;
+}>;
+
+
+export type ModifyLibraryMutation = { __typename?: 'Mutation', modifyLibrary?: boolean | null };
+
+export type DeleteLibraryMutationVariables = Exact<{
+  deleteLibraryId: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteLibraryMutation = { __typename?: 'Mutation', deleteLibrary?: boolean | null };
+
+export type CreateLibraryMutationVariables = Exact<{
+  createLibraryInput?: InputMaybe<CreateLibraryInput>;
+}>;
+
+
+export type CreateLibraryMutation = { __typename?: 'Mutation', createLibrary?: boolean | null };
+
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename?: 'User', _id: string, username: string, first_name: string, last_name: string, email: string, email_verified: boolean } | null };
+
+export type GetLibrariesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLibrariesQuery = { __typename?: 'Query', getLibraries: Array<{ __typename?: 'Library', _id: string, name: string, description: string, user_id: string, strategies: Array<{ __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, balance: number, totalTrades: number, percentageWin: number, profitGain: number, profitFactor: number } }> } | null> };
+
+export type GetStrategyQueryVariables = Exact<{
+  getStrategyId: Scalars['ID']['input'];
+}>;
+
+
+export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<number | null>, growth: Array<number | null>, percentage?: number | null, initialBalance: number, balance: number } } | null };
 
 
 export const RegisterUserDocument = gql`
@@ -263,6 +303,99 @@ export function useLoginUserMutation(baseOptions?: ApolloReactHooks.MutationHook
 export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
 export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
 export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
+export const ModifyLibraryDocument = gql`
+    mutation ModifyLibrary($modifyLibraryInput: ModfiyLibraryInput) {
+  modifyLibrary(modifyLibraryInput: $modifyLibraryInput)
+}
+    `;
+export type ModifyLibraryMutationFn = Apollo.MutationFunction<ModifyLibraryMutation, ModifyLibraryMutationVariables>;
+
+/**
+ * __useModifyLibraryMutation__
+ *
+ * To run a mutation, you first call `useModifyLibraryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useModifyLibraryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [modifyLibraryMutation, { data, loading, error }] = useModifyLibraryMutation({
+ *   variables: {
+ *      modifyLibraryInput: // value for 'modifyLibraryInput'
+ *   },
+ * });
+ */
+export function useModifyLibraryMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ModifyLibraryMutation, ModifyLibraryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<ModifyLibraryMutation, ModifyLibraryMutationVariables>(ModifyLibraryDocument, options);
+      }
+export type ModifyLibraryMutationHookResult = ReturnType<typeof useModifyLibraryMutation>;
+export type ModifyLibraryMutationResult = Apollo.MutationResult<ModifyLibraryMutation>;
+export type ModifyLibraryMutationOptions = Apollo.BaseMutationOptions<ModifyLibraryMutation, ModifyLibraryMutationVariables>;
+export const DeleteLibraryDocument = gql`
+    mutation DeleteLibrary($deleteLibraryId: ID!) {
+  deleteLibrary(id: $deleteLibraryId)
+}
+    `;
+export type DeleteLibraryMutationFn = Apollo.MutationFunction<DeleteLibraryMutation, DeleteLibraryMutationVariables>;
+
+/**
+ * __useDeleteLibraryMutation__
+ *
+ * To run a mutation, you first call `useDeleteLibraryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteLibraryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteLibraryMutation, { data, loading, error }] = useDeleteLibraryMutation({
+ *   variables: {
+ *      deleteLibraryId: // value for 'deleteLibraryId'
+ *   },
+ * });
+ */
+export function useDeleteLibraryMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteLibraryMutation, DeleteLibraryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteLibraryMutation, DeleteLibraryMutationVariables>(DeleteLibraryDocument, options);
+      }
+export type DeleteLibraryMutationHookResult = ReturnType<typeof useDeleteLibraryMutation>;
+export type DeleteLibraryMutationResult = Apollo.MutationResult<DeleteLibraryMutation>;
+export type DeleteLibraryMutationOptions = Apollo.BaseMutationOptions<DeleteLibraryMutation, DeleteLibraryMutationVariables>;
+export const CreateLibraryDocument = gql`
+    mutation CreateLibrary($createLibraryInput: CreateLibraryInput) {
+  createLibrary(createLibraryInput: $createLibraryInput)
+}
+    `;
+export type CreateLibraryMutationFn = Apollo.MutationFunction<CreateLibraryMutation, CreateLibraryMutationVariables>;
+
+/**
+ * __useCreateLibraryMutation__
+ *
+ * To run a mutation, you first call `useCreateLibraryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateLibraryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createLibraryMutation, { data, loading, error }] = useCreateLibraryMutation({
+ *   variables: {
+ *      createLibraryInput: // value for 'createLibraryInput'
+ *   },
+ * });
+ */
+export function useCreateLibraryMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateLibraryMutation, CreateLibraryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateLibraryMutation, CreateLibraryMutationVariables>(CreateLibraryDocument, options);
+      }
+export type CreateLibraryMutationHookResult = ReturnType<typeof useCreateLibraryMutation>;
+export type CreateLibraryMutationResult = Apollo.MutationResult<CreateLibraryMutation>;
+export type CreateLibraryMutationOptions = Apollo.BaseMutationOptions<CreateLibraryMutation, CreateLibraryMutationVariables>;
 export const GetUserDocument = gql`
     query GetUser {
   getUser {
@@ -307,3 +440,120 @@ export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
 export type GetUserSuspenseQueryHookResult = ReturnType<typeof useGetUserSuspenseQuery>;
 export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export const GetLibrariesDocument = gql`
+    query GetLibraries {
+  getLibraries {
+    _id
+    name
+    description
+    user_id
+    strategies {
+      _id
+      library_id
+      name
+      description
+      tradeStats {
+        _id
+        balance
+        totalTrades
+        percentageWin
+        profitGain
+        profitFactor
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetLibrariesQuery__
+ *
+ * To run a query within a React component, call `useGetLibrariesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLibrariesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLibrariesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetLibrariesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetLibrariesQuery, GetLibrariesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetLibrariesQuery, GetLibrariesQueryVariables>(GetLibrariesDocument, options);
+      }
+export function useGetLibrariesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetLibrariesQuery, GetLibrariesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetLibrariesQuery, GetLibrariesQueryVariables>(GetLibrariesDocument, options);
+        }
+export function useGetLibrariesSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetLibrariesQuery, GetLibrariesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetLibrariesQuery, GetLibrariesQueryVariables>(GetLibrariesDocument, options);
+        }
+export type GetLibrariesQueryHookResult = ReturnType<typeof useGetLibrariesQuery>;
+export type GetLibrariesLazyQueryHookResult = ReturnType<typeof useGetLibrariesLazyQuery>;
+export type GetLibrariesSuspenseQueryHookResult = ReturnType<typeof useGetLibrariesSuspenseQuery>;
+export type GetLibrariesQueryResult = Apollo.QueryResult<GetLibrariesQuery, GetLibrariesQueryVariables>;
+export const GetStrategyDocument = gql`
+    query GetStrategy($getStrategyId: ID!) {
+  getStrategy(id: $getStrategyId) {
+    _id
+    library_id
+    name
+    description
+    tradeStats {
+      _id
+      winCountValue
+      lossCountValue
+      totalTrades
+      totalLossesPercent
+      totalWinningsPercent
+      totalLosses
+      totalWinnings
+      percentageWin
+      profitGain
+      profitFactor
+      tradesSequence
+      growth
+      percentage
+      initialBalance
+      balance
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetStrategyQuery__
+ *
+ * To run a query within a React component, call `useGetStrategyQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStrategyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStrategyQuery({
+ *   variables: {
+ *      getStrategyId: // value for 'getStrategyId'
+ *   },
+ * });
+ */
+export function useGetStrategyQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetStrategyQuery, GetStrategyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetStrategyQuery, GetStrategyQueryVariables>(GetStrategyDocument, options);
+      }
+export function useGetStrategyLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetStrategyQuery, GetStrategyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetStrategyQuery, GetStrategyQueryVariables>(GetStrategyDocument, options);
+        }
+export function useGetStrategySuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetStrategyQuery, GetStrategyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetStrategyQuery, GetStrategyQueryVariables>(GetStrategyDocument, options);
+        }
+export type GetStrategyQueryHookResult = ReturnType<typeof useGetStrategyQuery>;
+export type GetStrategyLazyQueryHookResult = ReturnType<typeof useGetStrategyLazyQuery>;
+export type GetStrategySuspenseQueryHookResult = ReturnType<typeof useGetStrategySuspenseQuery>;
+export type GetStrategyQueryResult = Apollo.QueryResult<GetStrategyQuery, GetStrategyQueryVariables>;

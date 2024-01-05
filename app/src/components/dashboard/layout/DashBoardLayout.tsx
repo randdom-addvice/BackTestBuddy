@@ -1,17 +1,36 @@
-import React from "react";
-
-import SideBar from "@/components/dashboard/sidebar/SideBar";
-import BacktestBlock from "@/components/dashboard/backtestBlock/BacktestBlock";
-import DetailsBlock from "@/components/dashboard/detailsBlock/DetailsBlock";
+import React, { lazy, Suspense, useCallback, useEffect } from "react";
 import { LayoutContainer } from "./elements";
+import { useLazyGetUserQueryHook } from "@/graphql/queries/auth/auth.queries";
 
-const DashBoardLayout = () => {
+const LazySideBar = lazy(
+  () => import("@/components/dashboard/sidebar/SideBar")
+);
+const LazyBacktestBlock = lazy(
+  () => import("@/components/dashboard/metrix/backtestBlock/BacktestBlock")
+);
+const LazyDetailsBlock = lazy(
+  () => import("@/components/dashboard/metrix/detailsBlock/DetailsBlock")
+);
+type Props = {
+  children: React.ReactNode | JSX.Element;
+};
+
+const DashBoardLayout = ({ children }: Props) => {
+  const { lazyGetUser } = useLazyGetUserQueryHook({
+    fetchPolicy: "cache-first",
+  });
+
+  useEffect(() => {
+    lazyGetUser();
+  }, []);
+
   return (
-    <LayoutContainer>
-      <SideBar />
-      <BacktestBlock />
-      <DetailsBlock />
-    </LayoutContainer>
+    <Suspense fallback={<div>Loading your dashboard ... Please wait</div>}>
+      <LayoutContainer>
+        <LazySideBar />
+        {children}
+      </LayoutContainer>
+    </Suspense>
   );
 };
 

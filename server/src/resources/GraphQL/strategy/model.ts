@@ -7,6 +7,7 @@ const tradeDetailsSchema = new Schema<ITradeStats>(
   {
     winCountValue: { type: Number, required: true, default: 1 },
     lossCountValue: { type: Number, required: true, default: 1 },
+    initialBalance: { type: Number, required: true, default: 10000 },
     // totalTrades: Number,
     // totalLossesPercent: Number,
     // totalWinningsPercent: Number,
@@ -57,6 +58,12 @@ tradeDetailsSchema.virtual("totalWinningsPercent").get(function () {
   return Math.round(
     (this.totalWinnings / (this.totalLosses + this.totalWinnings)) * 100
   );
+});
+tradeDetailsSchema.virtual("balance").get(function () {
+  const { initialBalance, profitGain } = this;
+  const gainMultiplier = 1 + profitGain / 100;
+  const balance = initialBalance * gainMultiplier;
+  return balance;
 });
 
 strategySchema.post<IStrategy>(

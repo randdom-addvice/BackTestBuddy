@@ -3,6 +3,8 @@ export default /* GraphQL */ `
     _id: ID
     winCountValue: Float!
     lossCountValue: Float!
+    balance: Int!
+    initialBalance: Int!
     totalTrades: Int!
     totalLossesPercent: Int!
     totalWinningsPercent: Int!
@@ -13,7 +15,7 @@ export default /* GraphQL */ `
     profitFactor: Int!
     tradesSequence: [Float]!
     growth: [Float]!
-    percentage: String
+    percentage: Float
   }
 
   type Strategy {
@@ -48,7 +50,7 @@ export default /* GraphQL */ `
   }
 
   type Query {
-    getStrategies(library_id: ID!): [Strategy]
+    getStrategies(library_id: ID!): [Strategy]!
     getStrategy(id: ID!): Strategy
   }
 

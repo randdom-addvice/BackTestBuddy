@@ -3,14 +3,19 @@ import {
   createBrowserRouter,
   RouterProvider,
   redirect,
+  Outlet,
 } from "react-router-dom";
 import { AppRoutes } from "./routesDeclaration";
 import { checkTokenValidity } from "@/utils/auth";
 import CookieUtility from "@/utils/cookieUtils";
+import { JWT_TOKEN_NAMESPACE } from "@/utils/globalConstants";
+import { ErrorBoundary } from "react-error-boundary";
 
-const LazyHomePage = lazy(() => import("../pages/Home"));
-const LazyDashboardPage = lazy(() => import("../pages/Dashboard"));
-const LazyAuthPage = lazy(() => import("../pages/AuthPage"));
+const LazyHomePage = lazy(() => import("@/pages/Home"));
+const LazyDashboardPage = lazy(() => import("@/pages/Dashboard"));
+const LazyAuthPage = lazy(() => import("@/pages/AuthPage"));
+const LazyMetrixPage = lazy(() => import("@/pages/MetrixPage"));
+const LazyLibraryPage = lazy(() => import("@/pages/LibraryPage"));
 
 const router = createBrowserRouter([
   {
@@ -20,20 +25,49 @@ const router = createBrowserRouter([
   {
     path: AppRoutes.DASHBOARD,
     loader: async () => {
-      const authToken = CookieUtility.getCookie("authToken");
+      const authToken = CookieUtility.getCookie(JWT_TOKEN_NAMESPACE);
       if (!checkTokenValidity(authToken)) {
         throw redirect(AppRoutes.AUTH);
       }
       return null;
     },
-    element: <LazyDashboardPage />,
+    element: (
+      <ErrorBoundary
+        fallback={<h2>Something went wrong. Please try again later.</h2>}
+      >
+        <LazyDashboardPage />
+        <Outlet />
+      </ErrorBoundary>
+    ),
+    children: [
+      {
+        path: AppRoutes.METRIX,
+        element: (
+          <ErrorBoundary
+            fallback={<h2>Something went wrong. Please try again later.</h2>}
+          >
+            <LazyMetrixPage />
+          </ErrorBoundary>
+        ),
+      },
+      {
+        path: AppRoutes.LIBRARIES,
+        element: (
+          <ErrorBoundary
+            fallback={<h2>Something went wrong. Please try again later.</h2>}
+          >
+            <LazyLibraryPage />
+          </ErrorBoundary>
+        ),
+      },
+    ],
   },
   {
     path: AppRoutes.AUTH,
     loader: async () => {
-      const authToken = CookieUtility.getCookie("authToken");
+      const authToken = CookieUtility.getCookie(JWT_TOKEN_NAMESPACE);
       if (checkTokenValidity(authToken)) {
-        throw redirect(AppRoutes.DASHBOARD);
+        throw redirect(AppRoutes.LIBRARIES);
       }
       return null;
     },

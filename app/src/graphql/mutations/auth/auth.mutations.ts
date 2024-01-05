@@ -4,9 +4,11 @@
 import {
   LoginUserMutationOptions,
   LoginUserMutationVariables,
+  RegisterUserMutationOptions,
+  RegisterUserMutationVariables,
   useLoginUserMutation,
   useRegisterUserMutation,
-} from "../../api";
+} from "@/graphql/api";
 
 export const useLoginUserHook = (
   args: LoginUserMutationVariables,
@@ -19,35 +21,13 @@ export const useLoginUserHook = (
   return { loginUser, data, loading, error };
 };
 
-// export const useRegisterUserMutation = (args: {
-//   email: string;
-//   firstName: string;
-//   lastName: string;
-//   password: string;
-// }) => {
-//   const [registerUserMutation, { error, data }] = useMutation<
-//     { registerUser: string },
-//     { input: RegisterInput }
-//   >(REGISTER_USER, {
-//     variables: {
-//       input: {
-//         first_name: args.firstName,
-//         last_name: args.lastName,
-//         email: args.email,
-//         password: args.email,
-//       },
-//     },
-//   });
-
-//   return { registerUserMutation, data, error };
-// };
-// export const useLoginUserMutation = (args: LoginInput) => {
-// const [loginUserMutation, { error, data }] = useMutation(LOGIN_USER, {
-//   variables: {
-//     email: args.email,
-//     password: args.email,
-//   },
-// });
-
-// return { loginUserMutation, data, error };
-// };
+export const useRegisterUserHook = (
+  args: RegisterUserMutationVariables,
+  options?: RegisterUserMutationOptions
+) => {
+  const [registerUser, { data, loading, error }] = useRegisterUserMutation({
+    variables: args,
+    ...options,
+  });
+  return { registerUser, data, loading, error };
+};

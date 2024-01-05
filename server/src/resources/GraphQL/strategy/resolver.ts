@@ -12,14 +12,22 @@ import { IUser } from "../user/types";
 const resolvers = {
   Query: {
     getStrategies: async (_: any, { library_id }: { library_id: string }) => {
-      const library = await MongooseServices.getEntity(
-        LibraryModel,
+      // const library = await MongooseServices.getEntity(
+      //   LibraryModel,
+      //   {
+      //     _id: library_id,
+      //   },
+      //   { lean: false }
+      // );
+      const strategies = await MongooseServices.getEntities(
+        StrategyModel,
         {
-          _id: library_id,
+          library_id,
         },
         { lean: false }
       );
-      const strategies = library?.strategies ?? [];
+      console.log(strategies);
+      // const strategies = library?.strategies ?? [];
       return strategies;
     },
     getStrategy: async (_: any, { id }: { id: string }) => {

@@ -1,12 +1,12 @@
 import { Suspense } from "react";
-import Routes from "./routes/Routes";
+import Routes from "@/routes/Routes";
 import { ThemeProvider } from "styled-components";
-import { defaultTheme } from "./styles/theme";
-import GlobalStyle from "./styles/globalStyles";
+import { defaultTheme } from "@/styles/theme";
+import GlobalStyle from "@/styles/globalStyles";
 import { Helmet } from "react-helmet";
-import ApolloProviderWrapper from "./graphql/ApolloProvider";
+import ApolloProviderWrapper from "@/graphql/ApolloProvider";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { store } from "@/redux/store";
 
 const App = () => {
   return (

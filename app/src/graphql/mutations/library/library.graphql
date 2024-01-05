@@ -1,0 +1,11 @@
+mutation ModifyLibrary($modifyLibraryInput: ModfiyLibraryInput) {
+  modifyLibrary(modifyLibraryInput: $modifyLibraryInput)
+}
+
+mutation DeleteLibrary($deleteLibraryId: ID!) {
+  deleteLibrary(id: $deleteLibraryId)
+}
+
+mutation CreateLibrary($createLibraryInput: CreateLibraryInput) {
+  createLibrary(createLibraryInput: $createLibraryInput)
+}

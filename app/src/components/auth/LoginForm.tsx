@@ -24,55 +24,9 @@ import { AppRoutes } from "@/routes/routesDeclaration";
 import { useNavigate } from "react-router-dom";
 import ActionButton from "./ActionButton";
 import useAuth from "@/hooks/auth/useAuth";
-import {
-  useGetUserQueryHook,
-  useLazyGetUserQueryHook,
-} from "@/graphql/queries/auth/auth.queries";
-
-// const MemoizedParent = ({ onSubmit, getFieldError, loading, handleToggle }) => {
-//   return (
-//     <>
-//       <Form onSubmit={onSubmit}>
-//         <FormHeader>Sign in</FormHeader>
-//         <InputGroup>
-//           <Input
-//             type="email"
-//             onChange={onChange}
-//             name="email"
-//             placeholder="Email"
-//           />
-//           {getFieldError("email") && (
-//             <InputErrorField>
-//               Please enter a valid email address
-//             </InputErrorField>
-//           )}
-//         </InputGroup>
-//         <InputGroup>
-//           <Input
-//             type="password"
-//             onChange={onChange}
-//             name="password"
-//             placeholder="Password"
-//           />
-//           {getFieldError("password") && (
-//             <InputErrorField>Password is required</InputErrorField>
-//           )}
-//           {inAppGraphQLError && (
-//             <InputErrorField>{inAppGraphQLError}</InputErrorField>
-//           )}
-//         </InputGroup>
-//         <ActionButton isLoading={loading} displayName="Sign In" />
-//         <ActionLink>
-//           Need an account?
-//           <ActionLinkButton onClick={handleToggle}>Sign Up</ActionLinkButton>
-//         </ActionLink>
-//       </Form>
-//     </>
-//   );
-// };
+import { useLazyGetUserQueryHook } from "@/graphql/queries/auth/auth.queries";
 
 const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
-  const navigate = useNavigate();
   const { setAuthCookies } = useAuth();
   const [inAppGraphQLError, setInAppGraphQLError] = useState("");
   const { formValues, onChange, onSubmit, getFieldError } = useForm(
@@ -89,23 +43,14 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
   const { lazyGetUser } = useLazyGetUserQueryHook({
     fetchPolicy: "network-only",
   });
-  const memoizedLazyGetUser = useCallback(() => {
-    lazyGetUser();
-  }, []);
   const { loginUser, data, error, loading } = useLoginUserHook(formValues, {
     errorPolicy: "none",
     fetchPolicy: "no-cache",
-    onCompleted(completedData, clientOptions) {
+    onCompleted(completedData) {
       if (completedData) {
         console.log(completedData);
         setAuthCookies(completedData.loginUser);
         window.location.reload();
-        // setTimeout(() => {
-        //   lazyGetUser();
-        // }, 5000);
-        // memoizedLazyGetUser();
-        // }, 2000);
-        // navigate(AppRoutes.DASHBOARD);
       }
     },
   });

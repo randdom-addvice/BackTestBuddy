@@ -1,6 +1,7 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../../../graphql/api";
-import CookieUtility from "../../../utils/cookieUtils";
+import { JWT_TOKEN_NAMESPACE } from "@/utils/globalConstants";
+import CookieUtility from "@/utils/cookieUtils";
+import { User } from "@/graphql/api";
 
 interface AuthState {
   user: User | null;
@@ -9,7 +10,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  authToken: CookieUtility.getCookie("authToken"),
+  authToken: CookieUtility.getCookie(JWT_TOKEN_NAMESPACE),
 };
 
 export const auth = createSlice({

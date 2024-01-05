@@ -1,0 +1,26 @@
+query GetStrategy($getStrategyId: ID!) {
+  getStrategy(id: $getStrategyId) {
+    _id
+    library_id
+    name
+    description
+    tradeStats {
+      _id
+      winCountValue
+      lossCountValue
+      totalTrades
+      totalLossesPercent
+      totalWinningsPercent
+      totalLosses
+      totalWinnings
+      percentageWin
+      profitGain
+      profitFactor
+      tradesSequence
+      growth
+      percentage
+      initialBalance
+      balance
+    }
+  }
+}

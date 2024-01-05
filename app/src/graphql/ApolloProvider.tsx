@@ -71,6 +71,7 @@ const ApolloProviderWrapper: React.FC<{
   const apolloClient = new ApolloClient({
     link: from([authLink, errorLink, httpLink]), //authLink.concat(httpLink),
     cache: new InMemoryCache(),
+    connectToDevTools: process.env.NODE_ENV === "development",
   });
 
   return (
