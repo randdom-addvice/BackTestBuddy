@@ -1,0 +1,3 @@
+mutation CreateStrategy($createStrategyInput: CreateStrategyInput) {
+  createStrategy(createStrategyInput: $createStrategyInput)
+}

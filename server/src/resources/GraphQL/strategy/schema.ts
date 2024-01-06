@@ -7,8 +7,8 @@ export default /* GraphQL */ `
     _id: ID
     winCountValue: Float!
     lossCountValue: Float!
-    balance: Int!
-    initialBalance: Int!
+    balance: Float!
+    initialBalance: Float!
     totalTrades: Int!
     totalLossesPercent: Int!
     totalWinningsPercent: Int!
@@ -33,7 +33,7 @@ export default /* GraphQL */ `
     name: String!
     description: String!
     library_id: ID!
-    startingBalance: Int!
+    startingBalance: Float!
   }
 
   input UpdateStrategyDetailsInput {

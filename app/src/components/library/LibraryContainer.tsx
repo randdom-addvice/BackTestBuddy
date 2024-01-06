@@ -3,14 +3,24 @@ import Accordion from "./accordion/Accordion";
 import { useGetLibrariesQueryHook } from "@/graphql/queries/library/library.queries";
 import { AccordionContainer } from "./accordion/elements";
 import { Library } from "@/graphql/api";
+import { StyledCenteredDiv } from "@/styles/globalElements";
 
 const LibraryContainer = () => {
-  const { data, loading, error, refetch } = useGetLibrariesQueryHook();
+  const { data, loading, error } = useGetLibrariesQueryHook();
   console.log(data);
-  if (loading) return <div>Loading Libraries</div>;
-  if (error) return <div>Something went wrong, please contact support</div>;
+  if (loading) return <StyledCenteredDiv>Loading Libraries</StyledCenteredDiv>;
+  if (error)
+    return (
+      <StyledCenteredDiv>
+        Something went wrong, please contact support
+      </StyledCenteredDiv>
+    );
   if (!data?.getLibraries?.length)
-    return <div>No Libraries yet, start by createing one</div>;
+    return (
+      <StyledCenteredDiv>
+        No Libraries yet, start by createing one
+      </StyledCenteredDiv>
+    );
   return (
     <AccordionContainer>
       {data.getLibraries.map(

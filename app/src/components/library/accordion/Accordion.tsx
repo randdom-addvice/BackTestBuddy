@@ -28,6 +28,7 @@ import {
 import { useForm } from "@/hooks/useForm";
 import { shortenText } from "@/utils/text";
 import InputPromptModal from "@/components/modal/InputPrompt/InputPromptModal";
+import { useCreateStrategyMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
 interface Props {
   library: {
     name: string;
@@ -40,7 +41,19 @@ interface Props {
 const Accordion: React.FC<Props> = ({ library, strategies }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const createStrategyForm = useForm(() => {}, { name: "", description: "" });
+  const createStrategyForm = useForm(
+    handleCreateStrategy,
+    {
+      name: "",
+      startingBalance: 0,
+      description: "",
+    },
+    {
+      name: (value) => value.length > 0,
+      startingBalance: (value) => value > 1,
+      description: (value) => value.length > 0,
+    }
+  );
   const { onChange, formValues } = useForm(() => {}, { name: library.name });
   const { updateLibrary } = useModifyLibraryMutationHook({
     modifyLibraryInput: { name: formValues.name, library_id: library.id },
@@ -48,6 +61,29 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
   const { deleteLibrary } = useDeleteLibraryMutationHook(
     { deleteLibraryId: library.id },
     {
+      onError: (error) => {
+        console.log(error);
+        alert("Something went wrong, please retry");
+      },
+      refetchQueries: ["GetLibraries"],
+    }
+  );
+  const { createStrategyMutation } = useCreateStrategyMutationHook(
+    {
+      createStrategyInput: {
+        ...createStrategyForm.formValues,
+        startingBalance: parseInt(
+          String(createStrategyForm.formValues.startingBalance)
+        ),
+        library_id: library.id,
+      },
+    },
+    {
+      onCompleted: (completedData) => {
+        if (completedData && completedData.createStrategy) {
+          setShowModal(false);
+        }
+      },
       onError: (error) => {
         console.log(error);
         alert("Something went wrong, please retry");
@@ -70,6 +106,15 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
   async function handleDeleteLibrary() {
     try {
       await deleteLibrary();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  console.log(createStrategyForm.formValues);
+
+  async function handleCreateStrategy() {
+    try {
+      await createStrategyMutation();
     } catch (error) {
       console.log(error);
     }
@@ -115,7 +160,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
       </AccordionDetails>
       <InputPromptModal
         headerTitle="Add new strategy"
-        onSubmit={() => {}}
+        onSubmit={createStrategyForm.handleNonFormSubmit}
         showModal={showModal}
         setShowModal={setShowModal}
       >
@@ -125,7 +170,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
               name="name"
               type="text"
               placeholder="Enter Strategy Name"
-              onChange={onChange}
+              onChange={createStrategyForm.onChange}
             />
             {createStrategyForm.getFieldError("name") && (
               <p>This field is requried</p>
@@ -133,19 +178,21 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
           </PromptInputGroup>
           <PromptInputGroup>
             <PromptInput
-              name="initialBalance"
+              min={10}
+              max={10000000}
+              name="startingBalance"
               type="number"
               placeholder="Enter starting balance"
-              onChange={onChange}
+              onChange={createStrategyForm.onChange}
             />
-            {createStrategyForm.getFieldError("name") && (
+            {createStrategyForm.getFieldError("startingBalance") && (
               <p>This field is requried</p>
             )}
           </PromptInputGroup>
           <PromptInputGroup>
             <PromptTextArea
               name="description"
-              onChange={onChange}
+              onChange={createStrategyForm.onChange}
               placeholder="Enter Strategy Description"
             />
             {createStrategyForm.getFieldError("description") && (

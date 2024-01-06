@@ -11,8 +11,8 @@ const tradeDetailsSchema = new Schema<ITradeStats>(
     // totalTrades: Number,
     // totalLossesPercent: Number,
     // totalWinningsPercent: Number,
-    totalLosses: Number,
-    totalWinnings: Number,
+    totalLosses: { type: Number, default: 0 },
+    totalWinnings: { type: Number, default: 0 },
     // percentageWin: Number,
     profitGain: { type: Number, default: 0 },
     profitFactor: { type: Number, default: 0 },
@@ -47,22 +47,32 @@ const strategySchema = new Schema<IStrategy>(
 );
 
 tradeDetailsSchema.virtual("percentageWin").get(function () {
-  return Math.round(
-    (this.totalWinnings / (this.totalLosses + this.totalWinnings)) * 100
-  );
+  const denominator = this.totalLosses + this.totalWinnings;
+
+  const winPercentage =
+    denominator !== 0
+      ? Math.round((this.totalWinnings / denominator) * 100)
+      : 0;
+  return winPercentage;
 });
 tradeDetailsSchema.virtual("totalTrades").get(function () {
   return this.totalLosses + this.totalWinnings;
 });
 tradeDetailsSchema.virtual("totalLossesPercent").get(function () {
-  return Math.round(
-    (this.totalLosses / (this.totalLosses + this.totalWinnings)) * 100
-  );
+  const denominator = this.totalLosses + this.totalWinnings;
+
+  const lossPercentage =
+    denominator !== 0 ? Math.round((this.totalLosses / denominator) * 100) : 0;
+  return lossPercentage;
 });
 tradeDetailsSchema.virtual("totalWinningsPercent").get(function () {
-  return Math.round(
-    (this.totalWinnings / (this.totalLosses + this.totalWinnings)) * 100
-  );
+  const denominator = this.totalLosses + this.totalWinnings;
+
+  const winPercentage =
+    denominator !== 0
+      ? Math.round((this.totalWinnings / denominator) * 100)
+      : 0;
+  return winPercentage;
 });
 tradeDetailsSchema.virtual("balance").get(function () {
   const { initialBalance, profitGain } = this;

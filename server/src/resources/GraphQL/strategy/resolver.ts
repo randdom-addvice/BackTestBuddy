@@ -60,6 +60,11 @@ const resolvers = {
       { user }: { user?: IUser }
     ) => {
       try {
+        console.log({
+          tradeStats: {
+            initialBalance: startingBalance,
+          },
+        });
         if (!user)
           return throwGraphQLError(
             "FORBIDDEN",

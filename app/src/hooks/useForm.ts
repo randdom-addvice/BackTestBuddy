@@ -40,15 +40,20 @@ export const useForm = <T extends {} = {}>(
     [validateField]
   );
 
+  const checkIsValidForm = useCallback(() => {
+    const isValidForm = Object.keys(formValues).every((fieldName) =>
+      validateField(
+        fieldName as keyof T,
+        formValues[fieldName as keyof T] as T[keyof T]
+      )
+    );
+    return isValidForm;
+  }, [formValues, validateField, callback]);
+
   const onSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>): void => {
       event.preventDefault();
-      const isValidForm = Object.keys(formValues).every((fieldName) =>
-        validateField(
-          fieldName as keyof T,
-          formValues[fieldName as keyof T] as T[keyof T]
-        )
-      );
+      const isValidForm = checkIsValidForm();
 
       if (isValidForm) {
         callback();
@@ -56,6 +61,14 @@ export const useForm = <T extends {} = {}>(
     },
     [formValues, validateField, callback]
   );
+
+  const handleNonFormSubmit = useCallback(() => {
+    const isValidForm = checkIsValidForm();
+
+    if (isValidForm) {
+      callback();
+    }
+  }, [formValues, validateField, callback]);
 
   const getFieldError = (fieldName: keyof T): string =>
     validationErrors[fieldName];
@@ -65,5 +78,6 @@ export const useForm = <T extends {} = {}>(
     onSubmit,
     formValues,
     getFieldError,
+    handleNonFormSubmit,
   };
 };
