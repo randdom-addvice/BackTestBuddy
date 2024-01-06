@@ -12,6 +12,7 @@ import {
 } from "./elements";
 import { StyledFlex } from "@/styles/globalElements";
 import InfoModal from "@/components/modal/InfoModal/InfoModal";
+import { TradeMetricsCalculator } from "./utils";
 
 interface IProps {
   showModal: boolean;
@@ -56,40 +57,12 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
   ];
   const advancedAnalysisData = [
     {
-      name: "Trades",
-      value: 20,
-    },
-    {
-      name: "Trades Total",
-      value: 731,
-    },
-    {
-      name: "Profitability Pips",
-      value: 1804.3,
-    },
-    {
-      name: "Average Win Pips",
-      value: 7.48,
-    },
-    {
       name: "Average Win Dollars",
       value: 7.49,
     },
     {
-      name: "Average Loss Pips",
-      value: -9.47,
-    },
-    {
       name: "Average Loss Dollars",
       value: -9.67,
-    },
-    {
-      name: "Lots",
-      value: 73.48,
-    },
-    {
-      name: "Commissions",
-      value: "$0.00",
     },
     {
       name: "Longs Won",
@@ -104,24 +77,12 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
       value: 103.42,
     },
     {
-      name: "Best Trade Pips",
-      value: 104.7,
-    },
-    {
-      name: "Best Trade Date",
-      value: "Mar 28",
-    },
-    {
       name: "Worst Trade Dollars",
       value: -82.22,
     },
     {
       name: "Worst Trade Pips",
       value: -80.3,
-    },
-    {
-      name: "Worst Trade Date",
-      value: "Mar 28",
     },
     {
       name: "Avg Trade Length",
@@ -164,6 +125,28 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
       value: "0.00%",
     },
   ];
+  const tradeMetricsCalculator = new TradeMetricsCalculator(tradeStats!);
+  const averageWinDollars = tradeMetricsCalculator.calculateAverageWinDollars();
+  const averageLossDollars =
+    tradeMetricsCalculator.calculateAverageLossDollars();
+  const longsWonPercentage =
+    tradeMetricsCalculator.calculateLongsWonPercentage();
+  const shortsWonPercentage =
+    tradeMetricsCalculator.calculateShortsWonPercentage();
+  const bestTradeDollars = tradeMetricsCalculator.calculateBestTradeDollars();
+  const worstTradeDollars = tradeMetricsCalculator.calculateWorstTradeDollars();
+  const worstTradePips = tradeMetricsCalculator.calculateWorstTradePips();
+  const avgTradeLength = tradeMetricsCalculator.calculateAvgTradeLength();
+  const profitFactor = tradeMetricsCalculator.calculateProfitFactor();
+  const stdDeviation = tradeMetricsCalculator.calculateStdDeviation();
+  const sharpeRatio = tradeMetricsCalculator.calculateSharpeRatio();
+  const zScoreProbability = tradeMetricsCalculator.calculateZScoreProbability();
+  const zScorePercentage = tradeMetricsCalculator.calculateZScorePercentage();
+  const expectancyPips = tradeMetricsCalculator.calculateExpectancyPips();
+  const expectancyDollars = tradeMetricsCalculator.calculateExpectancyDollars();
+  const ahpr = tradeMetricsCalculator.calculateAhpr();
+  const ghpr = tradeMetricsCalculator.calculateGhpr();
+  console.log("xx averageWinDollars", averageWinDollars);
   return (
     <InfoModal
       headerTitle="Trade Analysis"
@@ -201,3 +184,39 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
 };
 
 export default AdvancedDataMetrix;
+
+//TBD: Integrate this into metric for later
+/*
+  {
+      name: "Profitability Pips",
+      value: 1804.3,
+    },
+    {
+      name: "Average Win Pips",
+      value: 7.48,
+    },
+    {
+      name: "Average Loss Pips",
+      value: -9.47,
+    },
+    {
+      name: "Commissions",
+      value: "$0.00",
+    },
+    {
+      name: "Lots",
+      value: 73.48,
+    },
+    {
+      name: "Best Trade Pips",
+      value: 104.7,
+    },
+    {
+      name: "Best Trade Date",
+      value: "Mar 28",
+    },
+    {
+      name: "Worst Trade Date",
+      value: "Mar 28",
+    },
+*/

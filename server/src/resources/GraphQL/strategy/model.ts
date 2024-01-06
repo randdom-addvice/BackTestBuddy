@@ -21,6 +21,12 @@ const tradeDetailsSchema = new Schema<ITradeStats>(
       {
         asset: { type: String, default: "EURUSD" },
         value: { type: Number, required: true },
+        direction: {
+          type: String,
+          enum: ["LONG", "SHORT"],
+          required: true,
+          default: "LONG",
+        },
       },
     ],
   },

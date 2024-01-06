@@ -30,9 +30,15 @@ export type CreateStrategyInput = {
   startingBalance: Scalars['Float']['input'];
 };
 
+export enum Direction {
+  Long = 'LONG',
+  Short = 'SHORT'
+}
+
 export type Growth = {
   __typename?: 'Growth';
   asset: Scalars['String']['output'];
+  direction: Direction;
   value: Scalars['Float']['output'];
 };
 
@@ -150,7 +156,7 @@ export type TradeStats = {
   __typename?: 'TradeStats';
   _id?: Maybe<Scalars['ID']['output']>;
   balance: Scalars['Float']['output'];
-  growth: Array<Maybe<Growth>>;
+  growth: Array<Growth>;
   initialBalance: Scalars['Float']['output'];
   lossCountValue: Scalars['Float']['output'];
   percentageWin: Scalars['Int']['output'];
@@ -272,7 +278,7 @@ export type GetStrategyQueryVariables = Exact<{
 }>;
 
 
-export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<number | null>, growth: Array<{ __typename?: 'Growth', asset: string, value: number } | null> } } | null };
+export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<number | null>, growth: Array<{ __typename?: 'Growth', asset: string, value: number, direction: Direction }> } } | null };
 
 
 export const RegisterUserDocument = gql`
@@ -684,6 +690,7 @@ export const GetStrategyDocument = gql`
       growth {
         asset
         value
+        direction
       }
     }
   }

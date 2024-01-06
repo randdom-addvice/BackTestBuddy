@@ -22,6 +22,7 @@ query GetStrategy($getStrategyId: ID!) {
       growth {
         asset
         value
+        direction
       }
     }
   }

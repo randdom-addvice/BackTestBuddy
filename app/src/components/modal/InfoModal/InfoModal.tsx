@@ -32,7 +32,7 @@ const InfoModal: React.FC<IProps> = ({
   onSubmit,
   headerTitle,
   modalWidth,
-  showFooter,
+  showFooter = true,
 }) => {
   function closeModal() {
     setShowModal(false);

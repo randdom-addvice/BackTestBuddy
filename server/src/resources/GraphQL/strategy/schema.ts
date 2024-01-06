@@ -1,7 +1,12 @@
 export default /* GraphQL */ `
+  enum Direction {
+    LONG
+    SHORT
+  }
   type Growth {
     asset: String!
     value: Float!
+    direction: Direction!
   }
   type TradeStats {
     _id: ID
@@ -18,7 +23,7 @@ export default /* GraphQL */ `
     profitGain: Int!
     profitFactor: Int!
     tradesSequence: [Float]!
-    growth: [Growth]!
+    growth: [Growth!]!
   }
 
   type Strategy {

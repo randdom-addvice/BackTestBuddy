@@ -5,7 +5,7 @@ import Strategy from "@/resources/GraphQL/strategy/model";
 import User from "@/resources/GraphQL/user/model";
 import config from "@/config/config";
 import { generateHash } from "@/resources/services/auth";
-
+const direction = ["LONG" | "SHORT"];
 const strategies = [
   {
     name: "Test Name2",
@@ -29,7 +29,11 @@ const strategies = [
       growth: [
         0, 1.5, 3, 2, 3.5, 5, 6.5, 8, 9.5, 11, 12.5, 14, 13, 14, 13, 14, 13,
         14.5, 16, 17.5, 19, 20.5, 22, 23.5, 25, 24, 25.5, 27, 28.5, 30, 31.5,
-      ].map((i) => ({ asset: "EURUSDd", value: i })),
+      ].map((i) => ({
+        asset: "EURUSD",
+        value: i,
+        direction: direction[Math.round(Math.random * 1)],
+      })),
     },
   },
   {
@@ -52,7 +56,11 @@ const strategies = [
       growth: [
         0, 1.5, 3, 2, 3.5, 5, 6.5, 8, 9.5, 11, 12.5, 14, 13, 14, 13, 14, 13,
         14.5, 16, 17.5, 19, 20.5, 22, 23.5, 25, 24, 25.5, 27, 28.5, 30, 31.5,
-      ].map((i) => ({ asset: "EURUSD", value: i })),
+      ].map((i) => ({
+        asset: "EURUSD",
+        value: i,
+        direction: direction[Math.round(Math.random * 1)],
+      })),
     },
   },
 ];
