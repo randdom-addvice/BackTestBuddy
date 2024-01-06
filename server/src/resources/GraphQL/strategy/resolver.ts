@@ -119,19 +119,19 @@ const resolvers = {
     updateStrategyDetails: async (
       _: any,
       {
-        updateStrategyInput: { name, description, startegy_id },
+        updateStrategyInput: { name, description, strategy_id },
       }: {
         updateStrategyInput: {
           name: string;
           description: string;
-          startegy_id: string;
+          strategy_id: string;
         };
       }
     ) => {
       try {
         await MongooseServices.findAndUpdate(
           StrategyModel,
-          { _id: startegy_id },
+          { _id: strategy_id },
           {
             $set: {
               name: name,

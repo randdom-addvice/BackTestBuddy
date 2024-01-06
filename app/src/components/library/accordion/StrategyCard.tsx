@@ -16,6 +16,7 @@ import { AppRoutes } from "@/routes/routesDeclaration";
 import { StrategyCardType } from "../common";
 import { useDeleteStrategyMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
 import InputPromptModal from "@/components/modal/InputPrompt/InputPromptModal";
+import StrategyForm from "./StrategyForm";
 
 interface Props {
   strategy: StrategyCardType;
@@ -23,6 +24,7 @@ interface Props {
 
 const StrategyCard: React.FC<Props> = ({ strategy }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const { deleteStrategyMutation } = useDeleteStrategyMutationHook(
     {
       deleteStrategyId: strategy.id,
@@ -52,7 +54,7 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
           <DeleteButton onClick={() => setShowModal(true)}>
             <FaTrash />
           </DeleteButton>
-          <EditButton>
+          <EditButton onClick={() => setShowUpdateModal(true)}>
             <FaEdit />
           </EditButton>
         </StyledFlex>
@@ -89,6 +91,13 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
           Are you sure you want to delete <strong>{strategy.name}</strong>?
         </p>
       </InputPromptModal>
+      <StrategyForm
+        showModal={showUpdateModal}
+        setShowModal={setShowUpdateModal}
+        libraryId={strategy.libraryId}
+        isUpdateForm={true}
+        strategy={strategy}
+      />
     </>
   );
 };

@@ -3,8 +3,11 @@ import {
   CreateStrategyMutationVariables,
   DeleteStrategyMutationOptions,
   DeleteStrategyMutationVariables,
+  UpdateStrategyDetailsInput,
+  UpdateStrategyDetailsMutationOptions,
   useCreateStrategyMutation,
   useDeleteStrategyMutation,
+  useUpdateStrategyDetailsMutation,
 } from "@/graphql/api";
 
 export const useCreateStrategyMutationHook = (
@@ -31,4 +34,17 @@ export const useDeleteStrategyMutationHook = (
     });
 
   return { deleteStrategyMutation, data, loading, error };
+};
+
+export const useUpdateStrategyDetailsMutationHook = (
+  args: UpdateStrategyDetailsInput,
+  options?: UpdateStrategyDetailsMutationOptions
+) => {
+  const [updateStrategyDetailsMutation, { data, loading, error }] =
+    useUpdateStrategyDetailsMutation({
+      variables: { updateStrategyInput: { ...args } },
+      ...options,
+    });
+
+  return { updateStrategyDetailsMutation, data, loading, error };
 };

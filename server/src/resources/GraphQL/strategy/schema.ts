@@ -37,7 +37,7 @@ export default /* GraphQL */ `
   }
 
   input UpdateStrategyDetailsInput {
-    winCountValue: Float!
+    name: String!
     description: String!
     strategy_id: ID!
   }

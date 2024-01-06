@@ -29,6 +29,7 @@ import { useForm } from "@/hooks/useForm";
 import { shortenText } from "@/utils/text";
 import InputPromptModal from "@/components/modal/InputPrompt/InputPromptModal";
 import { useCreateStrategyMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
+import StrategyForm from "./StrategyForm";
 interface Props {
   library: {
     name: string;
@@ -158,54 +159,12 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
           </AccordionContentGrid>
         </AccordionContent>
       </AccordionDetails>
-      <InputPromptModal
-        headerTitle="Add new strategy"
-        onSubmit={createStrategyForm.handleNonFormSubmit}
+      <StrategyForm
         showModal={showModal}
         setShowModal={setShowModal}
-      >
-        <>
-          <PromptInputGroup>
-            <PromptInput
-              name="name"
-              type="text"
-              placeholder="Enter Strategy Name"
-              onChange={createStrategyForm.onChange}
-            />
-            {createStrategyForm.getFieldError("name") && (
-              <p>This field is requried</p>
-            )}
-          </PromptInputGroup>
-          <PromptInputGroup>
-            <PromptInput
-              min={10}
-              max={10000000}
-              name="startingBalance"
-              type="number"
-              placeholder="Enter starting balance"
-              onChange={createStrategyForm.onChange}
-            />
-            {createStrategyForm.getFieldError("startingBalance") && (
-              <p>This field is requried</p>
-            )}
-          </PromptInputGroup>
-          <PromptInputGroup>
-            <PromptTextArea
-              name="description"
-              onChange={createStrategyForm.onChange}
-              placeholder="Enter Strategy Description"
-            />
-            {createStrategyForm.getFieldError("description") && (
-              <p>This field is requried</p>
-            )}
-          </PromptInputGroup>
-          {/* {loading && (
-            <PromptInputGroup>
-              <p className="loading">Loading please wait...</p>
-            </PromptInputGroup>
-          )} */}
-        </>
-      </InputPromptModal>
+        libraryId={library.id}
+        isUpdateForm={false}
+      />
     </>
   );
 };

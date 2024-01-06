@@ -167,8 +167,8 @@ export type TradeStats = {
 
 export type UpdateStrategyDetailsInput = {
   description: Scalars['String']['input'];
+  name: Scalars['String']['input'];
   strategy_id: Scalars['ID']['input'];
-  winCountValue: Scalars['Float']['input'];
 };
 
 export type UpdateStrategyStatsInput = {

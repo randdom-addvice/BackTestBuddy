@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export type StrategyCardType = {
   id: string;
+  libraryId: string;
   name: string;
   description: string;
   totalTrades: number;

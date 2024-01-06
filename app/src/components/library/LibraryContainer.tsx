@@ -37,6 +37,7 @@ const LibraryContainer = () => {
               strategies={
                 lib.strategies.map((i) => ({
                   id: i._id,
+                  libraryId: i.library_id,
                   name: i.name,
                   description: i.description,
                   totalTrades: i.tradeStats.totalTrades,
