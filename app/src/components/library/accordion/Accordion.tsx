@@ -27,7 +27,7 @@ import {
 } from "@/graphql/mutations/library/library.mutations";
 import { useForm } from "@/hooks/useForm";
 import { shortenText } from "@/utils/text";
-import InputPromptModal from "@/components/modal/InputPrompt/InputPromptModal";
+import InputPromptModal from "@/components/modal/InfoModal/InfoModal";
 import { useCreateStrategyMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
 import StrategyForm from "./StrategyForm";
 interface Props {

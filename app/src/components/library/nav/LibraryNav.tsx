@@ -6,7 +6,7 @@ import {
   StyledButton,
   StyledButtonWrapper,
 } from "./elements";
-import InputPromptModal from "@/components/modal/InputPrompt/InputPromptModal";
+import InputPromptModal from "@/components/modal/InfoModal/InfoModal";
 import { PromptInput, PromptInputGroup, PromptTextArea } from "../common";
 import { useForm } from "@/hooks/useForm";
 import { useCreateLibraryMutationHook } from "@/graphql/mutations/library/library.mutations";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ModalRoot from "../ModalRoot";
 import { NativeModalBackdrop } from "../elements";
 import { MdOutlineCancel } from "react-icons/md";
@@ -12,6 +12,7 @@ import {
   StyledModalContainerHeader,
   StyledModalContainerTitle,
 } from "./elements";
+
 interface IProps {
   headerTitle: string;
   showModal: boolean;
@@ -22,7 +23,7 @@ interface IProps {
   onSubmit: () => void;
 }
 
-const InputPromptModal: React.FC<IProps> = ({
+const InfoModal: React.FC<IProps> = ({
   showModal,
   setShowModal,
   children,
@@ -68,4 +69,4 @@ const InputPromptModal: React.FC<IProps> = ({
   );
 };
 
-export default InputPromptModal;
+export default InfoModal;
