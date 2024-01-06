@@ -13,6 +13,7 @@ import {
 import { StyledFlex } from "@/styles/globalElements";
 import ExpandedDataModal from "@/components/modal/ExpandedDataModal/ExpandedDataModal";
 import { useAppSelector } from "@/redux/hooks";
+import AdvancedDataMetrix from "@/components/dashboard/metrix/backtestBlock/advancedDataMetrix/AdvancedDataMetrix";
 
 const DataTabContent = () => {
   const [showExpandedData, setShowExpandedData] = useState(false);
@@ -62,7 +63,11 @@ const DataTabContent = () => {
           </StatListItem>
         </StatList>
       </Sections>
-      <ExpandedDataModal
+      {/* <ExpandedDataModal
+        showModal={showExpandedData}
+        setShowModal={setShowExpandedData}
+      /> */}
+      <AdvancedDataMetrix
         showModal={showExpandedData}
         setShowModal={setShowExpandedData}
       />

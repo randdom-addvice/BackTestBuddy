@@ -15,12 +15,14 @@ import {
 
 interface IProps {
   headerTitle: string;
+  modalWidth?: string;
   showModal: boolean;
   setShowModal: (
     state: boolean
   ) => void | React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode | JSX.Element;
   onSubmit: () => void;
+  showFooter?: boolean;
 }
 
 const InfoModal: React.FC<IProps> = ({
@@ -29,6 +31,8 @@ const InfoModal: React.FC<IProps> = ({
   children,
   onSubmit,
   headerTitle,
+  modalWidth,
+  showFooter,
 }) => {
   function closeModal() {
     setShowModal(false);
@@ -41,19 +45,17 @@ const InfoModal: React.FC<IProps> = ({
       showBackDrop={false}
     >
       <StyledModal>
-        <StyledModalContainer>
-          <StyledModalContainer>
-            <StyledModalContainerHeader>
-              <StyledModalContainerTitle>
-                {headerTitle}
-              </StyledModalContainerTitle>
-              <StyledIconButton onClick={closeModal}>
-                <MdOutlineCancel />
-              </StyledIconButton>
-            </StyledModalContainerHeader>
-            <StyledModalContainerBody className="rtf">
-              {children}
-            </StyledModalContainerBody>
+        <StyledModalContainer width={modalWidth ? modalWidth : "550px"}>
+          <StyledModalContainerHeader>
+            <StyledModalContainerTitle>{headerTitle}</StyledModalContainerTitle>
+            <StyledIconButton onClick={closeModal}>
+              <MdOutlineCancel />
+            </StyledIconButton>
+          </StyledModalContainerHeader>
+          <StyledModalContainerBody className="rtf">
+            {children}
+          </StyledModalContainerBody>
+          {showFooter && (
             <StyledModalContainerFooter>
               <StyledButton className="is-secondary" onClick={closeModal}>
                 Cancel
@@ -62,7 +64,7 @@ const InfoModal: React.FC<IProps> = ({
                 Proceed
               </StyledButton>
             </StyledModalContainerFooter>
-          </StyledModalContainer>
+          )}
         </StyledModalContainer>
       </StyledModal>
     </ModalRoot>

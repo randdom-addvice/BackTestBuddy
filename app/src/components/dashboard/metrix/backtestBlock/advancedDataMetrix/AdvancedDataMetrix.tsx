@@ -1,7 +1,26 @@
 import React from "react";
 import { useAppSelector } from "@/redux/hooks";
+import {
+  CloseModalButton,
+  Container,
+  StatContainer,
+  StatList,
+  StatListHeader,
+  StatListItem,
+  StatListItemText,
+  StatListItemTitle,
+} from "./elements";
+import { StyledFlex } from "@/styles/globalElements";
+import InfoModal from "@/components/modal/InfoModal/InfoModal";
 
-const AdvancedDataMetrix = () => {
+interface IProps {
+  showModal: boolean;
+  setShowModal: (
+    state: boolean
+  ) => void | React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
   const { tradeStats } =
     useAppSelector((state) => state.strategy.selectedStrategyMetrix) || {};
 
@@ -145,7 +164,40 @@ const AdvancedDataMetrix = () => {
       value: "0.00%",
     },
   ];
-  return <div>AdvancedDataMetrix</div>;
+  return (
+    <InfoModal
+      headerTitle="Trade Analysis"
+      onSubmit={() => {}}
+      showModal={showModal}
+      setShowModal={setShowModal}
+      modalWidth="90%"
+    >
+      <StyledFlex gap="10px">
+        <StatContainer>
+          <StatListHeader>Trade Analysis</StatListHeader>
+          <StatList>
+            {analysisData.map((i, index) => (
+              <StatListItem key={index}>
+                <StatListItemTitle>{i.name}: </StatListItemTitle>
+                <StatListItemText>{i.value}</StatListItemText>
+              </StatListItem>
+            ))}
+          </StatList>
+        </StatContainer>
+        <StatContainer>
+          <StatListHeader>Advanced Statistics</StatListHeader>
+          <StatList>
+            {advancedAnalysisData.map((i, index) => (
+              <StatListItem key={index}>
+                <StatListItemTitle>{i.name}: </StatListItemTitle>
+                <StatListItemText>{i.value}</StatListItemText>
+              </StatListItem>
+            ))}
+          </StatList>
+        </StatContainer>
+      </StyledFlex>
+    </InfoModal>
+  );
 };
 
 export default AdvancedDataMetrix;
