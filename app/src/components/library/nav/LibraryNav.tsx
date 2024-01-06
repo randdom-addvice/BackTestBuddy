@@ -13,8 +13,8 @@ import { useCreateLibraryMutationHook } from "@/graphql/mutations/library/librar
 
 const LibraryNav = () => {
   const [showModal, setShowModal] = useState(false);
-  const { onChange, formValues, getFieldError } = useForm(
-    () => {},
+  const { onChange, formValues, getFieldError, handleNonFormSubmit } = useForm(
+    handleSubmit,
     {
       name: "",
       description: "",
@@ -46,7 +46,7 @@ const LibraryNav = () => {
     }
   );
 
-  async function onSubmit() {
+  async function handleSubmit() {
     try {
       await createLibrary();
       console.log(data, "data");
@@ -67,9 +67,10 @@ const LibraryNav = () => {
         <Header>Your Libraries</Header>
       </HeaderWrapper>
       <InputPromptModal
-        onSubmit={onSubmit}
+        onSubmit={handleNonFormSubmit}
         showModal={showModal}
         setShowModal={setShowModal}
+        headerTitle="Create New Library"
       >
         <>
           <PromptInputGroup>

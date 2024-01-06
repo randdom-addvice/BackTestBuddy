@@ -8,6 +8,8 @@ query GetStrategy($getStrategyId: ID!) {
       _id
       winCountValue
       lossCountValue
+      balance
+      initialBalance
       totalTrades
       totalLossesPercent
       totalWinningsPercent
@@ -17,10 +19,10 @@ query GetStrategy($getStrategyId: ID!) {
       profitGain
       profitFactor
       tradesSequence
-      growth
-      percentage
-      initialBalance
-      balance
+      growth {
+        asset
+        value
+      }
     }
   }
 }

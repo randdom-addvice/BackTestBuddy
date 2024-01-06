@@ -15,7 +15,7 @@ export interface ITradeStats {
   profitGain: number;
   profitFactor: number;
   tradesSequence: number[];
-  growth: number[];
+  growth: Array<{ asset: string; value: number }>;
 }
 
 export interface IStrategy extends Document {

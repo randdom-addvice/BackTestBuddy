@@ -1,0 +1,23 @@
+mutation CreateStrategy($createStrategyInput: CreateStrategyInput) {
+  createStrategy(createStrategyInput: $createStrategyInput)
+}
+
+mutation DeleteStrategy($deleteStrategyId: ID!) {
+  deleteStrategy(id: $deleteStrategyId)
+}
+
+mutation UpdateStrategyDetails(
+  $updateStrategyInput: UpdateStrategyDetailsInput
+) {
+  updateStrategyDetails(updateStrategyInput: $updateStrategyInput)
+}
+
+mutation UpdateStrategyStats(
+  $strategyId: ID!
+  $updateStrategyStatsInput: UpdateStrategyStatsInput
+) {
+  updateStrategyStats(
+    strategy_id: $strategyId
+    updateStrategyStatsInput: $updateStrategyStatsInput
+  )
+}

@@ -27,6 +27,13 @@ export type CreateStrategyInput = {
   description: Scalars['String']['input'];
   library_id: Scalars['ID']['input'];
   name: Scalars['String']['input'];
+  startingBalance: Scalars['Float']['input'];
+};
+
+export type Growth = {
+  __typename?: 'Growth';
+  asset: Scalars['String']['output'];
+  value: Scalars['Float']['output'];
 };
 
 export type Library = {
@@ -47,7 +54,7 @@ export type ModfiyLibraryInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createLibrary?: Maybe<Scalars['Boolean']['output']>;
-  createStrategy: Scalars['String']['output'];
+  createStrategy: Scalars['Boolean']['output'];
   deleteLibrary?: Maybe<Scalars['Boolean']['output']>;
   deleteStrategy: Scalars['Boolean']['output'];
   loginUser: Scalars['String']['output'];
@@ -142,11 +149,10 @@ export type Strategy = {
 export type TradeStats = {
   __typename?: 'TradeStats';
   _id?: Maybe<Scalars['ID']['output']>;
-  balance: Scalars['Int']['output'];
-  growth: Array<Maybe<Scalars['Float']['output']>>;
-  initialBalance: Scalars['Int']['output'];
+  balance: Scalars['Float']['output'];
+  growth: Array<Maybe<Growth>>;
+  initialBalance: Scalars['Float']['output'];
   lossCountValue: Scalars['Float']['output'];
-  percentage?: Maybe<Scalars['Float']['output']>;
   percentageWin: Scalars['Int']['output'];
   profitFactor: Scalars['Int']['output'];
   profitGain: Scalars['Int']['output'];
@@ -161,8 +167,8 @@ export type TradeStats = {
 
 export type UpdateStrategyDetailsInput = {
   description: Scalars['String']['input'];
+  name: Scalars['String']['input'];
   strategy_id: Scalars['ID']['input'];
-  winCountValue: Scalars['Float']['input'];
 };
 
 export type UpdateStrategyStatsInput = {
@@ -222,6 +228,35 @@ export type CreateLibraryMutationVariables = Exact<{
 
 export type CreateLibraryMutation = { __typename?: 'Mutation', createLibrary?: boolean | null };
 
+export type CreateStrategyMutationVariables = Exact<{
+  createStrategyInput?: InputMaybe<CreateStrategyInput>;
+}>;
+
+
+export type CreateStrategyMutation = { __typename?: 'Mutation', createStrategy: boolean };
+
+export type DeleteStrategyMutationVariables = Exact<{
+  deleteStrategyId: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteStrategyMutation = { __typename?: 'Mutation', deleteStrategy: boolean };
+
+export type UpdateStrategyDetailsMutationVariables = Exact<{
+  updateStrategyInput?: InputMaybe<UpdateStrategyDetailsInput>;
+}>;
+
+
+export type UpdateStrategyDetailsMutation = { __typename?: 'Mutation', updateStrategyDetails: boolean };
+
+export type UpdateStrategyStatsMutationVariables = Exact<{
+  strategyId: Scalars['ID']['input'];
+  updateStrategyStatsInput?: InputMaybe<UpdateStrategyStatsInput>;
+}>;
+
+
+export type UpdateStrategyStatsMutation = { __typename?: 'Mutation', updateStrategyStats: boolean };
+
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -237,7 +272,7 @@ export type GetStrategyQueryVariables = Exact<{
 }>;
 
 
-export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<number | null>, growth: Array<number | null>, percentage?: number | null, initialBalance: number, balance: number } } | null };
+export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<number | null>, growth: Array<{ __typename?: 'Growth', asset: string, value: number } | null> } } | null };
 
 
 export const RegisterUserDocument = gql`
@@ -396,6 +431,134 @@ export function useCreateLibraryMutation(baseOptions?: ApolloReactHooks.Mutation
 export type CreateLibraryMutationHookResult = ReturnType<typeof useCreateLibraryMutation>;
 export type CreateLibraryMutationResult = Apollo.MutationResult<CreateLibraryMutation>;
 export type CreateLibraryMutationOptions = Apollo.BaseMutationOptions<CreateLibraryMutation, CreateLibraryMutationVariables>;
+export const CreateStrategyDocument = gql`
+    mutation CreateStrategy($createStrategyInput: CreateStrategyInput) {
+  createStrategy(createStrategyInput: $createStrategyInput)
+}
+    `;
+export type CreateStrategyMutationFn = Apollo.MutationFunction<CreateStrategyMutation, CreateStrategyMutationVariables>;
+
+/**
+ * __useCreateStrategyMutation__
+ *
+ * To run a mutation, you first call `useCreateStrategyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateStrategyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createStrategyMutation, { data, loading, error }] = useCreateStrategyMutation({
+ *   variables: {
+ *      createStrategyInput: // value for 'createStrategyInput'
+ *   },
+ * });
+ */
+export function useCreateStrategyMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateStrategyMutation, CreateStrategyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateStrategyMutation, CreateStrategyMutationVariables>(CreateStrategyDocument, options);
+      }
+export type CreateStrategyMutationHookResult = ReturnType<typeof useCreateStrategyMutation>;
+export type CreateStrategyMutationResult = Apollo.MutationResult<CreateStrategyMutation>;
+export type CreateStrategyMutationOptions = Apollo.BaseMutationOptions<CreateStrategyMutation, CreateStrategyMutationVariables>;
+export const DeleteStrategyDocument = gql`
+    mutation DeleteStrategy($deleteStrategyId: ID!) {
+  deleteStrategy(id: $deleteStrategyId)
+}
+    `;
+export type DeleteStrategyMutationFn = Apollo.MutationFunction<DeleteStrategyMutation, DeleteStrategyMutationVariables>;
+
+/**
+ * __useDeleteStrategyMutation__
+ *
+ * To run a mutation, you first call `useDeleteStrategyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteStrategyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteStrategyMutation, { data, loading, error }] = useDeleteStrategyMutation({
+ *   variables: {
+ *      deleteStrategyId: // value for 'deleteStrategyId'
+ *   },
+ * });
+ */
+export function useDeleteStrategyMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteStrategyMutation, DeleteStrategyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteStrategyMutation, DeleteStrategyMutationVariables>(DeleteStrategyDocument, options);
+      }
+export type DeleteStrategyMutationHookResult = ReturnType<typeof useDeleteStrategyMutation>;
+export type DeleteStrategyMutationResult = Apollo.MutationResult<DeleteStrategyMutation>;
+export type DeleteStrategyMutationOptions = Apollo.BaseMutationOptions<DeleteStrategyMutation, DeleteStrategyMutationVariables>;
+export const UpdateStrategyDetailsDocument = gql`
+    mutation UpdateStrategyDetails($updateStrategyInput: UpdateStrategyDetailsInput) {
+  updateStrategyDetails(updateStrategyInput: $updateStrategyInput)
+}
+    `;
+export type UpdateStrategyDetailsMutationFn = Apollo.MutationFunction<UpdateStrategyDetailsMutation, UpdateStrategyDetailsMutationVariables>;
+
+/**
+ * __useUpdateStrategyDetailsMutation__
+ *
+ * To run a mutation, you first call `useUpdateStrategyDetailsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateStrategyDetailsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateStrategyDetailsMutation, { data, loading, error }] = useUpdateStrategyDetailsMutation({
+ *   variables: {
+ *      updateStrategyInput: // value for 'updateStrategyInput'
+ *   },
+ * });
+ */
+export function useUpdateStrategyDetailsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateStrategyDetailsMutation, UpdateStrategyDetailsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UpdateStrategyDetailsMutation, UpdateStrategyDetailsMutationVariables>(UpdateStrategyDetailsDocument, options);
+      }
+export type UpdateStrategyDetailsMutationHookResult = ReturnType<typeof useUpdateStrategyDetailsMutation>;
+export type UpdateStrategyDetailsMutationResult = Apollo.MutationResult<UpdateStrategyDetailsMutation>;
+export type UpdateStrategyDetailsMutationOptions = Apollo.BaseMutationOptions<UpdateStrategyDetailsMutation, UpdateStrategyDetailsMutationVariables>;
+export const UpdateStrategyStatsDocument = gql`
+    mutation UpdateStrategyStats($strategyId: ID!, $updateStrategyStatsInput: UpdateStrategyStatsInput) {
+  updateStrategyStats(
+    strategy_id: $strategyId
+    updateStrategyStatsInput: $updateStrategyStatsInput
+  )
+}
+    `;
+export type UpdateStrategyStatsMutationFn = Apollo.MutationFunction<UpdateStrategyStatsMutation, UpdateStrategyStatsMutationVariables>;
+
+/**
+ * __useUpdateStrategyStatsMutation__
+ *
+ * To run a mutation, you first call `useUpdateStrategyStatsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateStrategyStatsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateStrategyStatsMutation, { data, loading, error }] = useUpdateStrategyStatsMutation({
+ *   variables: {
+ *      strategyId: // value for 'strategyId'
+ *      updateStrategyStatsInput: // value for 'updateStrategyStatsInput'
+ *   },
+ * });
+ */
+export function useUpdateStrategyStatsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateStrategyStatsMutation, UpdateStrategyStatsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UpdateStrategyStatsMutation, UpdateStrategyStatsMutationVariables>(UpdateStrategyStatsDocument, options);
+      }
+export type UpdateStrategyStatsMutationHookResult = ReturnType<typeof useUpdateStrategyStatsMutation>;
+export type UpdateStrategyStatsMutationResult = Apollo.MutationResult<UpdateStrategyStatsMutation>;
+export type UpdateStrategyStatsMutationOptions = Apollo.BaseMutationOptions<UpdateStrategyStatsMutation, UpdateStrategyStatsMutationVariables>;
 export const GetUserDocument = gql`
     query GetUser {
   getUser {
@@ -507,6 +670,8 @@ export const GetStrategyDocument = gql`
       _id
       winCountValue
       lossCountValue
+      balance
+      initialBalance
       totalTrades
       totalLossesPercent
       totalWinningsPercent
@@ -516,10 +681,10 @@ export const GetStrategyDocument = gql`
       profitGain
       profitFactor
       tradesSequence
-      growth
-      percentage
-      initialBalance
-      balance
+      growth {
+        asset
+        value
+      }
     }
   }
 }

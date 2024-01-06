@@ -29,7 +29,7 @@ const strategies = [
       growth: [
         0, 1.5, 3, 2, 3.5, 5, 6.5, 8, 9.5, 11, 12.5, 14, 13, 14, 13, 14, 13,
         14.5, 16, 17.5, 19, 20.5, 22, 23.5, 25, 24, 25.5, 27, 28.5, 30, 31.5,
-      ],
+      ].map((i) => ({ asset: "EURUSDd", value: i })),
     },
   },
   {
@@ -52,7 +52,7 @@ const strategies = [
       growth: [
         0, 1.5, 3, 2, 3.5, 5, 6.5, 8, 9.5, 11, 12.5, 14, 13, 14, 13, 14, 13,
         14.5, 16, 17.5, 19, 20.5, 22, 23.5, 25, 24, 25.5, 27, 28.5, 30, 31.5,
-      ],
+      ].map((i) => ({ asset: "EURUSD", value: i })),
     },
   },
 ];
@@ -71,7 +71,7 @@ const userData = [
     libraries: [],
   },
 ];
-
+console.log(strategies[0].tradeStats.growth);
 export async function seedDatabase(cb: any) {
   try {
     // await mongoose.connect(config.server.mongoUrl);
@@ -101,6 +101,7 @@ export async function seedDatabase(cb: any) {
         },
       ];
       const data = await Library.create(seedData[index]);
+
       const createdStrategy = await Strategy.create({
         ...strategies[index],
         library_id: data._id,
