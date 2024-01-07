@@ -11,8 +11,15 @@ query GetLibraries {
       description
       tradeStats {
         _id
+        winCountValue
+        lossCountValue
         balance
+        initialBalance
         totalTrades
+        totalLossesPercent
+        totalWinningsPercent
+        totalLosses
+        totalWinnings
         percentageWin
         profitGain
         profitFactor

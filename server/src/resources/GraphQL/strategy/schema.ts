@@ -22,7 +22,7 @@ export default /* GraphQL */ `
     percentageWin: Int!
     profitGain: Int!
     profitFactor: Int!
-    tradesSequence: [Float]!
+    tradesSequence: [Growth!]!
     growth: [Growth!]!
   }
 

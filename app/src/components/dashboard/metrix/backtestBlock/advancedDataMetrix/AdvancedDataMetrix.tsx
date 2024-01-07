@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import {
   CloseModalButton,
@@ -24,6 +24,83 @@ interface IProps {
 const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
   const { tradeStats } =
     useAppSelector((state) => state.strategy.selectedStrategyMetrix) || {};
+  const tradeMetricsCalculator = useMemo(
+    () => new TradeMetricsCalculator(tradeStats!),
+    [tradeStats]
+  );
+
+  const relativeDrawdown = useMemo(
+    () => tradeMetricsCalculator.calculateRelativeDrawdown(),
+    [tradeMetricsCalculator]
+  );
+  const absoluteDrawdown = useMemo(
+    () => tradeMetricsCalculator.calculateAbsoluteDrawdown(),
+    [tradeMetricsCalculator]
+  );
+  const averageWinDollars = useMemo(
+    () => tradeMetricsCalculator.calculateAverageWinDollars(),
+    [tradeMetricsCalculator]
+  );
+  const averageLossDollars = useMemo(
+    () => tradeMetricsCalculator.calculateAverageLossDollars(),
+    [tradeMetricsCalculator]
+  );
+  const longsWonPercentage = useMemo(
+    () => tradeMetricsCalculator.calculateLongsWonPercentage(),
+    [tradeMetricsCalculator]
+  );
+  const shortsWonPercentage = useMemo(
+    () => tradeMetricsCalculator.calculateShortsWonPercentage(),
+    [tradeMetricsCalculator]
+  );
+  const bestTradeDollars = useMemo(
+    () => tradeMetricsCalculator.calculateBestTradeDollars(),
+    [tradeMetricsCalculator]
+  );
+  const worstTradeDollars = useMemo(
+    () => tradeMetricsCalculator.calculateWorstTradeDollars(),
+    [tradeMetricsCalculator]
+  );
+  const profitFactor = useMemo(
+    () => tradeMetricsCalculator.calculateProfitFactor(),
+    [tradeMetricsCalculator]
+  );
+  const averageRiskToreward = useMemo(
+    () => tradeMetricsCalculator.calculateAverageRiskToReward(),
+    [tradeMetricsCalculator]
+  );
+  const stdDeviation = useMemo(
+    () => tradeMetricsCalculator.calculateStdDeviation(),
+    [tradeMetricsCalculator]
+  );
+  const sharpeRatio = useMemo(
+    () => tradeMetricsCalculator.calculateSharpeRatio(),
+    [tradeMetricsCalculator]
+  );
+  const zScoreProbability = useMemo(
+    () => tradeMetricsCalculator.calculateZScoreProbability(),
+    [tradeMetricsCalculator]
+  );
+  const zScorePercentage = useMemo(
+    () => tradeMetricsCalculator.calculateZScorePercentage(),
+    [tradeMetricsCalculator]
+  );
+  const expectancyPips = useMemo(
+    () => tradeMetricsCalculator.calculateExpectancyPips(),
+    [tradeMetricsCalculator]
+  );
+  const expectancyDollars = useMemo(
+    () => tradeMetricsCalculator.calculateExpectancyDollars(),
+    [tradeMetricsCalculator]
+  );
+  const ahpr = useMemo(
+    () => tradeMetricsCalculator.calculateAhpr(),
+    [tradeMetricsCalculator]
+  );
+  const ghpr = useMemo(
+    () => tradeMetricsCalculator.calculateGhpr(),
+    [tradeMetricsCalculator]
+  );
 
   const analysisData = [
     {
@@ -52,101 +129,80 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
     },
     {
       name: "Breakeven Trades",
-      value: "0",
+      value: 0,
     },
   ];
   const advancedAnalysisData = [
     {
+      name: "Drawdown",
+      value: `${absoluteDrawdown.toFixed(2)}%`,
+    },
+    {
+      name: "Relative Drawdown (To be worked on)",
+      value: `${relativeDrawdown.toFixed(2)}%`,
+    },
+    {
       name: "Average Win Dollars",
-      value: 7.49,
+      value: `$${averageWinDollars.toFixed(2)}`,
     },
     {
       name: "Average Loss Dollars",
-      value: -9.67,
+      value: `$${averageLossDollars.toFixed(2)}`,
     },
     {
       name: "Longs Won",
-      value: "(378/527) 71%",
+      value: `${longsWonPercentage}`,
     },
     {
       name: "Shorts Won",
-      value: "(137/204) 67%",
+      value: `${shortsWonPercentage}`,
     },
     {
       name: "Best Trade Dollars",
-      value: 103.42,
+      value: `${bestTradeDollars}$`,
     },
     {
       name: "Worst Trade Dollars",
-      value: -82.22,
+      value: `${worstTradeDollars}$`,
     },
     {
-      name: "Worst Trade Pips",
-      value: -80.3,
-    },
-    {
-      name: "Avg Trade Length",
-      value: "7h 31m",
+      name: "Avg. Risk-to-reward",
+      value: averageRiskToreward.toFixed(2),
     },
     {
       name: "Profit Factor",
-      value: 1.85,
+      value: profitFactor,
     },
     {
-      name: "Std Deviation",
-      value: "$15.613",
+      name: "Std Deviation (To Be worked on)",
+      value: `${stdDeviation.toFixed(3)}$`,
     },
     {
-      name: "Sharpe Ratio",
-      value: 0,
+      name: "Sharpe Ratio (To Be worked on)",
+      value: sharpeRatio.toFixed(2),
     },
     {
       name: "Z Score Probability",
-      value: -2.12,
+      value: `${zScoreProbability.toFixed(2)}%`,
     },
     {
-      name: "Z Score Percentage",
-      value: "99.99%",
-    },
-    {
-      name: "Expectancy Pips",
-      value: 2.5,
+      name: "Z Score",
+      value: zScorePercentage.toFixed(2),
     },
     {
       name: "Expectancy Dollars",
-      value: "$2.42",
+      value: `$${expectancyDollars.toFixed(2)}`,
     },
     {
       name: "Ahpr",
-      value: "0.00%",
+      value: `${ahpr.toFixed(2)}%`,
     },
     {
       name: "Ghpr",
-      value: "0.00%",
+      value: `${ghpr.toFixed(2)}%`,
     },
   ];
-  const tradeMetricsCalculator = new TradeMetricsCalculator(tradeStats!);
-  const averageWinDollars = tradeMetricsCalculator.calculateAverageWinDollars();
-  const averageLossDollars =
-    tradeMetricsCalculator.calculateAverageLossDollars();
-  const longsWonPercentage =
-    tradeMetricsCalculator.calculateLongsWonPercentage();
-  const shortsWonPercentage =
-    tradeMetricsCalculator.calculateShortsWonPercentage();
-  const bestTradeDollars = tradeMetricsCalculator.calculateBestTradeDollars();
-  const worstTradeDollars = tradeMetricsCalculator.calculateWorstTradeDollars();
-  const worstTradePips = tradeMetricsCalculator.calculateWorstTradePips();
-  const avgTradeLength = tradeMetricsCalculator.calculateAvgTradeLength();
-  const profitFactor = tradeMetricsCalculator.calculateProfitFactor();
-  const stdDeviation = tradeMetricsCalculator.calculateStdDeviation();
-  const sharpeRatio = tradeMetricsCalculator.calculateSharpeRatio();
-  const zScoreProbability = tradeMetricsCalculator.calculateZScoreProbability();
-  const zScorePercentage = tradeMetricsCalculator.calculateZScorePercentage();
-  const expectancyPips = tradeMetricsCalculator.calculateExpectancyPips();
-  const expectancyDollars = tradeMetricsCalculator.calculateExpectancyDollars();
-  const ahpr = tradeMetricsCalculator.calculateAhpr();
-  const ghpr = tradeMetricsCalculator.calculateGhpr();
-  console.log("xx averageWinDollars", averageWinDollars);
+  //   console.log("xx averageLossDollars", averageLossDollars);
   return (
     <InfoModal
       headerTitle="Trade Analysis"
@@ -154,6 +210,7 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
       showModal={showModal}
       setShowModal={setShowModal}
       modalWidth="90%"
+      showFooter={false}
     >
       <StyledFlex gap="10px">
         <StatContainer>
@@ -218,5 +275,9 @@ export default AdvancedDataMetrix;
     {
       name: "Worst Trade Date",
       value: "Mar 28",
+    },
+     {
+      name: "Worst Trade Pips",
+      value: -80.3,
     },
 */

@@ -16,7 +16,18 @@ const tradeDetailsSchema = new Schema<ITradeStats>(
     // percentageWin: Number,
     profitGain: { type: Number, default: 0 },
     profitFactor: { type: Number, default: 0 },
-    tradesSequence: [Number],
+    tradesSequence: [
+      {
+        asset: { type: String, default: "EURUSD" },
+        value: { type: Number, required: true },
+        direction: {
+          type: String,
+          enum: ["LONG", "SHORT"],
+          required: true,
+          default: "LONG",
+        },
+      },
+    ],
     growth: [
       {
         asset: { type: String, default: "EURUSD" },

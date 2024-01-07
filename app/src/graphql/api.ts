@@ -167,7 +167,7 @@ export type TradeStats = {
   totalTrades: Scalars['Int']['output'];
   totalWinnings: Scalars['Int']['output'];
   totalWinningsPercent: Scalars['Int']['output'];
-  tradesSequence: Array<Maybe<Scalars['Float']['output']>>;
+  tradesSequence: Array<Growth>;
   winCountValue: Scalars['Float']['output'];
 };
 
@@ -271,14 +271,14 @@ export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename?: 'Use
 export type GetLibrariesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLibrariesQuery = { __typename?: 'Query', getLibraries: Array<{ __typename?: 'Library', _id: string, name: string, description: string, user_id: string, strategies: Array<{ __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, balance: number, totalTrades: number, percentageWin: number, profitGain: number, profitFactor: number } }> } | null> };
+export type GetLibrariesQuery = { __typename?: 'Query', getLibraries: Array<{ __typename?: 'Library', _id: string, name: string, description: string, user_id: string, strategies: Array<{ __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number } }> } | null> };
 
 export type GetStrategyQueryVariables = Exact<{
   getStrategyId: Scalars['ID']['input'];
 }>;
 
 
-export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<number | null>, growth: Array<{ __typename?: 'Growth', asset: string, value: number, direction: Direction }> } } | null };
+export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<{ __typename?: 'Growth', asset: string, value: number, direction: Direction }>, growth: Array<{ __typename?: 'Growth', asset: string, value: number, direction: Direction }> } } | null };
 
 
 export const RegisterUserDocument = gql`
@@ -623,8 +623,15 @@ export const GetLibrariesDocument = gql`
       description
       tradeStats {
         _id
+        winCountValue
+        lossCountValue
         balance
+        initialBalance
         totalTrades
+        totalLossesPercent
+        totalWinningsPercent
+        totalLosses
+        totalWinnings
         percentageWin
         profitGain
         profitFactor
@@ -686,7 +693,11 @@ export const GetStrategyDocument = gql`
       percentageWin
       profitGain
       profitFactor
-      tradesSequence
+      tradesSequence {
+        asset
+        value
+        direction
+      }
       growth {
         asset
         value

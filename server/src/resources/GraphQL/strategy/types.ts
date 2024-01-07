@@ -2,6 +2,7 @@
 import { Document, Schema } from "mongoose";
 
 type Direction = "LONG" | "SHORT";
+type Growth = { asset: string; value: number; direction: Direction };
 export interface ITradeStats {
   initialBalance: number;
   balance: number;
@@ -15,8 +16,8 @@ export interface ITradeStats {
   percentageWin: number;
   profitGain: number;
   profitFactor: number;
-  tradesSequence: number[];
-  growth: Array<{ asset: string; value: number; direction: Direction }>;
+  tradesSequence: Array<Growth>;
+  growth: Array<Growth>;
 }
 
 export interface IStrategy extends Document {
