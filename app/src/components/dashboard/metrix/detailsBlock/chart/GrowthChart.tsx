@@ -14,9 +14,9 @@ const App: React.FC = () => {
       chart: {
         id: "apexchart-example",
       },
-      // xaxis: {
-      //   categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-      // },
+      xaxis: {
+        categories: null, //[1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+      },
       dataLabels: {
         enabled: false,
       },
@@ -33,7 +33,9 @@ const App: React.FC = () => {
                   )
                 )
               ) ?? []
-            : metrix?.tradeStats.growth.map((i) => i.value) ?? [], // [30, 40, 35, 50, 49, 60, 70, 91, 125],
+            : metrix?.tradeStats.growth.map((i) =>
+                parseInt(i.value.toFixed(2))
+              ) ?? [], // [30, 40, 35, 50, 49, 60, 70, 91, 125],
       },
     ],
   });
@@ -64,7 +66,10 @@ const App: React.FC = () => {
           {
             ...prev.series[0],
             name: "Growth (%)",
-            data: metrix?.tradeStats.growth.map((i) => i.value) ?? [],
+            data:
+              metrix?.tradeStats.growth.map((i) =>
+                parseInt(i.value.toFixed(2))
+              ) ?? [],
           },
         ],
       }));
@@ -75,7 +80,7 @@ const App: React.FC = () => {
     <Wrapper>
       <ContainerHeader>
         <h4>
-          Balance <span>(${metrix?.tradeStats.balance})</span>
+          Balance <span>(${metrix?.tradeStats.balance.toLocaleString()})</span>
         </h4>
         <Tab>
           <TabLabel onClick={() => setActiveTab(0)} isActive={0 === activeTab}>

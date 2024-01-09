@@ -304,7 +304,7 @@ export class TradeMetricsCalculator {
   }
 
   calculateRelativeDrawdown(): number {
-    const tradeSequence = this.tradeStats.tradesSequence;
+    const tradeSequence = this.tradeStats.growth;
     let peakValue = tradeSequence[0]?.value; // Assume the first trade as the initial peak
     let lowestValue = peakValue; // Assume the initial peak as the lowest value
 
@@ -322,7 +322,7 @@ export class TradeMetricsCalculator {
 
   calculateAbsoluteDrawdown(): number {
     const initialCapital = this.tradeStats.initialBalance;
-    const tradeSequence = this.tradeStats.tradesSequence;
+    const tradeSequence = this.tradeStats.growth;
     let lowestValue = initialCapital; // Assume initial capital as the lowest value
     let drawdown = 0;
 

@@ -20,7 +20,7 @@ import Switch from "./Switch";
 import { useAppSelector } from "@/redux/hooks";
 import { shortenText } from "@/utils/text";
 import GrowthChart from "./chart/GrowthChart";
-import AnalyticsCharts from "./analyticsChart/AnalyticsCharts";
+import AnalyticsCharts from "./chart/analyticsChart/AnalyticsCharts";
 
 const DetailsBlock = () => {
   const metrix = useAppSelector(
@@ -37,7 +37,9 @@ const DetailsBlock = () => {
               <IoCloudDoneOutline size="25px" />
             </SaveButton>
             <BalanceTextContainer>
-              <Balance>$ {metrix?.tradeStats.balance ?? 0}</Balance>
+              <Balance>
+                $ {metrix?.tradeStats.balance.toLocaleString() ?? 0}
+              </Balance>
               <BalanceText>Current Balance</BalanceText>
             </BalanceTextContainer>
           </ActionSection>

@@ -20,8 +20,8 @@ export default /* GraphQL */ `
     totalLosses: Int!
     totalWinnings: Int!
     percentageWin: Int!
-    profitGain: Int!
-    profitFactor: Int!
+    profitGain: Float!
+    profitFactor: Float!
     tradesSequence: [Growth!]!
     growth: [Growth!]!
   }

@@ -7,7 +7,9 @@ export const Container = styled.section`
 
   & > .wrapper {
     background: ${({ theme }) => theme.colors.white};
+    border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
   }
+  border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
 `;
 export const SectionWrapper = styled.div`
   width: 95%;
@@ -20,7 +22,6 @@ export const HeaderContainer = styled.header`
   width: 97.5%;
   height: 67px;
   background: ${({ theme }) => theme.colors.white};
-  border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,7 +93,7 @@ export const SaveButton = styled.button`
 
 export const BalanceTextContainer = styled.div`
   background: ${({ theme }) => theme.colors.accent1};
-  padding: 15px 0 10px 0;
+  padding: 15px 5px 10px 0;
   border-radius: 20px 0px 0px 20px;
   width: 180px;
   color: white;

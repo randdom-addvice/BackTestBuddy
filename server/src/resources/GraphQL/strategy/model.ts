@@ -11,11 +11,11 @@ const tradeDetailsSchema = new Schema<ITradeStats>(
     // totalTrades: Number,
     // totalLossesPercent: Number,
     // totalWinningsPercent: Number,
-    totalLosses: { type: Number, default: 0 },
-    totalWinnings: { type: Number, default: 0 },
+    // totalLosses: { type: Number, default: 0 },
+    // totalWinnings: { type: Number, default: 0 },
     // percentageWin: Number,
-    profitGain: { type: Number, default: 0 },
-    profitFactor: { type: Number, default: 0 },
+    // profitGain: { type: Number, default: 0 },
+    // profitFactor: { type: Number, default: 0 },
     tradesSequence: [
       {
         asset: { type: String, default: "EURUSD" },
@@ -62,6 +62,35 @@ const strategySchema = new Schema<IStrategy>(
     },
   }
 );
+
+tradeDetailsSchema.virtual("totalLosses").get(function () {
+  return this.tradesSequence.filter((trade) => trade.value > 0).length;
+});
+tradeDetailsSchema.virtual("totalWinnings").get(function () {
+  return this.tradesSequence.filter((trade) => trade.value < 0).length;
+});
+tradeDetailsSchema.virtual("profitGain").get(function () {
+  const totalWinnings = this.tradesSequence.reduce(
+    (total, trade) => (trade.value > 0 ? total + trade.value : total),
+    0
+  );
+  const totalLosses = this.tradesSequence.reduce(
+    (total, trade) => (trade.value < 0 ? total + Math.abs(trade.value) : total),
+    0
+  );
+  return totalWinnings - totalLosses;
+});
+tradeDetailsSchema.virtual("profitFactor").get(function () {
+  const totalWinnings = this.tradesSequence.reduce(
+    (total, trade) => (trade.value > 0 ? total + trade.value : total),
+    0
+  );
+  const totalLosses = this.tradesSequence.reduce(
+    (total, trade) => (trade.value < 0 ? total + Math.abs(trade.value) : total),
+    0
+  );
+  return totalLosses !== 0 ? totalWinnings / totalLosses : 0;
+});
 
 tradeDetailsSchema.virtual("percentageWin").get(function () {
   const denominator = this.totalLosses + this.totalWinnings;
