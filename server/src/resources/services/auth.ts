@@ -18,7 +18,7 @@ export const getUserFromToken = (
     // console.log(decoded);
     return decoded;
   } catch (error) {
-    console.error("Error decoding JWT:");
+    console.error("Error decoding JWT:", error);
     return null;
   }
 };
@@ -29,7 +29,7 @@ export const generateToken = (user: IUser) => {
       _id: user._id,
     },
     JWT_SECRET,
-    { expiresIn: "24h" }
+    { expiresIn: "1d" }
   );
 };
 

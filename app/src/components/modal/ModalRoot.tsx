@@ -24,6 +24,7 @@ const ModalOverlay = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.8);
+  z-index: 20;
   /* filter: blur(2px); */
 `;
 

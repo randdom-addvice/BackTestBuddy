@@ -109,7 +109,7 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
     },
     {
       name: "Balance",
-      value: `$${tradeStats?.balance}`,
+      value: `$${tradeStats?.balance.toLocaleString()}`,
     },
     {
       name: "Profitability",

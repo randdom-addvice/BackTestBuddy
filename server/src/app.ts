@@ -37,8 +37,8 @@ class App {
   constructor(port: number) {
     this.app = express();
     this.port = port;
-    (async () => await seedDatabase(connectDb))();
-    // connectDb();
+    // (async () => await seedDatabase(connectDb))();
+    connectDb();
 
     this.initializeMiddleware();
   }

@@ -13,12 +13,14 @@ import {
   InfoSection,
   InfoText,
   SaveButton,
+  SectionWrapper,
   Title,
 } from "./elements";
 import Switch from "./Switch";
-import Chart from "./chart/Chart";
 import { useAppSelector } from "@/redux/hooks";
 import { shortenText } from "@/utils/text";
+import GrowthChart from "./chart/GrowthChart";
+import AnalyticsCharts from "./analyticsChart/AnalyticsCharts";
 
 const DetailsBlock = () => {
   const metrix = useAppSelector(
@@ -26,32 +28,39 @@ const DetailsBlock = () => {
   );
   return (
     <Container>
-      <HeaderContainer>
-        <Title>BackTest Section</Title>
-        <ActionSection>
-          <Switch />
-          <SaveButton>
-            <IoCloudDoneOutline size="25px" />
-          </SaveButton>
-          <BalanceTextContainer>
-            <Balance>$ {metrix?.tradeStats.balance ?? 0}</Balance>
-            <BalanceText>Current Balance</BalanceText>
-          </BalanceTextContainer>
-        </ActionSection>
-      </HeaderContainer>
+      <div className="wrapper">
+        <HeaderContainer>
+          <Title>BackTest Section</Title>
+          <ActionSection>
+            <Switch />
+            <SaveButton>
+              <IoCloudDoneOutline size="25px" />
+            </SaveButton>
+            <BalanceTextContainer>
+              <Balance>$ {metrix?.tradeStats.balance ?? 0}</Balance>
+              <BalanceText>Current Balance</BalanceText>
+            </BalanceTextContainer>
+          </ActionSection>
+        </HeaderContainer>
+      </div>
       <InfoSection>
-        <InfoBlock>
-          <InfoLabel>Strategy Name</InfoLabel>
-          <InfoText>{metrix?.name}</InfoText>
-        </InfoBlock>
-        <InfoBlock>
-          <InfoLabel>Description</InfoLabel>
-          <InfoText title={metrix?.description}>
-            {shortenText(metrix?.description ?? "", 25)}
-          </InfoText>
-        </InfoBlock>
+        <SectionWrapper>
+          <InfoBlock>
+            <InfoLabel>Strategy Name</InfoLabel>
+            <InfoText>{metrix?.name}</InfoText>
+          </InfoBlock>
+          <InfoBlock>
+            <InfoLabel>Description</InfoLabel>
+            <InfoText title={metrix?.description}>
+              {shortenText(metrix?.description ?? "", 25)}
+            </InfoText>
+          </InfoBlock>
+        </SectionWrapper>
       </InfoSection>
-      <Chart />
+      <GrowthChart />
+      <AnalyticsCharts />
+      {/* <GrowthChart /> */}
+      {/* <Chart /> */}
     </Container>
   );
 };

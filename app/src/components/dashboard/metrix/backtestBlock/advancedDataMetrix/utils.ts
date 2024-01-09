@@ -231,7 +231,7 @@ export class TradeMetricsCalculator {
   }
 
   calculateZScorePercentage(): number {
-    const tradeSequence = this.tradeStats.tradesSequence;
+    const tradeSequence = this.tradeStats.tradesSequence ?? [];
     const returns = tradeSequence.map((trade) => trade.value);
     const mean =
       returns.reduce((sum, value) => sum + value, 0) / returns.length;
@@ -241,7 +241,7 @@ export class TradeMetricsCalculator {
     );
 
     return (
-      ((tradeSequence[tradeSequence.length - 1].value - mean) /
+      ((tradeSequence[tradeSequence.length - 1]?.value - mean) /
         standardDeviation) *
       100
     );
@@ -305,7 +305,7 @@ export class TradeMetricsCalculator {
 
   calculateRelativeDrawdown(): number {
     const tradeSequence = this.tradeStats.tradesSequence;
-    let peakValue = tradeSequence[0].value; // Assume the first trade as the initial peak
+    let peakValue = tradeSequence[0]?.value; // Assume the first trade as the initial peak
     let lowestValue = peakValue; // Assume the initial peak as the lowest value
 
     for (const trade of tradeSequence) {

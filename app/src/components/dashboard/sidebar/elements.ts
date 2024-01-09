@@ -8,6 +8,11 @@ export const SidebarContainer = styled.div<{ expanded: boolean }>`
   border-right: 1px ${({ theme }) => theme.colors.lightGrey} solid;
   transition: width 0.5s ease;
   position: relative;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: ${({ theme }) => theme.colors.white};
+  z-index: 10;
 `;
 export const SidebarMenuIcon = styled.div`
   height: 67px;

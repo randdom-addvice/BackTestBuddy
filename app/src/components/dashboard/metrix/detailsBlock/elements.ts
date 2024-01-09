@@ -2,20 +2,34 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   flex: 1;
+  background: #f9f9fa;
+  overflow-y: auto;
+
+  & > .wrapper {
+    background: ${({ theme }) => theme.colors.white};
+  }
+`;
+export const SectionWrapper = styled.div`
+  width: 95%;
+  display: flex;
+  align-items: center;
+  margin: auto;
 `;
 
 export const HeaderContainer = styled.header`
-  width: 100%;
+  width: 97.5%;
   height: 67px;
+  background: ${({ theme }) => theme.colors.white};
   border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: auto;
 `;
 
 export const Title = styled.h1`
   color: ${({ theme }) => theme.colors.black};
-  margin-left: 13px;
+  /* margin-left: 13px; */
   font-size: 19px;
   font-weight: 700;
   word-wrap: break-word;
@@ -113,10 +127,12 @@ export const InfoSection = styled.section`
   align-items: center;
   height: 80px;
   border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
-  padding: 12px 13px;
+  padding: 12px 0;
+  background: ${({ theme }) => theme.colors.white};
 `;
 export const InfoBlock = styled.div`
   margin-right: 6rem;
+  background: ${({ theme }) => theme.colors.white};
 `;
 export const InfoLabel = styled.h4`
   color: ${({ theme }) => theme.colors.black};

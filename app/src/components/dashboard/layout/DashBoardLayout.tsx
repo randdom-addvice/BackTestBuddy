@@ -26,10 +26,12 @@ const DashBoardLayout = ({ children }: Props) => {
 
   return (
     <Suspense fallback={<div>Loading your dashboard ... Please wait</div>}>
-      <LayoutContainer>
-        <LazySideBar />
-        {children}
-      </LayoutContainer>
+      <LazySideBar />
+      <div
+        style={{ height: "100vh", display: "flex", flexDirection: "column" }}
+      >
+        <LayoutContainer>{children}</LayoutContainer>
+      </div>
     </Suspense>
   );
 };
