@@ -14,6 +14,7 @@ import { StyledFlex } from "@/styles/globalElements";
 import ExpandedDataModal from "@/components/modal/ExpandedDataModal/ExpandedDataModal";
 import { useAppSelector } from "@/redux/hooks";
 import AdvancedDataMetrix from "@/components/dashboard/metrix/backtestBlock/advancedDataMetrix/AdvancedDataMetrix";
+import { shortenText } from "@/utils/text";
 
 const DataTabContent = () => {
   const [showExpandedData, setShowExpandedData] = useState(false);
@@ -34,18 +35,24 @@ const DataTabContent = () => {
         <StatList>
           <StatListItem>
             <StatListItemTitle>Gain: </StatListItemTitle>
-            <StatListItemText>{tradeStats?.profitGain}%</StatListItemText>
+            <StatListItemText title={tradeStats?.profitGain.toFixed(2)}>
+              {shortenText(tradeStats?.profitGain.toFixed(2) ?? "", 10)}%
+            </StatListItemText>
           </StatListItem>
           <StatListItem>
             <StatListItemTitle>Initial Balalnce: </StatListItemTitle>
             <StatListItemText>
-              {tradeStats?.initialBalance.toLocaleString()}$
+              {shortenText(
+                tradeStats?.initialBalance.toLocaleString() ?? "",
+                10
+              )}
+              $
             </StatListItemText>
           </StatListItem>
           <StatListItem>
             <StatListItemTitle>Balalnce: </StatListItemTitle>
             <StatListItemText>
-              {tradeStats?.balance.toLocaleString()}$
+              {shortenText(tradeStats?.balance.toLocaleString() ?? "", 10)}$
             </StatListItemText>
           </StatListItem>
         </StatList>

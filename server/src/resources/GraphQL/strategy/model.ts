@@ -102,7 +102,7 @@ tradeDetailsSchema.virtual("percentageWin").get(function () {
   return winPercentage;
 });
 tradeDetailsSchema.virtual("totalTrades").get(function () {
-  return this.totalLosses + this.totalWinnings;
+  return this.tradesSequence.length;
 });
 tradeDetailsSchema.virtual("totalLossesPercent").get(function () {
   const denominator = this.totalLosses + this.totalWinnings;

@@ -65,7 +65,9 @@ const BacktestTabContent = () => {
         </ShortDataGridItem>
         <ShortDataGridItem>
           <ShortDataGridLabel>Breakeven</ShortDataGridLabel>
-          <ShortDataGridText>0</ShortDataGridText>
+          <ShortDataGridText>
+            {tradeStats?.tradesSequence.filter((i) => i.value === 0).length}
+          </ShortDataGridText>
         </ShortDataGridItem>
       </ShortDataContainer>
     </>

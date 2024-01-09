@@ -13,6 +13,7 @@ import {
 import { StyledFlex } from "@/styles/globalElements";
 import InfoModal from "@/components/modal/InfoModal/InfoModal";
 import { TradeMetricsCalculator } from "./utils";
+import { shortenText } from "@/utils/text";
 
 interface IProps {
   showModal: boolean;
@@ -105,11 +106,11 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
   const analysisData = [
     {
       name: "Gain",
-      value: `%${tradeStats?.profitGain}`,
+      value: `%${tradeStats?.profitGain.toFixed(2)}`,
     },
     {
       name: "Balance",
-      value: `$${tradeStats?.balance.toLocaleString()}`,
+      value: `$${shortenText(tradeStats?.balance.toLocaleString() ?? "", 10)}`,
     },
     {
       name: "Profitability",
@@ -129,7 +130,9 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
     },
     {
       name: "Breakeven Trades",
-      value: 0,
+      value: `${
+        tradeStats?.tradesSequence.filter((i) => i.value === 0).length
+      }`,
     },
   ];
   const advancedAnalysisData = [
@@ -171,7 +174,7 @@ const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
     },
     {
       name: "Profit Factor",
-      value: profitFactor,
+      value: profitFactor.toFixed(2),
     },
     {
       name: "Std Deviation (To Be worked on)",
