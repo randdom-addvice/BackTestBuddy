@@ -22,11 +22,13 @@ query GetStrategy($getStrategyId: ID!) {
         asset
         value
         direction
+        commission
       }
       growth {
         asset
         value
         direction
+        commission
       }
     }
   }

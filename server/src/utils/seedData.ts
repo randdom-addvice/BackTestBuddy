@@ -161,9 +161,9 @@ function calculateGrowth(tradeSequence: Trade[]): Trade[] {
     const direction = Math.round(Math.random()) === 0 ? "LONG" : "SHORT";
 
     return {
-      asset: "EURUSD", // You can replace this with the actual asset value
+      asset: trade.asset,
       value: Number(cumulativeSum),
-      direction: direction,
+      direction: trade.direction,
     };
   });
 
@@ -187,7 +187,7 @@ const strategies = [
       // percentageWin: 88,
       // profitGain: 30,
       tradesSequence: tradeSequence1,
-      growth: calculateGrowth(tradeSequence1),
+      // growth: calculateGrowth(tradeSequence1),
       // growth: [
       //   0, 1.5, 3, 2, 3.5, 5, 6.5, 8, 9.5, 11, 12.5, 14, 13, 14, 13, 14, 13,
       //   14.5, 16, 17.5, 19, 20.5, 22, 23.5, 25, 24, 25.5, 27, 28.5, 30, 31.5,
@@ -212,7 +212,7 @@ const strategies = [
       // percentageWin: 88,
       // profitGain: 30,
       tradesSequence: tradeSequence2,
-      growth: calculateGrowth(tradeSequence2),
+      // growth: calculateGrowth(tradeSequence2),
       // tradesSequence: [
       //   1.5, 1.5, -1, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, -1, 1.5, 1.5, 1.5,
       //   1.5, 1.5, 1.5, 1.5, 1.5, -1, 1.5, 1.5, 1.5, 1.5,

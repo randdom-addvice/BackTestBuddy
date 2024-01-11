@@ -1,4 +1,9 @@
-import { Direction, Growth, TradeStats } from "@/graphql/api";
+import {
+  Direction,
+  TradeSequenceDetail,
+  TradeSequenceDetailInput,
+  TradeStats,
+} from "@/graphql/api";
 import { useAppSelector } from "@/redux/hooks";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactApexChart from "react-apexcharts";
@@ -15,7 +20,7 @@ const Bar = () => {
     (state) => state.strategy.selectedStrategyMetrix
   );
   const calculateAverageRiskToReward = useCallback(
-    (trades: Growth[]) => {
+    (trades: TradeSequenceDetail[]) => {
       // Group trades by asset
       const groupedData: Record<string, number[]> = {};
       trades.forEach((trade) => {

@@ -2,7 +2,7 @@ import { ObjectId } from "mongoose";
 import LibraryModel from "../library/model";
 import MongooseServices from "../services";
 import StrategyModel from "./model";
-import { IStrategy, ITradeStats } from "./types";
+import { IStrategy, ITradeStats, TradeSequenceDetail } from "./types";
 import {
   catchGraphQLError,
   throwGraphQLError,
@@ -148,24 +148,28 @@ const resolvers = {
       _: any,
       {
         updateStrategyStatsInput,
-        strategy_id,
       }: {
-        updateStrategyStatsInput: ITradeStats;
-        strategy_id: string;
+        updateStrategyStatsInput: {
+          strategy_id: string;
+          tradesSequence: TradeSequenceDetail[];
+        };
       }
     ) => {
       try {
         await MongooseServices.findAndUpdate(
           StrategyModel,
-          { _id: strategy_id },
+          { _id: updateStrategyStatsInput.strategy_id },
           {
-            $set: {
-              tradeStats: { ...updateStrategyStatsInput },
+            $push: {
+              "tradeStats.tradesSequence": {
+                $each: updateStrategyStatsInput.tradesSequence,
+              },
             },
           }
         );
         return true;
       } catch (error) {
+        console.log(error);
         return false;
       }
     },

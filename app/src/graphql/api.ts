@@ -35,13 +35,6 @@ export enum Direction {
   Short = 'SHORT'
 }
 
-export type Growth = {
-  __typename?: 'Growth';
-  asset: Scalars['String']['output'];
-  direction: Direction;
-  value: Scalars['Float']['output'];
-};
-
 export type Library = {
   __typename?: 'Library';
   _id: Scalars['ID']['output'];
@@ -113,7 +106,6 @@ export type MutationUpdateStrategyDetailsArgs = {
 
 
 export type MutationUpdateStrategyStatsArgs = {
-  strategy_id: Scalars['ID']['input'];
   updateStrategyStatsInput?: InputMaybe<UpdateStrategyStatsInput>;
 };
 
@@ -152,22 +144,36 @@ export type Strategy = {
   tradeStats: TradeStats;
 };
 
+export type TradeSequenceDetail = {
+  __typename?: 'TradeSequenceDetail';
+  asset: Scalars['String']['output'];
+  commission: Scalars['Float']['output'];
+  direction: Direction;
+  value: Scalars['Float']['output'];
+};
+
+export type TradeSequenceDetailInput = {
+  asset: Scalars['String']['input'];
+  direction: Direction;
+  value: Scalars['Float']['input'];
+};
+
 export type TradeStats = {
   __typename?: 'TradeStats';
   _id?: Maybe<Scalars['ID']['output']>;
   balance: Scalars['Float']['output'];
-  growth: Array<Growth>;
+  growth: Array<TradeSequenceDetail>;
   initialBalance: Scalars['Float']['output'];
   lossCountValue: Scalars['Float']['output'];
   percentageWin: Scalars['Int']['output'];
-  profitFactor: Scalars['Int']['output'];
-  profitGain: Scalars['Int']['output'];
+  profitFactor: Scalars['Float']['output'];
+  profitGain: Scalars['Float']['output'];
   totalLosses: Scalars['Int']['output'];
   totalLossesPercent: Scalars['Int']['output'];
   totalTrades: Scalars['Int']['output'];
   totalWinnings: Scalars['Int']['output'];
   totalWinningsPercent: Scalars['Int']['output'];
-  tradesSequence: Array<Growth>;
+  tradesSequence: Array<TradeSequenceDetail>;
   winCountValue: Scalars['Float']['output'];
 };
 
@@ -178,14 +184,8 @@ export type UpdateStrategyDetailsInput = {
 };
 
 export type UpdateStrategyStatsInput = {
-  growth: Array<InputMaybe<Scalars['Float']['input']>>;
-  lossCountValue: Scalars['Float']['input'];
-  profitFactor: Scalars['Float']['input'];
-  profitGain: Scalars['Float']['input'];
-  totalLosses: Scalars['Int']['input'];
-  totalWinnings: Scalars['Int']['input'];
-  tradesSequence: Array<InputMaybe<Scalars['Float']['input']>>;
-  winCountValue: Scalars['Float']['input'];
+  strategy_id: Scalars['ID']['input'];
+  tradesSequence: Array<InputMaybe<TradeSequenceDetailInput>>;
 };
 
 export type User = {
@@ -256,7 +256,6 @@ export type UpdateStrategyDetailsMutationVariables = Exact<{
 export type UpdateStrategyDetailsMutation = { __typename?: 'Mutation', updateStrategyDetails: boolean };
 
 export type UpdateStrategyStatsMutationVariables = Exact<{
-  strategyId: Scalars['ID']['input'];
   updateStrategyStatsInput?: InputMaybe<UpdateStrategyStatsInput>;
 }>;
 
@@ -278,7 +277,7 @@ export type GetStrategyQueryVariables = Exact<{
 }>;
 
 
-export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<{ __typename?: 'Growth', asset: string, value: number, direction: Direction }>, growth: Array<{ __typename?: 'Growth', asset: string, value: number, direction: Direction }> } } | null };
+export type GetStrategyQuery = { __typename?: 'Query', getStrategy?: { __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<{ __typename?: 'TradeSequenceDetail', asset: string, value: number, direction: Direction, commission: number }>, growth: Array<{ __typename?: 'TradeSequenceDetail', asset: string, value: number, direction: Direction, commission: number }> } } | null };
 
 
 export const RegisterUserDocument = gql`
@@ -531,11 +530,8 @@ export type UpdateStrategyDetailsMutationHookResult = ReturnType<typeof useUpdat
 export type UpdateStrategyDetailsMutationResult = Apollo.MutationResult<UpdateStrategyDetailsMutation>;
 export type UpdateStrategyDetailsMutationOptions = Apollo.BaseMutationOptions<UpdateStrategyDetailsMutation, UpdateStrategyDetailsMutationVariables>;
 export const UpdateStrategyStatsDocument = gql`
-    mutation UpdateStrategyStats($strategyId: ID!, $updateStrategyStatsInput: UpdateStrategyStatsInput) {
-  updateStrategyStats(
-    strategy_id: $strategyId
-    updateStrategyStatsInput: $updateStrategyStatsInput
-  )
+    mutation UpdateStrategyStats($updateStrategyStatsInput: UpdateStrategyStatsInput) {
+  updateStrategyStats(updateStrategyStatsInput: $updateStrategyStatsInput)
 }
     `;
 export type UpdateStrategyStatsMutationFn = Apollo.MutationFunction<UpdateStrategyStatsMutation, UpdateStrategyStatsMutationVariables>;
@@ -553,7 +549,6 @@ export type UpdateStrategyStatsMutationFn = Apollo.MutationFunction<UpdateStrate
  * @example
  * const [updateStrategyStatsMutation, { data, loading, error }] = useUpdateStrategyStatsMutation({
  *   variables: {
- *      strategyId: // value for 'strategyId'
  *      updateStrategyStatsInput: // value for 'updateStrategyStatsInput'
  *   },
  * });
@@ -697,11 +692,13 @@ export const GetStrategyDocument = gql`
         asset
         value
         direction
+        commission
       }
       growth {
         asset
         value
         direction
+        commission
       }
     }
   }

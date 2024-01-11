@@ -1,4 +1,3 @@
-import { Growth } from "@/graphql/api";
 import { useAppSelector } from "@/redux/hooks";
 import React, { useEffect, useMemo, useState } from "react";
 import ReactApexChart from "react-apexcharts";
@@ -8,7 +7,7 @@ const Pie = () => {
     (state) => state.strategy.selectedStrategyMetrix
   );
   const result = useMemo(() => {
-    console.clear();
+    // console.clear();
     const groupedData: Record<string, number[]> = {};
     const trades = metrix?.tradeStats.tradesSequence ?? [];
     trades.forEach((trade) => {
@@ -19,20 +18,20 @@ const Pie = () => {
       if (trade.value !== 0) {
       }
     });
-    console.log(trades);
-    console.log(groupedData);
-    console.log(Object.entries(groupedData).map((i) => i[1].length));
-    console.log(Object.entries(groupedData).map((i) => i[0]));
-    console.log({
-      assets: Object.keys(groupedData),
-      values: Object.values(groupedData).map((i) => i.length),
-    });
-    console.log([
-      {
-        assets: Object.keys(groupedData),
-        values: Object.values(groupedData),
-      },
-    ]);
+    // console.log(trades);
+    // console.log(groupedData);
+    // console.log(Object.entries(groupedData).map((i) => i[1].length));
+    // console.log(Object.entries(groupedData).map((i) => i[0]));
+    // console.log({
+    //   assets: Object.keys(groupedData),
+    //   values: Object.values(groupedData).map((i) => i.length),
+    // });
+    // console.log([
+    //   {
+    //     assets: Object.keys(groupedData),
+    //     values: Object.values(groupedData),
+    //   },
+    // ]);
     return {
       assets: Object.keys(groupedData),
       values: Object.values(groupedData).map((i) => i.length),
