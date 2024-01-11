@@ -89,6 +89,7 @@ const Pie = () => {
       },
     ],
     legend: {
+      show: false,
       position: "right",
       //   offsetY: 0,
       //   height: 230,

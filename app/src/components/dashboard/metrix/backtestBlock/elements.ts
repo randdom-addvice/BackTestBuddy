@@ -10,6 +10,7 @@ const rippleAnimation = keyframes`
 `;
 
 export const Container = styled.div`
+  overflow-y: auto;
   flex-shrink: 0;
   width: 300px;
   height: 100vh;
@@ -29,9 +30,7 @@ export const TabContainer = styled.div`
 export const TabWrapper = styled.div`
   border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
 `;
-export const TabLabel = styled.div<{
-  isActive: boolean;
-}>`
+export const TabLabel = styled.div<{ isActive: boolean }>`
   padding: 8px 16px;
   border-bottom: ${(props) =>
     props.isActive ? `6px solid ${props.theme.colors.accent1}` : "none"};
@@ -61,9 +60,7 @@ export const InputSection = styled.section`
 `;
 
 export const InputBlock = styled(StyledCenteredDiv)``;
-export const InputGroup = styled(StyledCenteredDiv)<{
-  position?: string;
-}>`
+export const InputGroup = styled(StyledCenteredDiv)<{ position?: string }>`
   justify-content: flex-end;
   flex-direction: column;
   align-items: ${(props) => props.position ?? "flex-start"};
@@ -90,7 +87,7 @@ export const InputButton = styled.button`
   border-radius: 12px;
   background: ${({ theme }) => theme.colors.red};
   border: none;
-  width: 75%;
+  width: 85px;
   height: 45px;
   outline: none;
   color: ${({ theme }) => theme.colors.white};
@@ -123,7 +120,7 @@ export const InputButtonGreen = styled(InputButton)`
 export const ResetButton = styled(InputButton)`
   margin: 15px 0 auto;
   display: block;
-  width: 100%;
+  /* width: 45%; */
   background: ${({ theme }) => theme.colors.grey};
   &:hover {
     background: #514b3a radial-gradient(circle, transparent 1%, #514b3a 1%)
@@ -135,6 +132,8 @@ export const ResetButton = styled(InputButton)`
     transition: background 0s;
   }
 `;
+export const UndoButton = styled(ResetButton)``;
+
 export const ShortDataContainer = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -169,19 +168,111 @@ export const Group = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 12px;
+  /* margin-top: 0.2rem; */
 `;
-export const UndoButton = styled(InputButton)`
-  margin: 15px 0 auto;
-  width: 50%;
-  background: ${({ theme }) => theme.colors.grey};
-  &:hover {
-    background: #514b3a radial-gradient(circle, transparent 1%, #514b3a 1%)
-      center/15000%;
+export const StyledUl = styled.div`
+  list-style: none;
+  width: 100%;
+  li {
+    width: 100%;
+    margin-bottom: 1rem;
+    & > div {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: ${({ theme }) => theme.colors.mainDark};
+    }
+    /* display: flex;
+    justify-content: space-between; */
+    strong {
+      display: inline-block;
+      flex-basis: 50%;
+      margin-left: 0;
+      text-align: left;
+      border: 1px solid;
+    }
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 0.4rem 0.3rem;
+      border-radius: 3px;
+      border: 1px solid ${({ theme }) => theme.colors.lightGrey};
+      &:focus {
+        outline: none;
+        border: 1px solid ${({ theme }) => theme.colors.primary};
+      }
+    }
   }
-  &:active {
-    background-color: ${({ theme }) => theme.colors.grey};
-    background-size: 100%;
-    transition: background 0s;
+`;
+export const StyledToggle = styled.div`
+  margin: 0 0 1.5rem;
+  box-sizing: border-box;
+  font-size: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+  input {
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: -9999px;
+  }
+
+  input + label {
+    cursor: pointer;
+    width: 100%;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    border: solid 1px #ddd;
+    background-color: #fff;
+    font-size: 1rem;
+    line-height: 140%;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    transition: border-color 0.15s ease-out, color 0.25s ease-out,
+      background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+
+    &:first-of-type {
+      border-radius: 6px 0 0 6px;
+      border-right: none;
+    }
+
+    &:last-of-type {
+      border-radius: 0 6px 6px 0;
+      border-left: none;
+    }
+  }
+
+  input:hover + label {
+    border-color: #213140;
+  }
+
+  input:checked + label {
+    background-color: #4b9dea;
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: #fff;
+    box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
+    border-color: #4b9dea;
+    z-index: 1;
+  }
+
+  input:focus + label {
+    outline: dotted 1px #ccc;
+    outline-offset: 0.45rem;
+  }
+
+  @media (max-width: 800px) {
+    input + label {
+      padding: 0.75rem 0.25rem;
+      flex: 0 0 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 `;

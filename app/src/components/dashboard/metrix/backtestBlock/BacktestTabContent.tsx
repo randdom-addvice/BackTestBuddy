@@ -15,9 +15,14 @@ import {
   SpanGreen,
   UndoButton,
   Group,
+  StyledUl,
+  StyledToggle,
 } from "./elements";
 import Switch from "./Switch";
 import { useAppSelector } from "@/redux/hooks";
+import { StyledFlex } from "@/styles/globalElements";
+
+import styled from "styled-components";
 
 const BacktestTabContent = () => {
   const state = useAppSelector((state) => state.strategy);
@@ -39,11 +44,68 @@ const BacktestTabContent = () => {
         </InputBlock>
         <Group>
           <UndoButton>Undo</UndoButton>
-          <div>
-            <Switch />
-          </div>
+          <ResetButton>Reset</ResetButton>
         </Group>
-        <ResetButton>Reset</ResetButton>
+      </InputSection>
+      <InputSection>
+        {/* <InputBlock>
+          <InputGroup>
+            <Input value={tradeStats?.lossCountValue} type="number" />
+          </InputGroup>
+          <InputGroup position="flex-end">
+            <Input value={tradeStats?.winCountValue} type="number" />
+          </InputGroup>
+        </InputBlock> */}
+        <StyledUl>
+          <li>
+            <div>Asset</div>
+            <input type="text" />
+          </li>
+          <li>
+            <div>Commission</div>
+            <input type="number" />
+          </li>
+          <li>
+            <div>Direction</div>
+            <StyledToggle>
+              <input
+                type="radio"
+                name="direction"
+                value="LONG"
+                id="direction-long"
+                defaultChecked
+              />
+              <label htmlFor="direction-long">Long</label>
+              <input
+                type="radio"
+                name="direction"
+                value="SHORT"
+                id="direction-short"
+              />
+              <label htmlFor="direction-short">Short</label>
+            </StyledToggle>
+          </li>
+          <li>
+            <div>Value Type</div>
+            <StyledToggle>
+              <input
+                type="radio"
+                name="valueType"
+                value="percent"
+                id="valueType-percent"
+                defaultChecked
+              />
+              <label htmlFor="valueType-percent">Percent</label>
+              <input
+                type="radio"
+                name="valueType"
+                value="dollar"
+                id="valueType-dollar"
+              />
+              <label htmlFor="valueType-dollar">Dollar</label>
+            </StyledToggle>
+          </li>
+        </StyledUl>
       </InputSection>
       <ShortDataContainer>
         <ShortDataGridItem>
