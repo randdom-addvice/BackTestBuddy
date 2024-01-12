@@ -28,6 +28,9 @@ const iconSize = "30px";
 const SideBar = () => {
   const [expandSidebar, setExpandSidebar] = useState(false);
   const userData = useAppSelector((state) => state.auth.user);
+  const metrix = useAppSelector(
+    (state) => state.strategy.selectedStrategyMetrix
+  );
 
   function logoutUser() {
     CookieUtility.deleteCookie("authToken");
@@ -40,15 +43,18 @@ const SideBar = () => {
         <RxHamburgerMenu size={iconSize} />
       </SidebarMenuIcon>
 
-      <SidebarCategory active={true}>
-        <NavLink to={AppRoutes.METRIX}>
-          <SidebarItem>
-            <FcCandleSticks size={iconSize} />
-            <IconText visible={expandSidebar}>Dashboard</IconText>
-          </SidebarItem>
-        </NavLink>
-      </SidebarCategory>
-      <SidebarCategory active={false}>
+      {metrix && (
+        <SidebarCategory>
+          <NavLink to={`${AppRoutes.METRIX_DYNAMIC}${metrix._id}`}>
+            <SidebarItem>
+              <FcCandleSticks size={iconSize} />
+              <IconText visible={expandSidebar}>Dashboard</IconText>
+            </SidebarItem>
+          </NavLink>
+        </SidebarCategory>
+      )}
+
+      <SidebarCategory>
         <NavLink to={AppRoutes.LIBRARIES}>
           <SidebarItem expanded={expandSidebar}>
             <LuLibrary size={iconSize} />
@@ -56,7 +62,7 @@ const SideBar = () => {
           </SidebarItem>
         </NavLink>
       </SidebarCategory>
-      <SidebarCategory active={false}>
+      <SidebarCategory>
         <NavLink to={AppRoutes.PLANS}>
           <SidebarItem expanded={expandSidebar}>
             <ProIconText>pro</ProIconText>
@@ -64,7 +70,7 @@ const SideBar = () => {
           </SidebarItem>
         </NavLink>
       </SidebarCategory>
-      <SidebarCategory active={false}>
+      <SidebarCategory>
         <NavLink to={AppRoutes.PROFILE}>
           <SidebarItem expanded={expandSidebar}>
             <FaRegUser size={iconSize} />
