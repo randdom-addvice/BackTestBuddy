@@ -25,6 +25,7 @@ import { StyledFlex } from "@/styles/globalElements";
 import { Direction, TradeSequenceDetail, TradeStats } from "@/graphql/api";
 import { strategyActions } from "@/redux/reducers/strategy/strategySlice";
 import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
+import { UseMetricsInputLocalStorage } from "@/utils/storage";
 
 interface TradeDetail {
   commission: number;
@@ -39,15 +40,17 @@ interface IProps {
   tradeStats: TradeStats;
 }
 
+const metricsLocalStorage = UseMetricsInputLocalStorage.getInstance();
+
 const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
   const dispatch = useAppDispatch();
   const [tradeDetail, setTradeDetail] = useState<TradeDetail>({
-    direction: Direction.Long,
-    asset: "EURUSD",
-    commission: 0,
-    lossValue: 1,
-    profitValue: 1,
-    valueType: "percent",
+    direction: metricsLocalStorage.getInputDirection(),
+    asset: metricsLocalStorage.getInputAsset(),
+    commission: metricsLocalStorage.getInputCommisssion(),
+    lossValue: metricsLocalStorage.getInputLossValue(),
+    profitValue: metricsLocalStorage.getInputProfitValue(),
+    valueType: metricsLocalStorage.getInputValueType(),
   });
   const [tradeStatsToUpdate, setTradeStatsToUpdate] = useState<
     TradeSequenceDetail[]
@@ -56,19 +59,55 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setTradeDetail({ ...tradeDetail, [e.target.name]: e.target.value });
+    switch (e.target.name) {
+      case "asset":
+        metricsLocalStorage.setInputAsset(e.target.value);
+        break;
+      case "commission":
+        metricsLocalStorage.setInputCommission(parseFloat(e.target.value));
+        break;
+      case "direction":
+        metricsLocalStorage.setInputDirection(e.target.value as Direction);
+        break;
+      case "lossValue":
+        metricsLocalStorage.setInputLossValue(parseFloat(e.target.value));
+        break;
+      case "profitValue":
+        metricsLocalStorage.setInputProfitValue(parseFloat(e.target.value));
+        break;
+      case "valueType":
+        metricsLocalStorage.setInputValueType(
+          e.target.value as "percent" | "dollar"
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   const updateTradeCount = useCallback(
     (isWinCount: boolean) => {
+      const profitValue =
+        tradeDetail.valueType === "dollar"
+          ? (Math.abs(Number(tradeDetail.profitValue)) /
+              tradeStats.initialBalance) *
+            100
+          : Number(tradeDetail.profitValue);
+      const lossValue =
+        tradeDetail.valueType === "dollar"
+          ? (Number(-Math.abs(tradeDetail.lossValue)) /
+              tradeStats.initialBalance) *
+            100
+          : Number(-Math.abs(tradeDetail.lossValue));
       const trade: TradeSequenceDetail = {
         asset: tradeDetail.asset,
-        commission: tradeDetail.commission,
-        value: isWinCount
-          ? Math.abs(Number(tradeDetail.profitValue))
-          : Number(-tradeDetail.lossValue),
+        commission: Number(tradeDetail.commission),
+        value: isWinCount ? profitValue : lossValue,
         direction: tradeDetail.direction,
       };
       dispatch(strategyActions.setTempStrategyStatsToUpdate(trade));
+      console.log(tradeDetail, "xxx");
+      console.log(trade, isWinCount, lossValue, "xxx");
     },
     [dispatch, tradeDetail]
   );
@@ -126,7 +165,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
               type="text"
               name="asset"
               onChange={handleChange}
-              defaultValue="EURUSD"
+              defaultValue={tradeDetail.asset}
             />
           </li>
 
@@ -136,7 +175,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
               name="commission"
               onChange={handleChange}
               type="number"
-              defaultValue={0}
+              defaultValue={tradeDetail.commission}
             />
           </li>
           <li>
@@ -148,7 +187,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
                 name="direction"
                 value={Direction.Long}
                 id="direction-long"
-                defaultChecked
+                defaultChecked={tradeDetail.direction === Direction.Long}
               />
               <label htmlFor="direction-long">Long</label>
               <input
@@ -157,6 +196,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
                 name="direction"
                 value={Direction.Short}
                 id="direction-short"
+                defaultChecked={tradeDetail.direction === Direction.Short}
               />
               <label htmlFor="direction-short">Short</label>
             </StyledToggle>
@@ -169,7 +209,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
                 name="valueType"
                 value="percent"
                 id="valueType-percent"
-                defaultChecked
+                defaultChecked={tradeDetail.valueType === "percent"}
                 onChange={handleChange}
               />
               <label htmlFor="valueType-percent">Percent</label>
@@ -178,6 +218,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
                 name="valueType"
                 value="dollar"
                 id="valueType-dollar"
+                defaultChecked={tradeDetail.valueType === "dollar"}
                 onChange={handleChange}
               />
               <label htmlFor="valueType-dollar">Dollar</label>

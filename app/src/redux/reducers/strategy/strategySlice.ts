@@ -43,6 +43,12 @@ export const strategy = createSlice({
         ],
       };
     },
+    resetTempStrategyStatsToUpdate: (state) => {
+      return {
+        ...state,
+        tempStrategyStatsToUpdate: [],
+      };
+    },
   },
 });
 

@@ -17,22 +17,52 @@ import {
   Title,
 } from "./elements";
 import Switch from "./Switch";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { shortenText } from "@/utils/text";
 import GrowthChart from "./chart/GrowthChart";
 import AnalyticsCharts from "./chart/analyticsChart/AnalyticsCharts";
 import { TradeStats } from "@/graphql/api";
 import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
+import { useUpdateStrategyStatsMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
+import { strategyActions } from "@/redux/reducers/strategy/strategySlice";
 
 interface IProps {
   tradeStats: TradeStats;
 }
 
 const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
-  const metrix = useAppSelector(
-    (state) => state.strategy.selectedStrategyMetrix
-  );
+  const state = useAppSelector((state) => state.strategy);
+  const dispatch = useAppDispatch();
+  const { updateStrategyStatsMutation, loading } =
+    useUpdateStrategyStatsMutationHook(
+      {},
+      {
+        onCompleted(data) {
+          if (data.updateStrategyStats) {
+            dispatch(strategyActions.resetTempStrategyStatsToUpdate());
+          }
+        },
+      }
+    );
+
+  const metrix = state.selectedStrategyMetrix;
   const { balance } = useStrategyMetrix(tradeStats);
+
+  async function updateStrategyStats() {
+    try {
+      if (!metrix) return;
+      updateStrategyStatsMutation({
+        variables: {
+          updateStrategyStatsInput: {
+            strategy_id: metrix?._id,
+            tradesSequence: state.tempStrategyStatsToUpdate,
+          },
+        },
+      });
+    } catch (error) {
+      alert("something went wrong");
+    }
+  }
 
   return (
     <Container>
@@ -40,8 +70,8 @@ const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
         <HeaderContainer>
           <Title>BackTest Section</Title>
           <ActionSection>
-            <Switch />
-            <SaveButton>
+            {/* <Switch /> */}
+            <SaveButton onClick={updateStrategyStats}>
               <IoCloudDoneOutline size="25px" />
             </SaveButton>
             <BalanceTextContainer title={balance.toLocaleString()}>

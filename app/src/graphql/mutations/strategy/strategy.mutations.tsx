@@ -5,9 +5,12 @@ import {
   DeleteStrategyMutationVariables,
   UpdateStrategyDetailsInput,
   UpdateStrategyDetailsMutationOptions,
+  UpdateStrategyStatsMutationOptions,
+  UpdateStrategyStatsMutationVariables,
   useCreateStrategyMutation,
   useDeleteStrategyMutation,
   useUpdateStrategyDetailsMutation,
+  useUpdateStrategyStatsMutation,
 } from "@/graphql/api";
 
 export const useCreateStrategyMutationHook = (
@@ -47,4 +50,17 @@ export const useUpdateStrategyDetailsMutationHook = (
     });
 
   return { updateStrategyDetailsMutation, data, loading, error };
+};
+
+export const useUpdateStrategyStatsMutationHook = (
+  args: UpdateStrategyStatsMutationVariables,
+  options?: UpdateStrategyStatsMutationOptions
+) => {
+  const [updateStrategyStatsMutation, { data, loading, error }] =
+    useUpdateStrategyStatsMutation({
+      variables: args,
+      ...options,
+    });
+
+  return { updateStrategyStatsMutation, data, loading, error };
 };

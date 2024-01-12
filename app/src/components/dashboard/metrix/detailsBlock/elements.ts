@@ -89,6 +89,15 @@ export const SaveButton = styled.button`
   outline: none;
   border: none;
   background: transparent;
+
+  &:focus {
+    outline: dotted 1px #ddd;
+    outline-offset: 0.45rem;
+  }
+  &:hover {
+    outline: dotted 1px #ccc;
+    outline-offset: 0.45rem;
+  }
 `;
 
 export const BalanceTextContainer = styled.div`

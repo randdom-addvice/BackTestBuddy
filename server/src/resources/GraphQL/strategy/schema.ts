@@ -39,6 +39,7 @@ export default /* GraphQL */ `
   input TradeSequenceDetailInput {
     asset: String!
     value: Float!
+    commission: Float!
     direction: Direction!
   }
 
