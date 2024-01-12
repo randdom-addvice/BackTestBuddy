@@ -96,7 +96,6 @@ const Pie = () => {
     const trades = metrix?.tradeStats.tradesSequence ?? [];
     trades.forEach((trade) => {
       const asset = trade.asset;
-      //   console.log(trade.value);
       if (!groupedData[asset]) groupedData[asset] = [];
       groupedData[asset].push(trade.value);
       if (trade.value !== 0) {
@@ -165,18 +164,13 @@ const Pie = () => {
     },
   };
 
+  const updateDebouncedState = debounce(() => {
+    setSeries(result.values);
+  }, 2200);
+
   useEffect(() => {
-    console.log(result);
-    setSeries((prev) => ({
-      ...prev,
-      series: [
-        {
-          name: "AVG. Risk-Reward-Ratio",
-          data: result.values,
-        },
-      ],
-    }));
-  }, [metrix]);
+    updateDebouncedState();
+  }, [result]);
 
   return (
     <div>
