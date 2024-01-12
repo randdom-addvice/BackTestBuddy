@@ -84,30 +84,35 @@ const Bar = () => {
       dataLabels: {
         enabled: true,
       },
-      xaxis: {
-        categories: result.map((i) => i.asset),
-      },
+      labels: result.map((i) => i.asset),
+      // xaxis: {
+      //   categories: result.map((i) => i.asset),
+      // },
     },
   });
 
   const updateDebouncedState = debounce(() => {
     setDebouncedState((prev) => ({
       ...prev,
+      options: {
+        ...prev.options,
+        labels: result.map((i) => i.asset),
+      },
       series: [
         {
           name: "AVG. Risk-Reward-Ratio",
           data: result.map((i) => i.averageRatio),
         },
       ],
-      xaxis: {
-        categories: result.map((i) => i.asset),
-      },
+      // xaxis: {
+      //   categories: result.map((i) => i.asset),
+      // },
     }));
   }, 3000);
 
   useEffect(() => {
     updateDebouncedState();
-  }, [result]);
+  }, [result, metrix]);
 
   return (
     <div id="chart">
