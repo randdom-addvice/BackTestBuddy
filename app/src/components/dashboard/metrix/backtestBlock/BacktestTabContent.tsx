@@ -58,30 +58,36 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
     setTradeDetail({ ...tradeDetail, [e.target.name]: e.target.value });
   }
 
-  const updateReduxStore = useCallback(() => {
-    const trade: TradeSequenceDetail = {
-      asset: tradeDetail.asset,
-      commission: tradeDetail.commission,
-      value: tradeDetail.profitValue,
-      direction: tradeDetail.direction,
-    };
-    dispatch(strategyActions.setTempStrategyStatsToUpdate(trade));
-    console.log(trade);
-  }, [dispatch]);
+  const updateTradeCount = useCallback(
+    (isWinCount: boolean) => {
+      const trade: TradeSequenceDetail = {
+        asset: tradeDetail.asset,
+        commission: tradeDetail.commission,
+        value: isWinCount
+          ? Math.abs(Number(tradeDetail.profitValue))
+          : Number(-tradeDetail.lossValue),
+        direction: tradeDetail.direction,
+      };
+      dispatch(strategyActions.setTempStrategyStatsToUpdate(trade));
+    },
+    [dispatch, tradeDetail]
+  );
 
   const debouncedUpdateReduxStore = useCallback(
-    debounce(updateReduxStore, 500),
-    [updateReduxStore]
+    debounce(updateTradeCount, 500),
+    [updateTradeCount]
   );
 
   function addProfit() {
-    // debouncedUpdateReduxStore();
-    updateReduxStore();
+    updateTradeCount(true);
   }
-  function addLoss() {}
+  function addLoss() {
+    updateTradeCount(false);
+  }
 
   useEffect(() => {
-    console.log(tradeStats, "tradeStats");
+    // console.log(metrix.balance, "xxx");
+    // console.log(metrix.growth, "xxx");
   }, [tradeStats]);
 
   return (

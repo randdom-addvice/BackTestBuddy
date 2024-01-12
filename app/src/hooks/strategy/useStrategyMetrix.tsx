@@ -92,10 +92,11 @@ const useStrategyMetrix = (tradeStats: TradeStats) => {
 
   const calculateBalance = useCallback(() => {
     const totalGrowth = calculateGrowth();
+    const lastRecordedGrowth = totalGrowth[totalGrowth.length - 1]?.value ?? 0;
+    const balance = (lastRecordedGrowth / 100) * tradeStats.initialBalance;
+    // console.log(balance, " balancexxx");
 
-    return (
-      totalGrowth.reduce((a, b) => a + b.value, 0) + tradeStats.initialBalance
-    );
+    return balance + tradeStats.initialBalance;
   }, [tradeStats]);
 
   const calculateProfitFactor = useCallback(() => {
