@@ -2,20 +2,35 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   flex: 1;
+  background: #f9f9fa;
+  overflow-y: auto;
+
+  & > .wrapper {
+    background: ${({ theme }) => theme.colors.white};
+    border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
+  }
+  border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
+`;
+export const SectionWrapper = styled.div`
+  width: 95%;
+  display: flex;
+  align-items: center;
+  margin: auto;
 `;
 
 export const HeaderContainer = styled.header`
-  width: 100%;
+  width: 97.5%;
   height: 67px;
-  border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
+  background: ${({ theme }) => theme.colors.white};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: auto;
 `;
 
 export const Title = styled.h1`
   color: ${({ theme }) => theme.colors.black};
-  margin-left: 13px;
+  /* margin-left: 13px; */
   font-size: 19px;
   font-weight: 700;
   word-wrap: break-word;
@@ -74,11 +89,20 @@ export const SaveButton = styled.button`
   outline: none;
   border: none;
   background: transparent;
+
+  &:focus {
+    outline: dotted 1px #ddd;
+    outline-offset: 0.45rem;
+  }
+  &:hover {
+    outline: dotted 1px #ccc;
+    outline-offset: 0.45rem;
+  }
 `;
 
 export const BalanceTextContainer = styled.div`
   background: ${({ theme }) => theme.colors.accent1};
-  padding: 15px 0 10px 0;
+  padding: 15px 5px 10px 0;
   border-radius: 20px 0px 0px 20px;
   width: 180px;
   color: white;
@@ -113,10 +137,12 @@ export const InfoSection = styled.section`
   align-items: center;
   height: 80px;
   border-bottom: 1px ${({ theme }) => theme.colors.lightGrey} solid;
-  padding: 12px 13px;
+  padding: 12px 0;
+  background: ${({ theme }) => theme.colors.white};
 `;
 export const InfoBlock = styled.div`
   margin-right: 6rem;
+  background: ${({ theme }) => theme.colors.white};
 `;
 export const InfoLabel = styled.h4`
   color: ${({ theme }) => theme.colors.black};

@@ -13,11 +13,7 @@ mutation UpdateStrategyDetails(
 }
 
 mutation UpdateStrategyStats(
-  $strategyId: ID!
   $updateStrategyStatsInput: UpdateStrategyStatsInput
 ) {
-  updateStrategyStats(
-    strategy_id: $strategyId
-    updateStrategyStatsInput: $updateStrategyStatsInput
-  )
+  updateStrategyStats(updateStrategyStatsInput: $updateStrategyStatsInput)
 }

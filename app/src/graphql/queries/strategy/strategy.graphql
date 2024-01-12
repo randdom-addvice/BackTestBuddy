@@ -18,10 +18,17 @@ query GetStrategy($getStrategyId: ID!) {
       percentageWin
       profitGain
       profitFactor
-      tradesSequence
+      tradesSequence {
+        asset
+        value
+        direction
+        commission
+      }
       growth {
         asset
         value
+        direction
+        commission
       }
     }
   }

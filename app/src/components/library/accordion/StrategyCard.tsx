@@ -15,7 +15,7 @@ import { StyledFlex } from "@/styles/globalElements";
 import { AppRoutes } from "@/routes/routesDeclaration";
 import { StrategyCardType } from "../common";
 import { useDeleteStrategyMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
-import InputPromptModal from "@/components/modal/InputPrompt/InputPromptModal";
+import InputPromptModal from "@/components/modal/InfoModal/InfoModal";
 import StrategyForm from "./StrategyForm";
 
 interface Props {

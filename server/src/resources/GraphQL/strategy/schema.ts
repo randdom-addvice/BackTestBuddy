@@ -1,8 +1,15 @@
 export default /* GraphQL */ `
-  type Growth {
+  enum Direction {
+    LONG
+    SHORT
+  }
+  type TradeSequenceDetail {
     asset: String!
     value: Float!
+    commission: Float!
+    direction: Direction!
   }
+
   type TradeStats {
     _id: ID
     winCountValue: Float!
@@ -15,10 +22,10 @@ export default /* GraphQL */ `
     totalLosses: Int!
     totalWinnings: Int!
     percentageWin: Int!
-    profitGain: Int!
-    profitFactor: Int!
-    tradesSequence: [Float]!
-    growth: [Growth]!
+    profitGain: Float!
+    profitFactor: Float!
+    tradesSequence: [TradeSequenceDetail!]!
+    growth: [TradeSequenceDetail!]!
   }
 
   type Strategy {
@@ -27,6 +34,13 @@ export default /* GraphQL */ `
     name: String!
     description: String!
     tradeStats: TradeStats!
+  }
+
+  input TradeSequenceDetailInput {
+    asset: String!
+    value: Float!
+    commission: Float!
+    direction: Direction!
   }
 
   input CreateStrategyInput {
@@ -43,14 +57,8 @@ export default /* GraphQL */ `
   }
 
   input UpdateStrategyStatsInput {
-    winCountValue: Float!
-    lossCountValue: Float!
-    totalLosses: Int!
-    totalWinnings: Int!
-    profitGain: Float!
-    profitFactor: Float!
-    tradesSequence: [Float]!
-    growth: [Float]!
+    tradesSequence: [TradeSequenceDetailInput]!
+    strategy_id: ID!
   }
 
   type Query {
@@ -65,7 +73,6 @@ export default /* GraphQL */ `
     ): Boolean!
     updateStrategyStats(
       updateStrategyStatsInput: UpdateStrategyStatsInput
-      strategy_id: ID!
     ): Boolean!
     deleteStrategy(id: ID!): Boolean!
   }

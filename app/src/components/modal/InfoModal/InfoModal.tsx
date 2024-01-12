@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ModalRoot from "../ModalRoot";
 import { NativeModalBackdrop } from "../elements";
 import { MdOutlineCancel } from "react-icons/md";
@@ -12,22 +12,27 @@ import {
   StyledModalContainerHeader,
   StyledModalContainerTitle,
 } from "./elements";
+
 interface IProps {
   headerTitle: string;
+  modalWidth?: string;
   showModal: boolean;
   setShowModal: (
     state: boolean
   ) => void | React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode | JSX.Element;
   onSubmit: () => void;
+  showFooter?: boolean;
 }
 
-const InputPromptModal: React.FC<IProps> = ({
+const InfoModal: React.FC<IProps> = ({
   showModal,
   setShowModal,
   children,
   onSubmit,
   headerTitle,
+  modalWidth,
+  showFooter = true,
 }) => {
   function closeModal() {
     setShowModal(false);
@@ -40,19 +45,17 @@ const InputPromptModal: React.FC<IProps> = ({
       showBackDrop={false}
     >
       <StyledModal>
-        <StyledModalContainer>
-          <StyledModalContainer>
-            <StyledModalContainerHeader>
-              <StyledModalContainerTitle>
-                {headerTitle}
-              </StyledModalContainerTitle>
-              <StyledIconButton onClick={closeModal}>
-                <MdOutlineCancel />
-              </StyledIconButton>
-            </StyledModalContainerHeader>
-            <StyledModalContainerBody className="rtf">
-              {children}
-            </StyledModalContainerBody>
+        <StyledModalContainer width={modalWidth ? modalWidth : "550px"}>
+          <StyledModalContainerHeader>
+            <StyledModalContainerTitle>{headerTitle}</StyledModalContainerTitle>
+            <StyledIconButton onClick={closeModal}>
+              <MdOutlineCancel />
+            </StyledIconButton>
+          </StyledModalContainerHeader>
+          <StyledModalContainerBody className="rtf">
+            {children}
+          </StyledModalContainerBody>
+          {showFooter && (
             <StyledModalContainerFooter>
               <StyledButton className="is-secondary" onClick={closeModal}>
                 Cancel
@@ -61,11 +64,11 @@ const InputPromptModal: React.FC<IProps> = ({
                 Proceed
               </StyledButton>
             </StyledModalContainerFooter>
-          </StyledModalContainer>
+          )}
         </StyledModalContainer>
       </StyledModal>
     </ModalRoot>
   );
 };
 
-export default InputPromptModal;
+export default InfoModal;

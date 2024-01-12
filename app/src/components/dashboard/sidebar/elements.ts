@@ -8,6 +8,11 @@ export const SidebarContainer = styled.div<{ expanded: boolean }>`
   border-right: 1px ${({ theme }) => theme.colors.lightGrey} solid;
   transition: width 0.5s ease;
   position: relative;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: ${({ theme }) => theme.colors.white};
+  z-index: 10;
 `;
 export const SidebarMenuIcon = styled.div`
   height: 67px;
@@ -17,11 +22,14 @@ export const SidebarMenuIcon = styled.div`
   margin-bottom: 40px;
   cursor: pointer;
 `;
-export const SidebarCategory = styled.div<{ active: boolean }>`
+export const SidebarCategory = styled.div`
   position: relative;
   margin-bottom: 1rem;
   cursor: pointer;
-  &::before {
+  a {
+    position: relative;
+  }
+  a.active::before {
     content: "";
     position: absolute;
     top: 0;
@@ -30,16 +38,12 @@ export const SidebarCategory = styled.div<{ active: boolean }>`
     width: 7px;
     height: 100%;
     background-color: ${({ theme }) => theme.colors.accent1};
-    opacity: ${({ active }) => (active ? `1` : "0")};
+    opacity: 1;
   }
-  /* border-left: ${({ theme, active }) =>
-    active ? `7px solid ${theme.colors.accent1}` : "none"}; */
   &:hover {
     &::before {
       opacity: 1;
     }
-    /* border-left: ${({ theme, active }) =>
-      `7px solid ${theme.colors.accent1}`}; */
   }
   a {
     text-decoration: none;

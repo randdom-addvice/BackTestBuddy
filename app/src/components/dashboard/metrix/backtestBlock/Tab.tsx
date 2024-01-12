@@ -8,6 +8,7 @@ import {
 } from "./elements";
 import BacktestTabContent from "./BacktestTabContent";
 import DataTabContent from "./dataTabContent/DataTabContent";
+import { useAppSelector } from "@/redux/hooks";
 
 interface SwitchableTabsProps {
   tabs: string[];
@@ -15,6 +16,10 @@ interface SwitchableTabsProps {
 
 const Tab: React.FC<SwitchableTabsProps> = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState<number>(0);
+  const metrix = useAppSelector(
+    (state) => state.strategy.selectedStrategyMetrix
+  );
+  const tradeStats = metrix?.tradeStats;
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
@@ -36,8 +41,12 @@ const Tab: React.FC<SwitchableTabsProps> = ({ tabs }) => {
         </TabContainerWrapper>
       </TabWrapper>
       <TabContent>
-        {tabs[activeTab] === "Backtest" && <BacktestTabContent />}
-        {tabs[activeTab] === "Data" && <DataTabContent />}
+        {tabs[activeTab] === "Backtest" && tradeStats ? (
+          <BacktestTabContent tradeStats={tradeStats} />
+        ) : null}
+        {tabs[activeTab] === "Data" && tradeStats && (
+          <DataTabContent tradeStats={tradeStats} />
+        )}
       </TabContent>
     </TabContainer>
   );

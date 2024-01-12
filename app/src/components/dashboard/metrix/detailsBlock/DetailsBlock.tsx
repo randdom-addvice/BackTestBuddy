@@ -13,59 +13,96 @@ import {
   InfoSection,
   InfoText,
   SaveButton,
+  SectionWrapper,
   Title,
 } from "./elements";
 import Switch from "./Switch";
-import Chart from "./chart/Chart";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { shortenText } from "@/utils/text";
+import GrowthChart from "./chart/GrowthChart";
+import AnalyticsCharts from "./chart/analyticsChart/AnalyticsCharts";
+import { TradeStats } from "@/graphql/api";
+import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
+import { useUpdateStrategyStatsMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
+import { strategyActions } from "@/redux/reducers/strategy/strategySlice";
 
-const DetailsBlock = () => {
+interface IProps {
+  tradeStats: TradeStats;
+}
+
+const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
+  const state = useAppSelector((state) => state.strategy);
+  const dispatch = useAppDispatch();
+  const { updateStrategyStatsMutation, loading } =
+    useUpdateStrategyStatsMutationHook(
+      {},
+      {
+        onCompleted(data) {
+          if (data.updateStrategyStats) {
+            dispatch(strategyActions.resetTempStrategyStatsToUpdate());
+          }
+        },
+      }
+    );
+
+  const metrix = state.selectedStrategyMetrix;
+  const { balance } = useStrategyMetrix(tradeStats);
+
+  async function updateStrategyStats() {
+    try {
+      if (!metrix) return;
+      updateStrategyStatsMutation({
+        variables: {
+          updateStrategyStatsInput: {
+            strategy_id: metrix?._id,
+            tradesSequence: state.tempStrategyStatsToUpdate,
+          },
+        },
+      });
+    } catch (error) {
+      alert("something went wrong");
+    }
+  }
+
   return (
     <Container>
-      <HeaderContainer>
-        <Title>BackTest Section</Title>
-        <ActionSection>
-          <Switch />
-          <SaveButton>
-            <IoCloudDoneOutline size="25px" />
-          </SaveButton>
-          <BalanceTextContainer>
-            <Balance>$ 10000</Balance>
-            <BalanceText>Current Balance</BalanceText>
-          </BalanceTextContainer>
-        </ActionSection>
-      </HeaderContainer>
+      <div className="wrapper">
+        <HeaderContainer>
+          <Title>BackTest Section</Title>
+          <ActionSection>
+            {/* <Switch /> */}
+            <SaveButton onClick={updateStrategyStats}>
+              <IoCloudDoneOutline size="25px" />
+            </SaveButton>
+            <BalanceTextContainer title={balance.toLocaleString()}>
+              <Balance>$ {shortenText(balance.toLocaleString(), 10)}</Balance>
+              <BalanceText>Current Balance</BalanceText>
+            </BalanceTextContainer>
+          </ActionSection>
+        </HeaderContainer>
+      </div>
       <InfoSection>
-        <InfoBlock>
-          <InfoLabel>Strategy Name</InfoLabel>
-          <InfoText>ICT Silver Bullet</InfoText>
-        </InfoBlock>
-        <InfoBlock>
-          <InfoLabel>Description</InfoLabel>
-          <InfoText>Lorem ipsum dolor sit amet.</InfoText>
-        </InfoBlock>
+        <SectionWrapper>
+          <InfoBlock>
+            <InfoLabel>Strategy Name</InfoLabel>
+            <InfoText>{metrix?.name}</InfoText>
+          </InfoBlock>
+          <InfoBlock>
+            <InfoLabel>Description</InfoLabel>
+            <InfoText title={metrix?.description}>
+              {shortenText(metrix?.description ?? "", 25)}
+            </InfoText>
+          </InfoBlock>
+        </SectionWrapper>
       </InfoSection>
-      <Chart />
+      {tradeStats && (
+        <>
+          <GrowthChart tradeStats={tradeStats} />
+          <AnalyticsCharts />
+        </>
+      )}
+      {/* <Chart /> */}
     </Container>
   );
 };
-/*
-   <HeaderContainer>
-      <Title>BackTest Section</Title>
-      <BalanceAmount>$ 10000</BalanceAmount>
-      <BalanceText>Current Balance</BalanceText>
-      <ActionSection>
-        <ActionSectionBackground />
-        <ActionButton1>
-          <div style={{ width: '37.50px', height: '21.88px', left: '0px', top: '5.83px', position: 'absolute', border: '0.75px black solid' }} />
-          <div style={{ width: '12.03px', height: '8.75px', left: '12.73px', top: '14.22px', position: 'absolute', border: '0.75px black solid' }} />
-        </ActionButton1>
-        <ActionButton2>
-          <div style={{ width: '113px', height: '44px', left: '0px', top: '-3px', position: 'absolute', background: '#E4E4E4', borderRadius: '20px' }} />
-          <DollarSign>$</DollarSign>
-          <CircleButton />
-        </ActionButton2>
-      </ActionSection>
-    </HeaderContainer>
-
- */
 export default DetailsBlock;

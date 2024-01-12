@@ -10,7 +10,7 @@ import {
   useCreateStrategyMutationHook,
   useUpdateStrategyDetailsMutationHook,
 } from "@/graphql/mutations/strategy/strategy.mutations";
-import InputPromptModal from "@/components/modal/InputPrompt/InputPromptModal";
+import InputPromptModal from "@/components/modal/InfoModal/InfoModal";
 
 interface Props {
   libraryId: string;

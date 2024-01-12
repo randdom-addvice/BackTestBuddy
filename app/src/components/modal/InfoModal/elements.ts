@@ -12,9 +12,9 @@ export const StyledModal = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
-export const StyledModalContainer = styled.article`
+export const StyledModalContainer = styled.article<{ width?: string }>`
   max-height: 90vh;
-  max-width: 550px;
+  max-width: ${({ width }) => (width ? width : "550px")};
   width: 100%;
   margin-left: auto;
   margin-right: auto;

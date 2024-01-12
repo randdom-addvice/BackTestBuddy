@@ -17,6 +17,14 @@ const LazyAuthPage = lazy(() => import("@/pages/AuthPage"));
 const LazyMetrixPage = lazy(() => import("@/pages/MetrixPage"));
 const LazyLibraryPage = lazy(() => import("@/pages/LibraryPage"));
 
+const checkJWTValidity = async () => {
+  const authToken = CookieUtility.getCookie(JWT_TOKEN_NAMESPACE);
+  if (!checkTokenValidity(authToken)) {
+    throw redirect(AppRoutes.AUTH);
+  }
+  return null;
+};
+
 const router = createBrowserRouter([
   {
     path: AppRoutes.HOME,
@@ -24,13 +32,8 @@ const router = createBrowserRouter([
   },
   {
     path: AppRoutes.DASHBOARD,
-    loader: async () => {
-      const authToken = CookieUtility.getCookie(JWT_TOKEN_NAMESPACE);
-      if (!checkTokenValidity(authToken)) {
-        throw redirect(AppRoutes.AUTH);
-      }
-      return null;
-    },
+    loader: checkJWTValidity,
+    errorElement: <div>Error</div>,
     element: (
       <ErrorBoundary
         fallback={<h2>Something went wrong. Please try again later.</h2>}
@@ -39,28 +42,28 @@ const router = createBrowserRouter([
         <Outlet />
       </ErrorBoundary>
     ),
-    children: [
-      {
-        path: AppRoutes.METRIX,
-        element: (
-          <ErrorBoundary
-            fallback={<h2>Something went wrong. Please try again later.</h2>}
-          >
-            <LazyMetrixPage />
-          </ErrorBoundary>
-        ),
-      },
-      {
-        path: AppRoutes.LIBRARIES,
-        element: (
-          <ErrorBoundary
-            fallback={<h2>Something went wrong. Please try again later.</h2>}
-          >
-            <LazyLibraryPage />
-          </ErrorBoundary>
-        ),
-      },
-    ],
+  },
+  {
+    path: AppRoutes.METRIX,
+    loader: checkJWTValidity,
+    element: (
+      <ErrorBoundary
+        fallback={<h2>Something went wrong. Please try again later.</h2>}
+      >
+        <LazyMetrixPage />
+      </ErrorBoundary>
+    ),
+  },
+  {
+    path: AppRoutes.LIBRARIES,
+    loader: checkJWTValidity,
+    element: (
+      <ErrorBoundary
+        fallback={<h2>Something went wrong. Please try again later.</h2>}
+      >
+        <LazyLibraryPage />
+      </ErrorBoundary>
+    ),
   },
   {
     path: AppRoutes.AUTH,
