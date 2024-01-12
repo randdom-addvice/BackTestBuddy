@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { debounce } from "lodash";
 import {
   Input,
   InputBlock,
@@ -21,8 +22,9 @@ import {
 import Switch from "./Switch";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { StyledFlex } from "@/styles/globalElements";
-import { Direction, TradeSequenceDetail } from "@/graphql/api";
+import { Direction, TradeSequenceDetail, TradeStats } from "@/graphql/api";
 import { strategyActions } from "@/redux/reducers/strategy/strategySlice";
+import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
 
 interface TradeDetail {
   commission: number;
@@ -33,9 +35,12 @@ interface TradeDetail {
   valueType: "percent" | "dollar";
 }
 
-const BacktestTabContent = () => {
+interface IProps {
+  tradeStats: TradeStats;
+}
+
+const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
   const dispatch = useAppDispatch();
-  const state = useAppSelector((state) => state.strategy);
   const [tradeDetail, setTradeDetail] = useState<TradeDetail>({
     direction: Direction.Long,
     asset: "EURUSD",
@@ -44,23 +49,16 @@ const BacktestTabContent = () => {
     profitValue: 1,
     valueType: "percent",
   });
-  // const [direction, setDirection] = useState<Direction.Long | Direction.Short>(
-  //   Direction.Long
-  // );
-  // const [assetName, setAssetName] = useState("");
-  // const [commission, setCommission] = useState(0);
   const [tradeStatsToUpdate, setTradeStatsToUpdate] = useState<
     TradeSequenceDetail[]
   >([]);
-  const { tradeStats } = state.selectedStrategyMetrix || {};
-
-  useCallback(() => {}, []);
+  const metrix = useStrategyMetrix(tradeStats);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setTradeDetail({ ...tradeDetail, [e.target.name]: e.target.value });
   }
 
-  function addProfit() {
+  const updateReduxStore = useCallback(() => {
     const trade: TradeSequenceDetail = {
       asset: tradeDetail.asset,
       commission: tradeDetail.commission,
@@ -69,6 +67,16 @@ const BacktestTabContent = () => {
     };
     dispatch(strategyActions.setTempStrategyStatsToUpdate(trade));
     console.log(trade);
+  }, [dispatch]);
+
+  const debouncedUpdateReduxStore = useCallback(
+    debounce(updateReduxStore, 500),
+    [updateReduxStore]
+  );
+
+  function addProfit() {
+    // debouncedUpdateReduxStore();
+    updateReduxStore();
   }
   function addLoss() {}
 
@@ -76,7 +84,6 @@ const BacktestTabContent = () => {
     console.log(tradeStats, "tradeStats");
   }, [tradeStats]);
 
-  if (!state.selectedStrategyMetrix) return null;
   return (
     <>
       <InputSection>
@@ -175,26 +182,22 @@ const BacktestTabContent = () => {
       <ShortDataContainer>
         <ShortDataGridItem>
           <ShortDataGridLabel>Total Trades</ShortDataGridLabel>
-          <ShortDataGridText>{tradeStats?.totalTrades}</ShortDataGridText>
+          <ShortDataGridText>{metrix?.totalTrades}</ShortDataGridText>
         </ShortDataGridItem>
         <ShortDataGridItem>
           <ShortDataGridLabel>Wins / Losses</ShortDataGridLabel>
           <ShortDataGridText>
-            <SpanGreen>{tradeStats?.totalWinnings}</SpanGreen> /{" "}
-            <SpanRed>{tradeStats?.totalLosses}</SpanRed>
+            <SpanGreen>{metrix?.totalWinnings}</SpanGreen> /{" "}
+            <SpanRed>{metrix?.totalLosses}</SpanRed>
           </ShortDataGridText>
         </ShortDataGridItem>
         <ShortDataGridItem>
           <ShortDataGridLabel>Win rate</ShortDataGridLabel>
-          <ShortDataGridText>
-            {tradeStats?.totalWinningsPercent}%
-          </ShortDataGridText>
+          <ShortDataGridText>{metrix?.winRate}%</ShortDataGridText>
         </ShortDataGridItem>
         <ShortDataGridItem>
           <ShortDataGridLabel>Breakeven</ShortDataGridLabel>
-          <ShortDataGridText>
-            {tradeStats?.tradesSequence.filter((i) => i.value === 0).length}
-          </ShortDataGridText>
+          <ShortDataGridText>{metrix?.breakEvenCount}</ShortDataGridText>
         </ShortDataGridItem>
       </ShortDataContainer>
     </>

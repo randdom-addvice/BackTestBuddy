@@ -14,195 +14,199 @@ import { StyledFlex } from "@/styles/globalElements";
 import InfoModal from "@/components/modal/InfoModal/InfoModal";
 import { TradeMetricsCalculator } from "./utils";
 import { shortenText } from "@/utils/text";
+import { TradeStats } from "@/graphql/api";
+import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
 
 interface IProps {
+  tradeStats: TradeStats;
   showModal: boolean;
   setShowModal: (
     state: boolean
   ) => void | React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AdvancedDataMetrix: React.FC<IProps> = ({ showModal, setShowModal }) => {
-  const { tradeStats } =
-    useAppSelector((state) => state.strategy.selectedStrategyMetrix) || {};
-  const tradeMetricsCalculator = useMemo(
-    () => new TradeMetricsCalculator(tradeStats!),
-    [tradeStats]
-  );
+const AdvancedDataMetrix: React.FC<IProps> = ({
+  showModal,
+  setShowModal,
+  tradeStats,
+}) => {
+  const metrix = useStrategyMetrix(tradeStats);
+  // const tradeMetricsCalculator = useMemo(
+  //   () => new TradeMetricsCalculator(tradeStats!),
+  //   [tradeStats]
+  // );
 
-  const relativeDrawdown = useMemo(
-    () => tradeMetricsCalculator.calculateRelativeDrawdown(),
-    [tradeMetricsCalculator]
-  );
-  const absoluteDrawdown = useMemo(
-    () => tradeMetricsCalculator.calculateAbsoluteDrawdown(),
-    [tradeMetricsCalculator]
-  );
-  const averageWinDollars = useMemo(
-    () => tradeMetricsCalculator.calculateAverageWinDollars(),
-    [tradeMetricsCalculator]
-  );
-  const averageLossDollars = useMemo(
-    () => tradeMetricsCalculator.calculateAverageLossDollars(),
-    [tradeMetricsCalculator]
-  );
-  const longsWonPercentage = useMemo(
-    () => tradeMetricsCalculator.calculateLongsWonPercentage(),
-    [tradeMetricsCalculator]
-  );
-  const shortsWonPercentage = useMemo(
-    () => tradeMetricsCalculator.calculateShortsWonPercentage(),
-    [tradeMetricsCalculator]
-  );
-  const bestTradeDollars = useMemo(
-    () => tradeMetricsCalculator.calculateBestTradeDollars(),
-    [tradeMetricsCalculator]
-  );
-  const worstTradeDollars = useMemo(
-    () => tradeMetricsCalculator.calculateWorstTradeDollars(),
-    [tradeMetricsCalculator]
-  );
-  const profitFactor = useMemo(
-    () => tradeMetricsCalculator.calculateProfitFactor(),
-    [tradeMetricsCalculator]
-  );
-  const averageRiskToreward = useMemo(
-    () => tradeMetricsCalculator.calculateAverageRiskToReward(),
-    [tradeMetricsCalculator]
-  );
-  const stdDeviation = useMemo(
-    () => tradeMetricsCalculator.calculateStdDeviation(),
-    [tradeMetricsCalculator]
-  );
-  const sharpeRatio = useMemo(
-    () => tradeMetricsCalculator.calculateSharpeRatio(),
-    [tradeMetricsCalculator]
-  );
-  const zScoreProbability = useMemo(
-    () => tradeMetricsCalculator.calculateZScoreProbability(),
-    [tradeMetricsCalculator]
-  );
-  const zScorePercentage = useMemo(
-    () => tradeMetricsCalculator.calculateZScorePercentage(),
-    [tradeMetricsCalculator]
-  );
-  const expectancyPips = useMemo(
-    () => tradeMetricsCalculator.calculateExpectancyPips(),
-    [tradeMetricsCalculator]
-  );
-  const expectancyDollars = useMemo(
-    () => tradeMetricsCalculator.calculateExpectancyDollars(),
-    [tradeMetricsCalculator]
-  );
-  const ahpr = useMemo(
-    () => tradeMetricsCalculator.calculateAhpr(),
-    [tradeMetricsCalculator]
-  );
-  const ghpr = useMemo(
-    () => tradeMetricsCalculator.calculateGhpr(),
-    [tradeMetricsCalculator]
-  );
+  // const relativeDrawdown = useMemo(
+  //   () => tradeMetricsCalculator.calculateRelativeDrawdown(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const absoluteDrawdown = useMemo(
+  //   () => tradeMetricsCalculator.calculateAbsoluteDrawdown(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const averageWinDollars = useMemo(
+  //   () => tradeMetricsCalculator.calculateAverageWinDollars(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const averageLossDollars = useMemo(
+  //   () => tradeMetricsCalculator.calculateAverageLossDollars(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const longsWonPercentage = useMemo(
+  //   () => tradeMetricsCalculator.calculateLongsWonPercentage(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const shortsWonPercentage = useMemo(
+  //   () => tradeMetricsCalculator.calculateShortsWonPercentage(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const bestTradeDollars = useMemo(
+  //   () => tradeMetricsCalculator.calculateBestTradeDollars(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const worstTradeDollars = useMemo(
+  //   () => tradeMetricsCalculator.calculateWorstTradeDollars(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const profitFactor = useMemo(
+  //   () => tradeMetricsCalculator.calculateProfitFactor(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const averageRiskToreward = useMemo(
+  //   () => tradeMetricsCalculator.calculateAverageRiskToReward(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const stdDeviation = useMemo(
+  //   () => tradeMetricsCalculator.calculateStdDeviation(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const sharpeRatio = useMemo(
+  //   () => tradeMetricsCalculator.calculateSharpeRatio(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const zScoreProbability = useMemo(
+  //   () => tradeMetricsCalculator.calculateZScoreProbability(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const zScorePercentage = useMemo(
+  //   () => tradeMetricsCalculator.calculateZScorePercentage(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const expectancyPips = useMemo(
+  //   () => tradeMetricsCalculator.calculateExpectancyPips(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const expectancyDollars = useMemo(
+  //   () => tradeMetricsCalculator.calculateExpectancyDollars(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const ahpr = useMemo(
+  //   () => tradeMetricsCalculator.calculateAhpr(),
+  //   [tradeMetricsCalculator]
+  // );
+  // const ghpr = useMemo(
+  //   () => tradeMetricsCalculator.calculateGhpr(),
+  //   [tradeMetricsCalculator]
+  // );
 
   const analysisData = [
     {
       name: "Gain",
-      value: `%${tradeStats?.profitGain.toFixed(2)}`,
+      value: `%${metrix.profitGain}`,
     },
     {
       name: "Balance",
-      value: `$${shortenText(tradeStats?.balance.toLocaleString() ?? "", 10)}`,
+      value: `$${shortenText(metrix?.balance.toLocaleString() ?? "", 10)}`,
     },
     {
-      name: "Profitability",
-      value: `%${tradeStats?.percentageWin}`,
+      name: "Win Rate",
+      value: `%${metrix.winRate}`,
     },
     {
       name: "Total Trades",
-      value: `${tradeStats?.totalTrades}`,
+      value: `${metrix.totalTrades}`,
     },
     {
       name: "Total Winning",
-      value: `${tradeStats?.totalWinnings}`,
+      value: `${metrix.totalWinnings}`,
     },
     {
       name: "Total Losses",
-      value: `${tradeStats?.totalLosses}`,
+      value: `${metrix.totalLosses}`,
     },
     {
       name: "Breakeven Trades",
-      value: `${
-        tradeStats?.tradesSequence.filter((i) => i.value === 0).length
-      }`,
+      value: `${metrix.breakEvenCount}`,
     },
   ];
   const advancedAnalysisData = [
     {
       name: "Drawdown",
-      value: `${absoluteDrawdown.toFixed(2)}%`,
+      value: `${metrix.absoluteDrawdown.toFixed(2)}%`,
     },
     {
       name: "Relative Drawdown (To be worked on)",
-      value: `${relativeDrawdown.toFixed(2)}%`,
+      value: `${metrix.relativeDrawdown.toFixed(2)}%`,
     },
     {
       name: "Average Win Dollars",
-      value: `$${averageWinDollars.toFixed(2)}`,
+      value: `$${metrix.averageWinDollars.toFixed(2)}`,
     },
     {
       name: "Average Loss Dollars",
-      value: `$${averageLossDollars.toFixed(2)}`,
+      value: `$${metrix.averageLossDollars.toFixed(2)}`,
     },
     {
       name: "Longs Won",
-      value: `${longsWonPercentage}`,
+      value: `${metrix.longsWonPercentage}`,
     },
     {
       name: "Shorts Won",
-      value: `${shortsWonPercentage}`,
+      value: `${metrix.shortsWonPercentage}`,
     },
     {
       name: "Best Trade Dollars",
-      value: `${bestTradeDollars}$`,
+      value: `${metrix.bestTradeDollars}$`,
     },
     {
       name: "Worst Trade Dollars",
-      value: `${worstTradeDollars}$`,
+      value: `${metrix.worstTradeDollars}$`,
     },
     {
       name: "Avg. Risk-to-reward",
-      value: averageRiskToreward.toFixed(2),
+      value: metrix.averageRiskToReward.toFixed(2),
     },
     {
       name: "Profit Factor",
-      value: profitFactor.toFixed(2),
+      value: metrix.profitFactor.toFixed(2),
     },
     {
       name: "Std Deviation (To Be worked on)",
-      value: `${stdDeviation.toFixed(3)}$`,
+      value: `${metrix.stdDeviation.toFixed(3)}$`,
     },
     {
       name: "Sharpe Ratio (To Be worked on)",
-      value: sharpeRatio.toFixed(2),
+      value: metrix.sharpeRatio.toFixed(2),
     },
     {
       name: "Z Score Probability",
-      value: `${zScoreProbability.toFixed(2)}%`,
+      value: `${metrix.zScoreProbability.toFixed(2)}%`,
     },
     {
       name: "Z Score",
-      value: zScorePercentage.toFixed(2),
+      value: metrix.zScorePercentage.toFixed(2),
     },
     {
       name: "Expectancy Dollars",
-      value: `$${expectancyDollars.toFixed(2)}`,
+      value: `$${metrix.expectancyDollars.toFixed(2)}`,
     },
     {
       name: "Ahpr",
-      value: `${ahpr.toFixed(2)}%`,
+      value: `${metrix.ahpr.toFixed(2)}%`,
     },
     {
       name: "Ghpr",
-      value: `${ghpr.toFixed(2)}%`,
+      value: `${metrix.ghpr.toFixed(2)}%`,
     },
   ];
   //   console.log("xx averageLossDollars", averageLossDollars);

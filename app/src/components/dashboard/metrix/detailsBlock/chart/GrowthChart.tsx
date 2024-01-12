@@ -2,14 +2,22 @@ import React, { useEffect, useMemo, useState } from "react";
 import Chart from "react-apexcharts";
 import { Container, ContainerHeader, Tab, TabLabel, Wrapper } from "./elements";
 import { useAppSelector } from "@/redux/hooks";
+import { TradeStats } from "@/graphql/api";
+import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
+import { debounce } from "lodash";
 
-const App: React.FC = () => {
+interface IProps {
+  tradeStats: TradeStats;
+}
+
+const GrowthChart: React.FC<IProps> = ({ tradeStats }) => {
   const metrix = useAppSelector(
     (state) => state.strategy.selectedStrategyMetrix
   );
+  const { balance, growth } = useStrategyMetrix(tradeStats);
   const [activeTab, setActiveTab] = useState<number>(1);
 
-  const [state, setState] = useState({
+  const [debouncedState, setDebouncedState] = useState({
     options: {
       chart: {
         id: "apexchart-example",
@@ -30,61 +38,56 @@ const App: React.FC = () => {
         name: "Growth (%)",
         data:
           activeTab === 0
-            ? metrix?.tradeStats.growth.map((i) =>
+            ? growth.map((i) =>
                 parseInt(
-                  ((i.value / 100) * metrix.tradeStats.initialBalance).toFixed(
-                    1
-                  )
+                  ((i.value / 100) * tradeStats.initialBalance).toFixed(1)
                 )
               ) ?? []
-            : metrix?.tradeStats.growth.map((i) =>
-                parseInt(i.value.toFixed(2))
-              ) ?? [], // [30, 40, 35, 50, 49, 60, 70, 91, 125],
+            : growth.map((i) => parseInt(i.value.toFixed(2))) ?? [], // [30, 40, 35, 50, 49, 60, 70, 91, 125],
       },
     ],
   });
 
-  useEffect(() => {
+  const updateDebouncedState = debounce(() => {
     if (activeTab === 0) {
-      setState((prev) => ({
+      setDebouncedState((prev) => ({
         ...prev,
         series: [
           {
             ...prev.series[0],
             name: "Profit ($)",
             data:
-              metrix?.tradeStats.growth.map((i) =>
+              growth.map((i) =>
                 parseInt(
-                  ((i.value / 100) * metrix.tradeStats.initialBalance).toFixed(
-                    1
-                  )
+                  ((i.value / 100) * tradeStats.initialBalance).toFixed(1)
                 )
               ) ?? [],
           },
         ],
       }));
     } else {
-      setState((prev) => ({
+      setDebouncedState((prev) => ({
         ...prev,
         series: [
           {
             ...prev.series[0],
             name: "Growth (%)",
-            data:
-              metrix?.tradeStats.growth.map((i) =>
-                parseInt(i.value.toFixed(2))
-              ) ?? [],
+            data: growth.map((i) => parseInt(i.value.toFixed(2))) ?? [],
           },
         ],
       }));
     }
-  }, [activeTab, metrix]);
+  }, 2000);
+
+  useEffect(() => {
+    updateDebouncedState();
+  }, [activeTab, tradeStats]);
 
   return (
     <Wrapper>
       <ContainerHeader>
         <h4>
-          Balance <span>(${metrix?.tradeStats.balance.toLocaleString()})</span>
+          Balance <span>(${balance.toLocaleString()})</span>
         </h4>
         <Tab>
           <TabLabel onClick={() => setActiveTab(0)} isActive={0 === activeTab}>
@@ -98,8 +101,8 @@ const App: React.FC = () => {
       <Container>
         <div style={{ width: "100%", height: "100" }}>
           <Chart
-            options={state.options}
-            series={state.series}
+            options={debouncedState.options}
+            series={debouncedState.series}
             type="area"
             // width={500}
             height={366}
@@ -110,4 +113,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default GrowthChart;

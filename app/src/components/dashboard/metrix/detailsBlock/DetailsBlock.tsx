@@ -21,11 +21,19 @@ import { useAppSelector } from "@/redux/hooks";
 import { shortenText } from "@/utils/text";
 import GrowthChart from "./chart/GrowthChart";
 import AnalyticsCharts from "./chart/analyticsChart/AnalyticsCharts";
+import { TradeStats } from "@/graphql/api";
+import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
 
-const DetailsBlock = () => {
+interface IProps {
+  tradeStats: TradeStats;
+}
+
+const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
   const metrix = useAppSelector(
     (state) => state.strategy.selectedStrategyMetrix
   );
+  const { balance } = useStrategyMetrix(tradeStats);
+
   return (
     <Container>
       <div className="wrapper">
@@ -36,10 +44,8 @@ const DetailsBlock = () => {
             <SaveButton>
               <IoCloudDoneOutline size="25px" />
             </SaveButton>
-            <BalanceTextContainer>
-              <Balance>
-                $ {metrix?.tradeStats.balance.toLocaleString() ?? 0}
-              </Balance>
+            <BalanceTextContainer title={balance.toLocaleString()}>
+              <Balance>$ {shortenText(balance.toLocaleString(), 10)}</Balance>
               <BalanceText>Current Balance</BalanceText>
             </BalanceTextContainer>
           </ActionSection>
@@ -59,9 +65,12 @@ const DetailsBlock = () => {
           </InfoBlock>
         </SectionWrapper>
       </InfoSection>
-      <GrowthChart />
-      <AnalyticsCharts />
-      {/* <GrowthChart /> */}
+      {tradeStats && (
+        <>
+          <GrowthChart tradeStats={tradeStats} />
+          <AnalyticsCharts />
+        </>
+      )}
       {/* <Chart /> */}
     </Container>
   );

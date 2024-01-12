@@ -6,6 +6,9 @@ import { useGetStrategyQueryHook } from "@/graphql/queries/strategy/strategy.que
 import DashBoardLayout from "@/components/dashboard/layout/DashBoardLayout";
 import ToastMessage from "@/components/common/ui/toastsMessages/ToastMessage";
 import { AppRoutes } from "@/routes/routesDeclaration";
+import { TradeStats } from "@/graphql/api";
+import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
+import { useAppSelector } from "@/redux/hooks";
 
 const LazyBacktestBlock = lazy(
   () => import("@/components/dashboard/metrix/backtestBlock/BacktestBlock")
@@ -28,8 +31,13 @@ const MetrixContainer = () => {
     </DashBoardLayout>
   );
 };
-const RenderMetrixContent: React.FC<{ error?: Error }> = ({ error }) => {
+const RenderMetrixContent: React.FC<{
+  error?: Error;
+}> = ({ error }) => {
   const [redirectToLibraries, setRedirectToLibraries] = useState(false);
+  const tradeStats = useAppSelector(
+    (state) => state.strategy.selectedStrategyMetrix?.tradeStats
+  );
 
   useEffect(() => {
     if (error) {
@@ -57,7 +65,7 @@ const RenderMetrixContent: React.FC<{ error?: Error }> = ({ error }) => {
   return (
     <>
       <LazyBacktestBlock />
-      <LazyDetailsBlock />
+      {tradeStats && <LazyDetailsBlock tradeStats={tradeStats} />}
     </>
   );
 };

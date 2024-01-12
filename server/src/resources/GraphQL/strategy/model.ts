@@ -87,10 +87,10 @@ function calculateGrowth(
 }
 
 tradeDetailsSchema.virtual("totalLosses").get(function () {
-  return this.tradesSequence.filter((trade) => trade.value > 0).length;
+  return this.tradesSequence.filter((trade) => trade.value < 0).length;
 });
 tradeDetailsSchema.virtual("totalWinnings").get(function () {
-  return this.tradesSequence.filter((trade) => trade.value < 0).length;
+  return this.tradesSequence.filter((trade) => trade.value > 0).length;
 });
 tradeDetailsSchema.virtual("profitGain").get(function () {
   const totalWinnings = this.tradesSequence.reduce(

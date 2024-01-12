@@ -15,11 +15,16 @@ import ExpandedDataModal from "@/components/modal/ExpandedDataModal/ExpandedData
 import { useAppSelector } from "@/redux/hooks";
 import AdvancedDataMetrix from "@/components/dashboard/metrix/backtestBlock/advancedDataMetrix/AdvancedDataMetrix";
 import { shortenText } from "@/utils/text";
+import { TradeStats } from "@/graphql/api";
+import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
 
-const DataTabContent = () => {
+interface IProps {
+  tradeStats: TradeStats;
+}
+
+const DataTabContent: React.FC<IProps> = ({ tradeStats }) => {
   const [showExpandedData, setShowExpandedData] = useState(false);
-  const { tradeStats } =
-    useAppSelector((state) => state.strategy.selectedStrategyMetrix) || {};
+  const metrix = useStrategyMetrix(tradeStats);
   return (
     <Container>
       <Sections>
@@ -35,8 +40,8 @@ const DataTabContent = () => {
         <StatList>
           <StatListItem>
             <StatListItemTitle>Gain: </StatListItemTitle>
-            <StatListItemText title={tradeStats?.profitGain.toFixed(2)}>
-              {shortenText(tradeStats?.profitGain.toFixed(2) ?? "", 10)}%
+            <StatListItemText title={metrix.profitGain.toString()}>
+              {shortenText(metrix.profitGain.toString() ?? "", 10)}%
             </StatListItemText>
           </StatListItem>
           <StatListItem>
@@ -51,8 +56,8 @@ const DataTabContent = () => {
           </StatListItem>
           <StatListItem>
             <StatListItemTitle>Balalnce: </StatListItemTitle>
-            <StatListItemText>
-              {shortenText(tradeStats?.balance.toLocaleString() ?? "", 10)}$
+            <StatListItemText title={metrix.balance.toLocaleString()}>
+              {shortenText(metrix.balance.toLocaleString() ?? "", 10)}$
             </StatListItemText>
           </StatListItem>
         </StatList>
@@ -62,11 +67,11 @@ const DataTabContent = () => {
         <StatList>
           <StatListItem>
             <StatListItemTitle>Profitability: </StatListItemTitle>
-            <StatListItemText>{tradeStats?.percentageWin}%</StatListItemText>
+            <StatListItemText>{metrix?.winRate}%</StatListItemText>
           </StatListItem>
           <StatListItem>
             <StatListItemTitle>Total Trades: </StatListItemTitle>
-            <StatListItemText>{tradeStats?.totalTrades}</StatListItemText>
+            <StatListItemText>{metrix?.totalTrades}</StatListItemText>
           </StatListItem>
         </StatList>
       </Sections>
@@ -75,6 +80,7 @@ const DataTabContent = () => {
         setShowModal={setShowExpandedData}
       /> */}
       <AdvancedDataMetrix
+        tradeStats={tradeStats}
         showModal={showExpandedData}
         setShowModal={setShowExpandedData}
       />

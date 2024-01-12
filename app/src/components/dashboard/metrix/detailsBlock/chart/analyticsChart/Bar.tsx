@@ -7,6 +7,7 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { debounce } from "lodash";
 
 type Props = {
   tradeStats: TradeStats;
@@ -19,58 +20,54 @@ const Bar = () => {
   const metrix = useAppSelector(
     (state) => state.strategy.selectedStrategyMetrix
   );
-  const calculateAverageRiskToReward = useCallback(
-    (trades: TradeSequenceDetail[]) => {
-      // Group trades by asset
-      const groupedData: Record<string, number[]> = {};
-      trades.forEach((trade) => {
-        const asset = trade.asset;
-        if (!groupedData[asset]) {
-          groupedData[asset] = [];
-        }
-        if (trade.value !== 0) {
-          groupedData[asset].push(trade.value);
-        }
-      });
-      console.log(groupedData);
 
-      // Calculate average risk-to-reward ratio for each asset
-      const averageRatios: AverageRiskToReward[] = Object.keys(groupedData).map(
-        (asset) => {
-          const values = groupedData[asset];
-          const riskTrades = values.filter((trade) => trade < 0);
-          const rewardTrades = values.filter((trade) => trade > 0);
+  const calculateAverageRiskToReward = useCallback(() => {
+    // Group trades by asset
+    const trades: TradeSequenceDetail[] =
+      metrix?.tradeStats.tradesSequence ?? [];
+    const groupedData: Record<string, number[]> = {};
+    trades.forEach((trade) => {
+      const asset = trade.asset;
+      if (!groupedData[asset]) {
+        groupedData[asset] = [];
+      }
+      if (trade.value !== 0) {
+        groupedData[asset].push(trade.value);
+      }
+    });
+    // Calculate average risk-to-reward ratio for each asset
+    const averageRatios: AverageRiskToReward[] = Object.keys(groupedData).map(
+      (asset) => {
+        const values = groupedData[asset];
+        const riskTrades = values.filter((trade) => trade < 0);
+        const rewardTrades = values.filter((trade) => trade > 0);
 
-          const totalRisk = riskTrades.reduce(
-            (total, trade) => total + Math.abs(trade),
-            0
-          );
-          const totalReward = rewardTrades.reduce(
-            (total, trade) => total + Math.abs(trade),
-            0
-          );
-          const averageProfit = totalReward / rewardTrades.length;
-          const averageloss = totalRisk / riskTrades.length;
-          return {
-            asset,
-            averageRatio:
-              totalRisk > 0
-                ? Number((averageProfit / averageloss).toFixed(2))
-                : 0,
-          };
-        }
-      );
+        const totalRisk = riskTrades.reduce(
+          (total, trade) => total + Math.abs(trade),
+          0
+        );
+        const totalReward = rewardTrades.reduce(
+          (total, trade) => total + Math.abs(trade),
+          0
+        );
+        const averageProfit = totalReward / rewardTrades.length;
+        const averageloss = totalRisk / riskTrades.length;
+        return {
+          asset,
+          averageRatio:
+            totalRisk > 0
+              ? Number((averageProfit / averageloss).toFixed(2))
+              : 0,
+        };
+      }
+    );
 
-      return averageRatios;
-    },
-    [metrix]
-  );
-  const result = useMemo(
-    () => calculateAverageRiskToReward(metrix?.tradeStats.tradesSequence ?? []),
-    [metrix]
-  );
+    return averageRatios;
+  }, [metrix]);
 
-  const [state, setState] = useState({
+  const result = useMemo(() => calculateAverageRiskToReward(), [metrix]);
+
+  const [debouncedState, setDebouncedState] = useState({
     series: [
       {
         name: "AVG. Risk-Reward-Ratio",
@@ -93,9 +90,8 @@ const Bar = () => {
     },
   });
 
-  useEffect(() => {
-    console.log(result);
-    setState((prev) => ({
+  const updateDebouncedState = debounce(() => {
+    setDebouncedState((prev) => ({
       ...prev,
       series: [
         {
@@ -107,13 +103,17 @@ const Bar = () => {
         categories: result.map((i) => i.asset),
       },
     }));
-  }, [metrix]);
+  }, 3000);
+
+  useEffect(() => {
+    updateDebouncedState();
+  }, [result]);
 
   return (
     <div id="chart">
       <ReactApexChart
-        options={state.options}
-        series={state.series}
+        options={debouncedState.options}
+        series={debouncedState.series}
         type="bar"
         height={350}
       />
