@@ -5,6 +5,8 @@ import Strategy from "@/resources/GraphQL/strategy/model";
 import User from "@/resources/GraphQL/user/model";
 import config from "@/config/config";
 import { generateHash } from "@/resources/services/auth";
+import { ProFeaturesModel } from "@/resources/GraphQL/proFeatures/model";
+import profeaturesData from "./profeatures.json";
 const direction = ["LONG", "SHORT"];
 const tradeSequence1 = [
   { asset: "GBPUSD", value: Math.floor(Math.random() * 5), direction: "SHORT" },
@@ -243,7 +245,16 @@ const userData = [
     libraries: [],
   },
 ];
-console.log(strategies[0].tradeStats.growth);
+
+async function seedProfeatures() {
+  try {
+    await ProFeaturesModel.deleteMany({});
+    await ProFeaturesModel.insertMany(profeaturesData);
+  } catch (error) {
+    console.error("Error seeding the database:", error);
+  }
+}
+
 export async function seedDatabase(cb: any) {
   try {
     // await mongoose.connect(config.server.mongoUrl);
@@ -252,6 +263,7 @@ export async function seedDatabase(cb: any) {
     await User.deleteMany({});
     await Library.deleteMany({});
     await Strategy.deleteMany({});
+    await seedProfeatures();
 
     userData.forEach(async (i, index) => {
       const user = await User.create({

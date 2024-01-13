@@ -1,0 +1,29 @@
+[
+  {
+    "proName": "Basic",
+    "features": ["Description of feature 1", "Description of feature 2"],
+    "description": ["Description line 1", "Description line 2"],
+    "interval": "monthly",
+    "price": 9.99,
+    "free_trial": false,
+    "active": true
+  },
+  {
+    "proName": "Advanced",
+    "features": ["Description of feature 3", "Description of feature 4"],
+    "description": ["Description line 3", "Description line 4"],
+    "interval": "yearly",
+    "price": 99.99,
+    "free_trial": true,
+    "active": true
+  },
+  {
+    "proName": "Advanced Plus",
+    "features": ["Description of feature 3", "Description of feature 4"],
+    "description": ["Description line 3", "Description line 4"],
+    "interval": "yearly",
+    "price": 99.99,
+    "free_trial": true,
+    "active": true
+  }
+]
