@@ -7,4 +7,5 @@ export enum AppRoutes {
   PROFILE = "/dashboard/profile",
   LIBRARIES = "/dashboard/libraries",
   PLANS = "/dashboard/plans",
+  CHECKOUT = "/dashboard/plans/checkout",
 }

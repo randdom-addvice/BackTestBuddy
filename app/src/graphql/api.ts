@@ -109,9 +109,24 @@ export type MutationUpdateStrategyStatsArgs = {
   updateStrategyStatsInput?: InputMaybe<UpdateStrategyStatsInput>;
 };
 
+export type ProFeatures = {
+  __typename?: 'ProFeatures';
+  _id: Scalars['ID']['output'];
+  active: Scalars['Boolean']['output'];
+  createdAt: Scalars['String']['output'];
+  description: Array<Scalars['String']['output']>;
+  features: Array<Scalars['String']['output']>;
+  free_trial: Scalars['Boolean']['output'];
+  interval: Scalars['String']['output'];
+  price: Scalars['Float']['output'];
+  proName: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getLibraries: Array<Maybe<Library>>;
+  getProFeatures: Array<Maybe<ProFeatures>>;
   getStrategies: Array<Maybe<Strategy>>;
   getStrategy?: Maybe<Strategy>;
   getUser?: Maybe<User>;
@@ -154,6 +169,7 @@ export type TradeSequenceDetail = {
 
 export type TradeSequenceDetailInput = {
   asset: Scalars['String']['input'];
+  commission: Scalars['Float']['input'];
   direction: Direction;
   value: Scalars['Float']['input'];
 };
@@ -271,6 +287,11 @@ export type GetLibrariesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetLibrariesQuery = { __typename?: 'Query', getLibraries: Array<{ __typename?: 'Library', _id: string, name: string, description: string, user_id: string, strategies: Array<{ __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number } }> } | null> };
+
+export type GetProFeaturesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProFeaturesQuery = { __typename?: 'Query', getProFeatures: Array<{ __typename?: 'ProFeatures', _id: string, proName: string, features: Array<string>, description: Array<string>, interval: string, price: number, free_trial: boolean, active: boolean, createdAt: string, updatedAt: string } | null> };
 
 export type GetStrategyQueryVariables = Exact<{
   getStrategyId: Scalars['ID']['input'];
@@ -667,6 +688,54 @@ export type GetLibrariesQueryHookResult = ReturnType<typeof useGetLibrariesQuery
 export type GetLibrariesLazyQueryHookResult = ReturnType<typeof useGetLibrariesLazyQuery>;
 export type GetLibrariesSuspenseQueryHookResult = ReturnType<typeof useGetLibrariesSuspenseQuery>;
 export type GetLibrariesQueryResult = Apollo.QueryResult<GetLibrariesQuery, GetLibrariesQueryVariables>;
+export const GetProFeaturesDocument = gql`
+    query GetProFeatures {
+  getProFeatures {
+    _id
+    proName
+    features
+    description
+    interval
+    price
+    free_trial
+    active
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetProFeaturesQuery__
+ *
+ * To run a query within a React component, call `useGetProFeaturesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProFeaturesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProFeaturesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetProFeaturesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetProFeaturesQuery, GetProFeaturesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetProFeaturesQuery, GetProFeaturesQueryVariables>(GetProFeaturesDocument, options);
+      }
+export function useGetProFeaturesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetProFeaturesQuery, GetProFeaturesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetProFeaturesQuery, GetProFeaturesQueryVariables>(GetProFeaturesDocument, options);
+        }
+export function useGetProFeaturesSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetProFeaturesQuery, GetProFeaturesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetProFeaturesQuery, GetProFeaturesQueryVariables>(GetProFeaturesDocument, options);
+        }
+export type GetProFeaturesQueryHookResult = ReturnType<typeof useGetProFeaturesQuery>;
+export type GetProFeaturesLazyQueryHookResult = ReturnType<typeof useGetProFeaturesLazyQuery>;
+export type GetProFeaturesSuspenseQueryHookResult = ReturnType<typeof useGetProFeaturesSuspenseQuery>;
+export type GetProFeaturesQueryResult = Apollo.QueryResult<GetProFeaturesQuery, GetProFeaturesQueryVariables>;
 export const GetStrategyDocument = gql`
     query GetStrategy($getStrategyId: ID!) {
   getStrategy(id: $getStrategyId) {
