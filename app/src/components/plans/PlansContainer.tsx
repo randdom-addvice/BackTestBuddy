@@ -53,7 +53,11 @@ const PlansContainer = () => {
                   ))}
                 </PricingFeatures>
                 <PricingPrice>${plan?.price}</PricingPrice>
-                <PricingButton to={AppRoutes.CHECKOUT}>Sign up</PricingButton>
+                <PricingButton
+                  to={`${AppRoutes.CHECKOUT}?planId=${plan?.plan_id}`}
+                >
+                  Proceed
+                </PricingButton>
               </PricingPlan>
             ))}
             {/* <PricingPlan>

@@ -114,10 +114,11 @@ export type ProFeatures = {
   _id: Scalars['ID']['output'];
   active: Scalars['Boolean']['output'];
   createdAt: Scalars['String']['output'];
-  description: Array<Scalars['String']['output']>;
+  description: Scalars['String']['output'];
   features: Array<Scalars['String']['output']>;
   free_trial: Scalars['Boolean']['output'];
   interval: Scalars['String']['output'];
+  plan_id: Scalars['String']['output'];
   price: Scalars['Float']['output'];
   proName: Scalars['String']['output'];
   updatedAt: Scalars['String']['output'];
@@ -291,7 +292,7 @@ export type GetLibrariesQuery = { __typename?: 'Query', getLibraries: Array<{ __
 export type GetProFeaturesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProFeaturesQuery = { __typename?: 'Query', getProFeatures: Array<{ __typename?: 'ProFeatures', _id: string, proName: string, features: Array<string>, description: Array<string>, interval: string, price: number, free_trial: boolean, active: boolean, createdAt: string, updatedAt: string } | null> };
+export type GetProFeaturesQuery = { __typename?: 'Query', getProFeatures: Array<{ __typename?: 'ProFeatures', _id: string, proName: string, features: Array<string>, description: string, interval: string, price: number, free_trial: boolean, active: boolean, createdAt: string, updatedAt: string, plan_id: string } | null> };
 
 export type GetStrategyQueryVariables = Exact<{
   getStrategyId: Scalars['ID']['input'];
@@ -701,6 +702,7 @@ export const GetProFeaturesDocument = gql`
     active
     createdAt
     updatedAt
+    plan_id
   }
 }
     `;

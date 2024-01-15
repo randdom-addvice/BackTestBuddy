@@ -1,29 +1,47 @@
 [
   {
     "proName": "Basic",
-    "features": ["Description of feature 1", "Description of feature 2"],
-    "description": ["Description line 1", "Description line 2"],
+    "features": [
+      "Unlimited Backtests",
+      "Unlimited Saved Backtests",
+      "Profit & Journal Calendar",
+      "Forward Simulator"
+    ],
+    "description": "Best for seasoned traders looking to backtest consistently",
     "interval": "monthly",
     "price": 9.99,
     "free_trial": false,
-    "active": true
+    "active": true,
+    "plan_id": "basic_monthly"
   },
   {
-    "proName": "Advanced",
-    "features": ["Description of feature 3", "Description of feature 4"],
-    "description": ["Description line 3", "Description line 4"],
+    "proName": "Pro",
+    "features": [
+      "Unlimited Backtests",
+      "Unlimited Saved Backtests",
+      "Profit & Journal Calendar",
+      "Forward Simulator"
+    ],
+    "description": "Best for seasoned traders looking to backtest consistently",
     "interval": "yearly",
     "price": 99.99,
     "free_trial": true,
-    "active": true
+    "active": true,
+    "plan_id": "pro_monthly"
   },
   {
-    "proName": "Advanced Plus",
-    "features": ["Description of feature 3", "Description of feature 4"],
-    "description": ["Description line 3", "Description line 4"],
+    "proName": "Master",
+    "features": [
+      "Unlimited Backtests",
+      "Unlimited Saved Backtests",
+      "Profit & Journal Calendar",
+      "Forward Simulator"
+    ],
+    "description": "Best for seasoned traders looking to backtest consistently",
     "interval": "yearly",
     "price": 99.99,
     "free_trial": true,
-    "active": true
+    "active": true,
+    "plan_id": "master_yearly"
   }
 ]

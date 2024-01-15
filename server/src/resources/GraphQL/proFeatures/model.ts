@@ -3,8 +3,9 @@ import mongoose, { Document, Schema } from "mongoose";
 interface ProFeaturesDocument extends Document {
   proName: string;
   features: string[];
-  description: string[];
+  description: string;
   interval: string;
+  plan_id: string;
   price: number;
   free_trial: boolean;
   active: boolean;
@@ -20,9 +21,12 @@ const proFeaturesSchema = new Schema<ProFeaturesDocument>(
       default: [],
     },
     description: {
-      type: [String],
+      type: String,
     },
     interval: {
+      type: String,
+    },
+    plan_id: {
       type: String,
     },
     price: {
