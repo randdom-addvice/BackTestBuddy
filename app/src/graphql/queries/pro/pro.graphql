@@ -1,0 +1,15 @@
+query GetProFeatures {
+  getProFeatures {
+    _id
+    proName
+    features
+    description
+    interval
+    price
+    free_trial
+    active
+    createdAt
+    updatedAt
+    plan_id
+  }
+}

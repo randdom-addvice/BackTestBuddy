@@ -16,6 +16,8 @@ const LazyDashboardPage = lazy(() => import("@/pages/Dashboard"));
 const LazyAuthPage = lazy(() => import("@/pages/AuthPage"));
 const LazyMetrixPage = lazy(() => import("@/pages/MetrixPage"));
 const LazyLibraryPage = lazy(() => import("@/pages/LibraryPage"));
+const LazyPlansPage = lazy(() => import("@/pages/PlansPage"));
+const LazyCheckoutPage = lazy(() => import("@/pages/CheckoutPage"));
 
 const checkJWTValidity = async () => {
   const authToken = CookieUtility.getCookie(JWT_TOKEN_NAMESPACE);
@@ -62,6 +64,28 @@ const router = createBrowserRouter([
         fallback={<h2>Something went wrong. Please try again later.</h2>}
       >
         <LazyLibraryPage />
+      </ErrorBoundary>
+    ),
+  },
+  {
+    path: AppRoutes.PLANS,
+    loader: checkJWTValidity,
+    element: (
+      <ErrorBoundary
+        fallback={<h2>Something went wrong. Please try again later.</h2>}
+      >
+        <LazyPlansPage />
+      </ErrorBoundary>
+    ),
+  },
+  {
+    path: AppRoutes.CHECKOUT,
+    loader: checkJWTValidity,
+    element: (
+      <ErrorBoundary
+        fallback={<h2>Something went wrong. Please try again later.</h2>}
+      >
+        <LazyCheckoutPage />
       </ErrorBoundary>
     ),
   },
