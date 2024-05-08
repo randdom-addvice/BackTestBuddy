@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "server",
   "main": "index.js",
+  "engines": {
+    "node": "20.12.2",
+    "npm": "10.5.0"
+  },
   "dependencies": {
     "@apollo/server": "^4.9.5",
     "@graphql-tools/graphql-file-loader": "^8.0.0",
