@@ -76,6 +76,7 @@
     "build": "npm run compiler",
     "compiler": "npm run clean && tsc --pretty && babel --extensions '.ts' src -d esm",
     "babel-build": "babel --extensions .ts ./src -d dist",
+    "postinstall": "npm run build",
     "clean": "npx rimraf esm",
     "prettier": "prettier --config ./.prettierrc --write \"**/*.ts\"",
     "lint2": "npm run prettier --check --config ./.prettierrc \"**/*.ts\"",
