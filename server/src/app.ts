@@ -22,11 +22,11 @@ import { generateCSRFToken, getUserFromToken } from "@/resources/services/auth";
 import config from "./config/config";
 import { throwGraphQLError } from "./resources/services/errorHandler";
 
-// declare module "express-session" {
-//   interface Session {
-//     user?: IUser;
-//   }
-// }
+declare module "express-session" {
+  interface Session {
+    user?: IUser;
+  }
+}
 
 const NAMESPACE = "Server";
 class App {

@@ -74,7 +74,7 @@
     "seed": "node dist/utils/seedData.js",
     "dev-watch": "tsc -w & nodemon -q -w dist dist/index.js",
     "build": "npm run compiler",
-    "compiler": "npm run clean && tsc --pretty && babel --extensions '.ts' src -d esm",
+    "compiler": "tsc --pretty && babel --extensions '.ts' src -d esm",
     "babel-build": "babel --extensions .ts ./src -d dist",
     "postinstall": "npm run build",
     "clean": "npx rimraf esm",
