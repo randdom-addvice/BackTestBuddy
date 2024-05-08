@@ -11,7 +11,7 @@
     "start:server": "npm run start --prefix server",
     "build:server": "npm run build --prefix server",
     "postinstall": "npm run build --prefix server",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --prefix server && npm run build:server"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --prefix server"
   },
   "author": "",
   "license": "ISC"
