@@ -1,0 +1,14 @@
+{
+  "name": "backtest-buddy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:server": "npm run start --prefix server",
+    "build:server": "npm run build --prefix server",
+    "postinstall": "npm run build --prefix server",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix server && npm run build:server"
+  },
+  "author": "",
+  "license": "ISC"
+}
