@@ -73,11 +73,8 @@ class App {
 
     // await server.listen();
 
-    // await new Promise<void>((resolve) =>
-    //   this.app.listen({ port: this.port, path: this.graphQLPath }, resolve)
-    // );
     await new Promise<void>((resolve) =>
-      this.app.listen(this.port, '0.0.0.0', resolve)
+      this.app.listen({ port: this.port, path: this.graphQLPath }, resolve)
     );
     server.listen().then(({ url }) => {
       console.log(`Server ready at ${url} `);
