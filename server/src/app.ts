@@ -79,7 +79,7 @@ class App {
     // server.applyMiddleware({ app: this.app });
     const { url } = await startStandaloneServer(server, {
 
-      listen: { port: this.port }, 
+      // listen: { port: this.port }, 
       context: async ({ req, res }) =>  {
       const token = req.headers.authorization?.split("Bearer ")[1];
       const user = getUserFromToken(token);
@@ -94,9 +94,9 @@ class App {
 
     // await server.listen();
 
-    // await new Promise<void>((resolve) =>
-    //   this.app.listen({ port: this.port, path: this.graphQLPath }, resolve)
-    // );
+    await new Promise<void>((resolve) =>
+      this.app.listen({ port: this.port, path: this.graphQLPath }, resolve)
+    );
     // server.listen().then(({ url }) => {
     //   console.log(`Server ready at ${url} `);
     // });
