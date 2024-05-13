@@ -23,6 +23,7 @@ interface IProps {
   children: React.ReactNode | JSX.Element;
   onSubmit: () => void;
   showFooter?: boolean;
+  isLoading?: boolean
 }
 
 const InfoModal: React.FC<IProps> = ({
@@ -32,6 +33,7 @@ const InfoModal: React.FC<IProps> = ({
   onSubmit,
   headerTitle,
   modalWidth,
+  isLoading ,
   showFooter = true,
 }) => {
   function closeModal() {
@@ -60,8 +62,9 @@ const InfoModal: React.FC<IProps> = ({
               <StyledButton className="is-secondary" onClick={closeModal}>
                 Cancel
               </StyledButton>
-              <StyledButton className="is-primary" onClick={onSubmit}>
-                Proceed
+              <StyledButton disabled={isLoading} className="is-primary" onClick={onSubmit}>
+                {isLoading ? "loading..." : "Proceed"}
+                
               </StyledButton>
             </StyledModalContainerFooter>
           )}

@@ -25,12 +25,14 @@ interface Props {
 const StrategyCard: React.FC<Props> = ({ strategy }) => {
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false)
   const { deleteStrategyMutation } = useDeleteStrategyMutationHook(
     {
       deleteStrategyId: strategy.id,
     },
     {
       onCompleted: (completedData) => {
+        setModalButtonLoadingState(false)
         if (completedData && completedData.deleteStrategy) {
           setShowModal(false);
         }
@@ -41,6 +43,7 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
 
   async function deleteStrategy() {
     try {
+      setModalButtonLoadingState(true)
       await deleteStrategyMutation();
     } catch (error) {
       alert("something went wrong");
@@ -86,6 +89,7 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
         onSubmit={deleteStrategy}
         showModal={showModal}
         setShowModal={setShowModal}
+        isLoading={modalButtonLoadingState}
       >
         <p>
           Are you sure you want to delete <strong>{strategy.name}</strong>?

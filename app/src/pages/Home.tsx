@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return <div>
     <h1>Home</h1>
-    <Link to={AppRoutes.DASHBOARD}>Go to Dashboard</Link>
+    <Link to={AppRoutes.LIBRARIES}>Go to Dashboard</Link>
   </div>;
 };
 

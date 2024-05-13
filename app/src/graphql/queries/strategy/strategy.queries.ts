@@ -14,7 +14,7 @@ export const useGetStrategyQueryHook = (
   options?: QueryHookOptions<GetStrategyQuery, GetStrategyQueryVariables>
 ) => {
   const dispatch = useAppDispatch();
-  const { data, error } = useGetStrategyQuery({
+  const { data, error, loading } = useGetStrategyQuery({
     variables: {
       getStrategyId: args.getStrategyId,
     },
@@ -25,5 +25,5 @@ export const useGetStrategyQueryHook = (
       dispatch(strategyActions.setSelectedStrategyMetrix(data.getStrategy));
   }, [data]);
 
-  return { data, error };
+  return { data, error, loading };
 };

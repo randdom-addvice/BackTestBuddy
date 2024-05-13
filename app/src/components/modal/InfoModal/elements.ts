@@ -114,6 +114,11 @@ export const StyledButton = styled.button`
       box-shadow: 0 0 0 0.25rem ${({ theme }) => theme.colors.accent3};
     }
   }
+
+  &:disabled {
+    opacity: 0.6; 
+    cursor: not-allowed; 
+  }
 `;
 
 export const StyledIconButton = styled.button`

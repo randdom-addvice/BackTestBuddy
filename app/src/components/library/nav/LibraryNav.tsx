@@ -13,6 +13,7 @@ import { useCreateLibraryMutationHook } from "@/graphql/mutations/library/librar
 
 const LibraryNav = () => {
   const [showModal, setShowModal] = useState(false);
+  const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false)
   const { onChange, formValues, getFieldError, handleNonFormSubmit } = useForm(
     handleSubmit,
     {
@@ -33,10 +34,10 @@ const LibraryNav = () => {
     },
     {
       onCompleted: (completedData) => {
+        setModalButtonLoadingState(false)
         if (completedData && completedData.createLibrary) {
           setShowModal(false);
         }
-        console.log(completedData, "completedData");
       },
       onError: (error) => {
         console.log(error);
@@ -48,6 +49,7 @@ const LibraryNav = () => {
 
   async function handleSubmit() {
     try {
+      setModalButtonLoadingState(true)
       await createLibrary();
       console.log(data, "data");
       console.log(error, "error");
@@ -71,6 +73,7 @@ const LibraryNav = () => {
         showModal={showModal}
         setShowModal={setShowModal}
         headerTitle="Create New Library"
+        isLoading={modalButtonLoadingState}
       >
         <>
           <PromptInputGroup>
