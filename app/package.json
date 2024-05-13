@@ -32,7 +32,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "npm start",
+    "start-dev": "craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
