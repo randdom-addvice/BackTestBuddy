@@ -59,6 +59,8 @@ export type Mutation = {
   loginUser: Scalars['String']['output'];
   modifyLibrary?: Maybe<Scalars['Boolean']['output']>;
   registerUser: Scalars['String']['output'];
+  resetStrategyStats: Scalars['Boolean']['output'];
+  undoLastStrategyStats: Scalars['Boolean']['output'];
   updateStrategyDetails: Scalars['Boolean']['output'];
   updateStrategyStats: Scalars['Boolean']['output'];
 };
@@ -97,6 +99,16 @@ export type MutationModifyLibraryArgs = {
 
 export type MutationRegisterUserArgs = {
   registerUserInput?: InputMaybe<RegisterUserInput>;
+};
+
+
+export type MutationResetStrategyStatsArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUndoLastStrategyStatsArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -278,6 +290,20 @@ export type UpdateStrategyStatsMutationVariables = Exact<{
 
 
 export type UpdateStrategyStatsMutation = { __typename?: 'Mutation', updateStrategyStats: boolean };
+
+export type ResetStrategyStatsMutationVariables = Exact<{
+  resetStrategyStatsId: Scalars['ID']['input'];
+}>;
+
+
+export type ResetStrategyStatsMutation = { __typename?: 'Mutation', resetStrategyStats: boolean };
+
+export type UndoLastStrategyStatsMutationVariables = Exact<{
+  undoLastStrategyStatsId: Scalars['ID']['input'];
+}>;
+
+
+export type UndoLastStrategyStatsMutation = { __typename?: 'Mutation', undoLastStrategyStats: boolean };
 
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -582,6 +608,68 @@ export function useUpdateStrategyStatsMutation(baseOptions?: ApolloReactHooks.Mu
 export type UpdateStrategyStatsMutationHookResult = ReturnType<typeof useUpdateStrategyStatsMutation>;
 export type UpdateStrategyStatsMutationResult = Apollo.MutationResult<UpdateStrategyStatsMutation>;
 export type UpdateStrategyStatsMutationOptions = Apollo.BaseMutationOptions<UpdateStrategyStatsMutation, UpdateStrategyStatsMutationVariables>;
+export const ResetStrategyStatsDocument = gql`
+    mutation ResetStrategyStats($resetStrategyStatsId: ID!) {
+  resetStrategyStats(id: $resetStrategyStatsId)
+}
+    `;
+export type ResetStrategyStatsMutationFn = Apollo.MutationFunction<ResetStrategyStatsMutation, ResetStrategyStatsMutationVariables>;
+
+/**
+ * __useResetStrategyStatsMutation__
+ *
+ * To run a mutation, you first call `useResetStrategyStatsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResetStrategyStatsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resetStrategyStatsMutation, { data, loading, error }] = useResetStrategyStatsMutation({
+ *   variables: {
+ *      resetStrategyStatsId: // value for 'resetStrategyStatsId'
+ *   },
+ * });
+ */
+export function useResetStrategyStatsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ResetStrategyStatsMutation, ResetStrategyStatsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<ResetStrategyStatsMutation, ResetStrategyStatsMutationVariables>(ResetStrategyStatsDocument, options);
+      }
+export type ResetStrategyStatsMutationHookResult = ReturnType<typeof useResetStrategyStatsMutation>;
+export type ResetStrategyStatsMutationResult = Apollo.MutationResult<ResetStrategyStatsMutation>;
+export type ResetStrategyStatsMutationOptions = Apollo.BaseMutationOptions<ResetStrategyStatsMutation, ResetStrategyStatsMutationVariables>;
+export const UndoLastStrategyStatsDocument = gql`
+    mutation UndoLastStrategyStats($undoLastStrategyStatsId: ID!) {
+  undoLastStrategyStats(id: $undoLastStrategyStatsId)
+}
+    `;
+export type UndoLastStrategyStatsMutationFn = Apollo.MutationFunction<UndoLastStrategyStatsMutation, UndoLastStrategyStatsMutationVariables>;
+
+/**
+ * __useUndoLastStrategyStatsMutation__
+ *
+ * To run a mutation, you first call `useUndoLastStrategyStatsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUndoLastStrategyStatsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [undoLastStrategyStatsMutation, { data, loading, error }] = useUndoLastStrategyStatsMutation({
+ *   variables: {
+ *      undoLastStrategyStatsId: // value for 'undoLastStrategyStatsId'
+ *   },
+ * });
+ */
+export function useUndoLastStrategyStatsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UndoLastStrategyStatsMutation, UndoLastStrategyStatsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UndoLastStrategyStatsMutation, UndoLastStrategyStatsMutationVariables>(UndoLastStrategyStatsDocument, options);
+      }
+export type UndoLastStrategyStatsMutationHookResult = ReturnType<typeof useUndoLastStrategyStatsMutation>;
+export type UndoLastStrategyStatsMutationResult = Apollo.MutationResult<UndoLastStrategyStatsMutation>;
+export type UndoLastStrategyStatsMutationOptions = Apollo.BaseMutationOptions<UndoLastStrategyStatsMutation, UndoLastStrategyStatsMutationVariables>;
 export const GetUserDocument = gql`
     query GetUser {
   getUser {

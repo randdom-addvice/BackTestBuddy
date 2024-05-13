@@ -17,3 +17,11 @@ mutation UpdateStrategyStats(
 ) {
   updateStrategyStats(updateStrategyStatsInput: $updateStrategyStatsInput)
 }
+
+mutation ResetStrategyStats($resetStrategyStatsId: ID!) {
+  resetStrategyStats(id: $resetStrategyStatsId)
+}
+
+mutation UndoLastStrategyStats($undoLastStrategyStatsId: ID!) {
+  undoLastStrategyStats(id: $undoLastStrategyStatsId)
+}

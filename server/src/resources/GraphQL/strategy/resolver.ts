@@ -173,6 +173,39 @@ const resolvers = {
         return false;
       }
     },
+    undoLastStrategyStats: async (
+      _: any,
+      {id}: { id: string }
+    ) => {
+      try {
+        console.log(id)
+        await MongooseServices.findAndUpdate(
+          StrategyModel,
+          { _id: id },
+          { $pop: { 'tradeStats.tradesSequence': 1 } }
+        );
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
+    resetStrategyStats: async (
+      _: any,
+      {id}: { id: string }
+    ) => {
+      try {
+        await MongooseServices.findAndUpdate(
+          StrategyModel,
+          { _id: id },
+          { $set: { 'tradeStats.tradesSequence': [] } }
+        );
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
   },
 };
 

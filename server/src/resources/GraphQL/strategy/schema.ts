@@ -75,5 +75,7 @@ export default /* GraphQL */ `
       updateStrategyStatsInput: UpdateStrategyStatsInput
     ): Boolean!
     deleteStrategy(id: ID!): Boolean!
+    undoLastStrategyStats(id: ID!): Boolean!
+    resetStrategyStats(id: ID!): Boolean!
   }
 `;

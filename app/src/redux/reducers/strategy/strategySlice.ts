@@ -72,6 +72,21 @@ export const strategy = createSlice({
         tempStrategyStatsToUpdate: [],
       };
     },
+    resetAllStrategyStatsData: (state) => {
+      return {
+        ...state,
+        tempStrategyStatsToUpdate: [],
+        ...(state.selectedStrategyMetrix && {
+          selectedStrategyMetrix: {
+            ...state.selectedStrategyMetrix,
+            tradeStats: {
+              ...state.selectedStrategyMetrix.tradeStats,
+              tradesSequence: [],
+            },
+          },
+        }),
+      };
+    },
   },
 });
 

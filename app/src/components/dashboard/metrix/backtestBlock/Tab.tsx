@@ -42,7 +42,7 @@ const Tab: React.FC<SwitchableTabsProps> = ({ tabs }) => {
       </TabWrapper>
       <TabContent>
         {tabs[activeTab] === "Backtest" && tradeStats ? (
-          <BacktestTabContent tradeStats={tradeStats} />
+          <BacktestTabContent tradeStats={tradeStats} metrics_id={metrix._id} />
         ) : null}
         {tabs[activeTab] === "Data" && tradeStats && (
           <DataTabContent tradeStats={tradeStats} />
