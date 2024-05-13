@@ -106,8 +106,6 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
         direction: tradeDetail.direction,
       };
       dispatch(strategyActions.setTempStrategyStatsToUpdate(trade));
-      console.log(tradeDetail, "xxx");
-      console.log(trade, isWinCount, lossValue, "xxx");
     },
     [dispatch, tradeDetail]
   );
@@ -122,6 +120,12 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
   }
   function addLoss() {
     updateTradeCount(false);
+  }
+  function undoLastAction() {
+    dispatch(strategyActions.undoLastTradeUpdate())
+  }
+  function resetStats() {
+    
   }
 
   useEffect(() => {
@@ -153,7 +157,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
           </InputGroup>
         </InputBlock>
         <Group>
-          <UndoButton>Undo</UndoButton>
+          <UndoButton onClick={undoLastAction}>Undo</UndoButton>
           <ResetButton>Reset</ResetButton>
         </Group>
       </InputSection>
