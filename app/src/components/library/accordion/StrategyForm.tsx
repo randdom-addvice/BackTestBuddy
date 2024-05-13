@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   PromptInput,
   PromptInputGroup,
@@ -30,6 +30,7 @@ const StrategyForm: React.FC<Props> = ({
   isUpdateForm,
   strategy,
 }) => {
+  const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false)
   const createStrategyForm = useForm(
     isUpdateForm ? handleUpdateStrategy : handleCreateStrategy,
     {
@@ -57,6 +58,7 @@ const StrategyForm: React.FC<Props> = ({
     },
     {
       onCompleted: (completedData) => {
+        setModalButtonLoadingState(false)
         if (completedData && completedData.createStrategy) {
           setShowModal(false);
         }
@@ -77,6 +79,7 @@ const StrategyForm: React.FC<Props> = ({
       },
       {
         onCompleted: (completedData) => {
+          setModalButtonLoadingState(false)
           if (completedData && completedData.updateStrategyDetails) {
             setShowModal(false);
           }
@@ -91,6 +94,7 @@ const StrategyForm: React.FC<Props> = ({
 
   async function handleCreateStrategy() {
     try {
+      setModalButtonLoadingState(true)
       await createStrategyMutation();
     } catch (error) {
       console.log(error);
@@ -98,6 +102,7 @@ const StrategyForm: React.FC<Props> = ({
   }
   async function handleUpdateStrategy() {
     try {
+      setModalButtonLoadingState(true)
       await updateStrategyDetailsMutation();
     } catch (error) {
       console.log(error);
@@ -111,6 +116,7 @@ const StrategyForm: React.FC<Props> = ({
         onSubmit={createStrategyForm.handleNonFormSubmit}
         showModal={showModal}
         setShowModal={setShowModal}
+        isLoading={modalButtonLoadingState}
       >
         <PromptInputGroup>
           <PromptInput
