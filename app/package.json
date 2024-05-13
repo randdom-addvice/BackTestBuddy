@@ -32,8 +32,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "npm start",
+    "start-dev": "craco start",
+    "build": "craco build && echo '/* /index.html 200' | cat >build/_redirects ",
     "test": "craco test",
     "eject": "craco eject",
     "generate": "graphql-codegen",

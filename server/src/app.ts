@@ -1,3 +1,4 @@
+import { setContext } from '@apollo/client/link/context';
 import express, { Application } from "express";
 import healthCheck from "express-healthcheck";
 import compression from "compression";
@@ -5,8 +6,13 @@ import session from "express-session";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
-import { ApolloServer } from "apollo-server";
-// import { ApolloServer } from "apollo-server-express";
+// import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { expressMiddleware } from '@apollo/server/express4';
+
+import { ApolloServer } from "apollo-server-express";
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
+
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import MongoDBStore from "connect-mongodb-session";
 import cookieParser from "cookie-parser";
@@ -67,21 +73,37 @@ class App {
           },
         }),
       ],
+      nodeEnv: process.env.NODE_ENV
     });
-    // await server.start();
-    // server.applyMiddleware({ app: this.app });
+    await server.start()
+    //@ts-ignore
+    server.applyMiddleware({ app: this.app });
+    // const { url } = await startStandaloneServer(server, {
+
+    //   // listen: { port: this.port }, 
+    //   context: async ({ req, res }) =>  {
+    //   const token = req.headers.authorization?.split("Bearer ")[1];
+    //   const user = getUserFromToken(token);
+    //   // req.session.user = user;
+
+    //   return { user, session: req };}
+    // });
+    // this.app.use(
+    //   expressMiddleware(server),
+    // );
+    // console.log(`🚀  Server ready at: ${url}`);
 
     // await server.listen();
 
     await new Promise<void>((resolve) =>
       this.app.listen({ port: this.port, path: this.graphQLPath }, resolve)
     );
-    server.listen().then(({ url }) => {
-      console.log(`Server ready at ${url} `);
-    });
-    console.log(
-      "🚀Playground:  https://studio.apollographql.com/sandbox/explorer"
-    );
+    // server.listen().then(({ url }) => {
+    //   console.log(`Server ready at ${url} `);
+    // });
+    // console.log(
+    //   "🚀Playground:  https://studio.apollographql.com/sandbox/explorer"
+    // );
   }
 
   private initializeMiddleware(): void {

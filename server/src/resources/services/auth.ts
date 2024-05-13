@@ -18,7 +18,6 @@ export const getUserFromToken = (
     // console.log(decoded);
     return decoded;
   } catch (error) {
-    console.error("Error decoding JWT:", error);
     return null;
   }
 };
