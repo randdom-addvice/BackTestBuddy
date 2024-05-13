@@ -87,7 +87,7 @@ const useStrategyMetrix = (tradeStats: TradeStats) => {
   const calculateProfitGain = useCallback(() => {
     const totalGrowth = calculateGrowth().reduce((a, b) => a + b.value, 0);
     const growthPercent = (totalGrowth / tradeStats.initialBalance) * 100;
-    const profitGain = calculateGrowth()[calculateGrowth().length - 1].value.toFixed(2)
+    const profitGain = calculateGrowth()[calculateGrowth().length - 1]?.value.toFixed(2)
     return profitGain;
     // return growthPercent.toFixed(2);
   }, [tradeStats]);

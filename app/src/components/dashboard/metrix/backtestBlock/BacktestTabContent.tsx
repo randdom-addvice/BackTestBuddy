@@ -125,7 +125,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
   }
 
   useEffect(() => {
-    // console.log(metrix.balance, "xxx");
+    console.log(tradeDetail.lossValue, "xxx");
     // console.log(metrix.growth, "xxx");
   }, [tradeStats]);
 
@@ -140,7 +140,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
               name="lossValue"
               type="number"
             />
-            <InputButton onClick={addLoss}>Add loss</InputButton>
+            <InputButton onClick={addLoss}>Add loss {tradeDetail.valueType === "dollar" ? "$" : "%"}</InputButton>
           </InputGroup>
           <InputGroup position="flex-end">
             <Input
@@ -149,7 +149,7 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats }) => {
               name="profitValue"
               type="number"
             />
-            <InputButtonGreen onClick={addProfit}>Add profit</InputButtonGreen>
+            <InputButtonGreen onClick={addProfit}>Add profit {tradeDetail.valueType === "dollar" ? "$" : "%"}</InputButtonGreen>
           </InputGroup>
         </InputBlock>
         <Group>
