@@ -3,12 +3,18 @@ import {
   CreateStrategyMutationVariables,
   DeleteStrategyMutationOptions,
   DeleteStrategyMutationVariables,
+  ResetStrategyStatsMutationOptions,
+  ResetStrategyStatsMutationVariables,
+  UndoLastStrategyStatsMutationOptions,
+  UndoLastStrategyStatsMutationVariables,
   UpdateStrategyDetailsInput,
   UpdateStrategyDetailsMutationOptions,
   UpdateStrategyStatsMutationOptions,
   UpdateStrategyStatsMutationVariables,
   useCreateStrategyMutation,
   useDeleteStrategyMutation,
+  useResetStrategyStatsMutation,
+  useUndoLastStrategyStatsMutation,
   useUpdateStrategyDetailsMutation,
   useUpdateStrategyStatsMutation,
 } from "@/graphql/api";
@@ -63,4 +69,30 @@ export const useUpdateStrategyStatsMutationHook = (
     });
 
   return { updateStrategyStatsMutation, data, loading, error };
+};
+
+export const useUndoLastStrategyStatsMutationHook = (
+  args: UndoLastStrategyStatsMutationVariables,
+  options?: UndoLastStrategyStatsMutationOptions
+) => {
+  const [undoLastStrategyStatsMutation, { data, loading, error }] =
+    useUndoLastStrategyStatsMutation({
+      variables: args,
+      ...options,
+    });
+
+  return { undoLastStrategyStatsMutation, data, loading, error };
+};
+
+export const useResetStrategyStatsMutationHook = (
+  args: ResetStrategyStatsMutationVariables,
+  options?: ResetStrategyStatsMutationOptions
+) => {
+  const [resetStrategyStatsMutation, { data, loading, error }] =
+    useResetStrategyStatsMutation({
+      variables: args,
+      ...options,
+    });
+
+  return { resetStrategyStatsMutation, data, loading, error };
 };

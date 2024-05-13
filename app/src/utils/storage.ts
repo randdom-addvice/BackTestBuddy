@@ -78,11 +78,12 @@ export class UseMetricsInputLocalStorage extends Storage<MetricsInputKeys> {
   }
 
   public getInputLossValue(): TradeDetail["lossValue"] {
-    return Number(this.get(MetricsInputKeys.LOSS_VALUE)) ?? 1;
+    return !this.get(MetricsInputKeys.LOSS_VALUE) ? 1 : Number(this.get(MetricsInputKeys.LOSS_VALUE));
   }
 
   public getInputProfitValue(): TradeDetail["profitValue"] {
-    return Number(this.get(MetricsInputKeys.PROFIT_VALUE)) ?? 2;
+    return !this.get(MetricsInputKeys.PROFIT_VALUE) ? 2 : Number(this.get(MetricsInputKeys.PROFIT_VALUE));
+
   }
 
   public getInputValueType(): TradeDetail["valueType"] {
