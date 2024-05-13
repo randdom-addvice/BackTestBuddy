@@ -43,10 +43,48 @@ export const strategy = createSlice({
         ],
       };
     },
+    undoLastTradeUpdate: (state) => {
+      // Create copies of arrays and objects to avoid direct modification
+      const copiedTempStrategyStats = [...state.tempStrategyStatsToUpdate];
+      const copiedSelectedMetrixTradeSequence = [
+        ...(state.selectedStrategyMetrix?.tradeStats.tradesSequence ?? [])
+      ];
+      const copiedSelectedMetrix = {
+        ...state.selectedStrategyMetrix as Strategy
+      };
+
+      // Remove the last item from the copied arrays
+      copiedSelectedMetrixTradeSequence.pop();
+      copiedTempStrategyStats.pop();
+
+      // Update the copied object with the modified arrays
+      if (copiedSelectedMetrix.tradeStats) {
+        copiedSelectedMetrix.tradeStats.tradesSequence = copiedSelectedMetrixTradeSequence;
+      }
+
+      // Return the updated state
+      state.tempStrategyStatsToUpdate = copiedTempStrategyStats;
+      state.selectedStrategyMetrix = copiedSelectedMetrix;
+    },
     resetTempStrategyStatsToUpdate: (state) => {
       return {
         ...state,
         tempStrategyStatsToUpdate: [],
+      };
+    },
+    resetAllStrategyStatsData: (state) => {
+      return {
+        ...state,
+        tempStrategyStatsToUpdate: [],
+        ...(state.selectedStrategyMetrix && {
+          selectedStrategyMetrix: {
+            ...state.selectedStrategyMetrix,
+            tradeStats: {
+              ...state.selectedStrategyMetrix.tradeStats,
+              tradesSequence: [],
+            },
+          },
+        }),
       };
     },
   },

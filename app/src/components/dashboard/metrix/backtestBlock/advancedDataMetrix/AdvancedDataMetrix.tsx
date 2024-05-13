@@ -141,7 +141,7 @@ const AdvancedDataMetrix: React.FC<IProps> = ({
   ];
   const advancedAnalysisData = [
     {
-      name: "Drawdown",
+      name: "Drawdown (To be worked on)",
       value: `${metrix.absoluteDrawdown.toFixed(2)}%`,
     },
     {
@@ -149,12 +149,16 @@ const AdvancedDataMetrix: React.FC<IProps> = ({
       value: `${metrix.relativeDrawdown.toFixed(2)}%`,
     },
     {
-      name: "Average Win Dollars",
-      value: `$${metrix.averageWinDollars.toFixed(2)}`,
+      name: "Average Win Dollars (%)",
+      value: `$${metrix.averageWinDollars.toFixed(2)} (${(metrix.averageWinDollars / tradeStats.initialBalance) * 100}%)`,
     },
     {
-      name: "Average Loss Dollars",
-      value: `$${metrix.averageLossDollars.toFixed(2)}`,
+      name: "Average Loss Dollars (%)",
+      value: `$${metrix.averageLossDollars.toFixed(2)} (${(metrix.averageLossDollars / tradeStats.initialBalance) * 100}%)`,
+    },
+    {
+      name: "Avg. Risk-to-reward",
+      value: metrix.averageRiskToReward.toFixed(2),
     },
     {
       name: "Longs Won",
@@ -171,10 +175,6 @@ const AdvancedDataMetrix: React.FC<IProps> = ({
     {
       name: "Worst Trade Dollars",
       value: `${metrix.worstTradeDollars}$`,
-    },
-    {
-      name: "Avg. Risk-to-reward",
-      value: metrix.averageRiskToReward.toFixed(2),
     },
     {
       name: "Profit Factor",

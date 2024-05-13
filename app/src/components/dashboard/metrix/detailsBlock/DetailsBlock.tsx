@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoCloudDoneOutline } from "react-icons/io5";
 
 import {
@@ -31,6 +31,7 @@ interface IProps {
 }
 
 const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
+  const [showSavedIcon, setShowSavedIcon] = useState(false);
   const state = useAppSelector((state) => state.strategy);
   const dispatch = useAppDispatch();
   const { updateStrategyStatsMutation, loading } =
@@ -59,10 +60,19 @@ const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
           },
         },
       });
+      setShowSavedIcon(true);
+      setTimeout(() => {
+        setShowSavedIcon(false);
+      }, 1000);
     } catch (error) {
       alert("something went wrong");
     }
   }
+
+  // useEffect(() => {
+  //   if(showSavedIcon) setT
+  //   showSavedIcon(false)
+  // }, [showSavedIcon])
 
   return (
     <Container>
@@ -71,8 +81,8 @@ const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
           <Title>BackTest Section</Title>
           <ActionSection>
             {/* <Switch /> */}
-            <SaveButton onClick={updateStrategyStats}>
-              <IoCloudDoneOutline size="25px" />
+            <SaveButton title="save" onClick={updateStrategyStats}>
+              {!showSavedIcon ? <IoCloudDoneOutline size="25px" /> : <span style={{ fontSize: "25px" }}>✅</span>}
             </SaveButton>
             <BalanceTextContainer title={balance.toLocaleString()}>
               <Balance>$ {shortenText(balance.toLocaleString(), 10)}</Balance>
