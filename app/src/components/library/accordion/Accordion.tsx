@@ -42,6 +42,9 @@ interface Props {
 const Accordion: React.FC<Props> = ({ library, strategies }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false)
+
   const createStrategyForm = useForm(
     handleCreateStrategy,
     {
@@ -55,7 +58,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
       description: (value) => value.length > 0,
     }
   );
-  const { onChange, formValues } = useForm(() => {}, { name: library.name });
+  const { onChange, formValues } = useForm(() => { }, { name: library.name });
   const { updateLibrary } = useModifyLibraryMutationHook({
     modifyLibraryInput: { name: formValues.name, library_id: library.id },
   });
@@ -65,6 +68,12 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
       onError: (error) => {
         console.log(error);
         alert("Something went wrong, please retry");
+      },
+      onCompleted: (completedData) => {
+        setModalButtonLoadingState(false)
+        if (completedData && completedData.deleteLibrary) {
+          setShowDeleteModal(false);
+        }
       },
       refetchQueries: ["GetLibraries"],
     }
@@ -106,6 +115,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
 
   async function handleDeleteLibrary() {
     try {
+      setModalButtonLoadingState(true)
       await deleteLibrary();
     } catch (error) {
       console.log(error);
@@ -115,6 +125,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
 
   async function handleCreateStrategy() {
     try {
+      // setModalButtonLoadingState(true)
       await createStrategyMutation();
     } catch (error) {
       console.log(error);
@@ -135,7 +146,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
               onChange={onChange}
             />
             <StyledFlex justify="flex-end" align="center">
-              <DeleteButton onClick={handleDeleteLibrary}>
+              <DeleteButton onClick={() => {setShowDeleteModal(true)}}>
                 <FaTrash />
               </DeleteButton>
               <EditButton onClick={handleEditButtonClick}>
@@ -159,6 +170,17 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
           </AccordionContentGrid>
         </AccordionContent>
       </AccordionDetails>
+      <InputPromptModal
+        headerTitle="Delete Library"
+        onSubmit={handleDeleteLibrary}
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        isLoading={modalButtonLoadingState}
+      >
+        <p>
+          Are you sure you want to delete <strong>{library.name}</strong>?
+        </p>
+      </InputPromptModal>
       <StrategyForm
         showModal={showModal}
         setShowModal={setShowModal}
