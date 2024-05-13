@@ -7,7 +7,7 @@ import { StyledContainer } from "@/styles/globalElements";
 const LibraryPage = () => {
   return (
     <DashBoardLayout>
-      <StyledContainer margin="0">
+      <StyledContainer margin="0" style={{overflow: "auto"}}>
         <LibraryNav />
         <LibraryContainer />
       </StyledContainer>
