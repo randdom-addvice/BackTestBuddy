@@ -34,7 +34,7 @@ interface IProps {
 const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
   const state = useAppSelector((state) => state.strategy);
   const dispatch = useAppDispatch();
-  const { updateStrategyStatsMutation, loading } =
+  const { updateStrategyStatsMutation, loading, error } =
     useUpdateStrategyStatsMutationHook(
       {},
       {
@@ -70,6 +70,7 @@ const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
       <div className="wrapper">
         <HeaderContainer>
           <Title>BackTest Section</Title>
+          {error && <span>unable to save try again</span>}
           <ActionSection>
             {loading ? (
               <Spinner />
