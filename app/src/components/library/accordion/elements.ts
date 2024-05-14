@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const AccordionContainer = styled.div`
   width: 90%;
-  max-width: 750px;
+  // max-width: 750px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 5rem;
@@ -88,8 +88,8 @@ export const AccordionContent = styled.div`
   }
 `;
 export const AccordionContentGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
 `;
 export const AccordionInput = styled.input`
   &:focus {
@@ -120,7 +120,7 @@ export const CreateStratBtn = styled.button`
 export const CardContainer = styled.article`
   border-radius: 5px;
   box-shadow: 0 30px 40px -20px #a3a5ae;
-  margin: 20px 0;
+  margin: 20px;
   padding: 15px 30px;
   width: 300px;
   border-top: 3px solid #000;
