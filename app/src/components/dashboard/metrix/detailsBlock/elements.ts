@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Container = styled.section`
   flex: 1;
@@ -131,6 +131,7 @@ export const ActionSection = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 `;
 export const InfoSection = styled.section`
   display: flex;
@@ -157,4 +158,21 @@ export const InfoText = styled.p`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+`;
+
+const spin = keyframes`
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+`;
+
+export const Spinner = styled.span`
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-top-color: #007bff; /* Blue color for spinner */
+  border-radius: 50%;
+  animation: ${spin} 1s linear infinite; /* Animation */
 `;

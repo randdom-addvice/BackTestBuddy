@@ -14,6 +14,7 @@ import {
   InfoText,
   SaveButton,
   SectionWrapper,
+  Spinner,
   Title,
 } from "./elements";
 import Switch from "./Switch";
@@ -31,7 +32,6 @@ interface IProps {
 }
 
 const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
-  const [showSavedIcon, setShowSavedIcon] = useState(false);
   const state = useAppSelector((state) => state.strategy);
   const dispatch = useAppDispatch();
   const { updateStrategyStatsMutation, loading } =
@@ -60,19 +60,10 @@ const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
           },
         },
       });
-      setShowSavedIcon(true);
-      setTimeout(() => {
-        setShowSavedIcon(false);
-      }, 1000);
     } catch (error) {
       alert("something went wrong");
     }
   }
-
-  // useEffect(() => {
-  //   if(showSavedIcon) setT
-  //   showSavedIcon(false)
-  // }, [showSavedIcon])
 
   return (
     <Container>
@@ -80,10 +71,14 @@ const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
         <HeaderContainer>
           <Title>BackTest Section</Title>
           <ActionSection>
-            {/* <Switch /> */}
-            <SaveButton title="save" onClick={updateStrategyStats}>
-              {!showSavedIcon ? <IoCloudDoneOutline size="25px" /> : <span style={{ fontSize: "25px" }}>✅</span>}
-            </SaveButton>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <SaveButton title="save" onClick={updateStrategyStats}>
+                <IoCloudDoneOutline size="25px" />
+              </SaveButton>
+            )}
+
             <BalanceTextContainer title={balance.toLocaleString()}>
               <Balance>$ {shortenText(balance.toLocaleString(), 10)}</Balance>
               <BalanceText>Current Balance</BalanceText>
