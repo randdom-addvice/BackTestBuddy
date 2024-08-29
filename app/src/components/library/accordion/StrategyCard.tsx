@@ -7,9 +7,10 @@ import {
   StatisticsList,
   StatisticsListItem,
   Title,
+  ViewExpanded,
   ViewLink,
 } from "./elements";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaExpand, FaTrash } from "react-icons/fa";
 import { shortenText } from "@/utils/text";
 import { StyledFlex } from "@/styles/globalElements";
 import { AppRoutes } from "@/routes/routesDeclaration";
@@ -17,22 +18,26 @@ import { StrategyCardType } from "../common";
 import { useDeleteStrategyMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
 import InputPromptModal from "@/components/modal/InfoModal/InfoModal";
 import StrategyForm from "./StrategyForm";
+import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
+import RichTextPreviewModal from "@/components/global/editor/RichTextPreviewModal";
 
 interface Props {
   strategy: StrategyCardType;
 }
 
 const StrategyCard: React.FC<Props> = ({ strategy }) => {
+  const [showRichTextPreviewModal, setShowRichTextPreviewModal] =
+    useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false)
+  const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false);
   const { deleteStrategyMutation } = useDeleteStrategyMutationHook(
     {
       deleteStrategyId: strategy.id,
     },
     {
       onCompleted: (completedData) => {
-        setModalButtonLoadingState(false)
+        setModalButtonLoadingState(false);
         if (completedData && completedData.deleteStrategy) {
           setShowModal(false);
         }
@@ -43,11 +48,20 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
 
   async function deleteStrategy() {
     try {
-      setModalButtonLoadingState(true)
+      setModalButtonLoadingState(true);
       await deleteStrategyMutation();
     } catch (error) {
       alert("something went wrong");
     }
+  }
+
+  function removeHTMLTags(text: string) {
+    return text.replace(/<[^>]*>/g, "");
+    //const strippedString = originalString.replace(/(<([^>]+)>)/gi, "");
+  }
+
+  function viewExpanded() {
+    setShowRichTextPreviewModal(true);
   }
 
   return (
@@ -62,9 +76,13 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
           </EditButton>
         </StyledFlex>
         <Title title={strategy.name}>{shortenText(strategy.name, 25)}</Title>
-        <DescriptionText title={strategy.description}>
-          {shortenText(strategy.description, 100)}
+        <DescriptionText>
+          <span title={removeHTMLTags(strategy.description)}>
+            {shortenText(removeHTMLTags(strategy.description), 100)}{" "}
+          </span>
+          <ViewExpanded onClick={viewExpanded}>view expanded</ViewExpanded>
         </DescriptionText>
+
         <hr />
         <StatisticsList>
           <StatisticsListItem>
@@ -101,6 +119,11 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
         libraryId={strategy.libraryId}
         isUpdateForm={true}
         strategy={strategy}
+      />
+      <RichTextPreviewModal
+        showRichTextPreviewModal={showRichTextPreviewModal}
+        setShowRichTextPreviewModal={setShowRichTextPreviewModal}
+        richText={strategy.description}
       />
     </>
   );

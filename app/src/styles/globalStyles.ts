@@ -30,7 +30,17 @@ const GlobalStyle = createGlobalStyle`
     /* background-image: linear-gradient(45deg, #00aeff, #a68eff); */
     border-radius: 10px;
   }
- 
+
+  .fr-svg {
+    width: 18px !important;  /* Adjust font size */
+    height: 18px !important;  /* Adjust font size */
+  }
+  .fr-command.fr-btn {
+    height: 30px !important;
+  }
+  .fr-second-toolbar a {
+    display: none !important;
+  }
  
 `;
 

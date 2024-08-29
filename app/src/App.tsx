@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import ApolloProviderWrapper from "@/graphql/ApolloProvider";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import RichText from "./components/global/editor/RichText";
 
 const App = () => {
   return (

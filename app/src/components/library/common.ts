@@ -12,7 +12,7 @@ export type StrategyCardType = {
 
 export const PromptInputGroup = styled.div`
   margin-bottom: 1rem;
-  p {
+  p.errorMsg {
     color: ${({ theme }) => theme.colors.red};
     margin-top: 0.5rem;
     font-size: 0.7rem;

@@ -181,3 +181,17 @@ export const ViewLink = styled(Link)`
     text-decoration: none;
   }
 `;
+export const ViewExpanded = styled.button`
+  display: inline;
+  font-size: 0.7rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+  border: none;
+  background: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+`;

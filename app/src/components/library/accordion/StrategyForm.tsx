@@ -11,6 +11,7 @@ import {
   useUpdateStrategyDetailsMutationHook,
 } from "@/graphql/mutations/strategy/strategy.mutations";
 import InputPromptModal from "@/components/modal/InfoModal/InfoModal";
+import RichText from "@/components/global/editor/RichText";
 
 interface Props {
   libraryId: string;
@@ -30,13 +31,14 @@ const StrategyForm: React.FC<Props> = ({
   isUpdateForm,
   strategy,
 }) => {
-  const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false)
+  const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false);
+  const [description, setDescription] = useState(strategy?.description ?? " ");
   const createStrategyForm = useForm(
     isUpdateForm ? handleUpdateStrategy : handleCreateStrategy,
     {
       name: strategy?.name ?? "",
       startingBalance: isUpdateForm ? 1 : 0,
-      description: strategy?.description ?? "",
+      description: description ?? " ",
     },
     {
       name: (value) => value.length > 0,
@@ -44,12 +46,16 @@ const StrategyForm: React.FC<Props> = ({
       description: (value) => value.length > 0,
     }
   );
-  const { description, name } = createStrategyForm.formValues;
+
+  const { name } = createStrategyForm.formValues;
 
   const { createStrategyMutation } = useCreateStrategyMutationHook(
     {
       createStrategyInput: {
-        ...createStrategyForm.formValues,
+        ...{
+          ...createStrategyForm.formValues,
+          description,
+        },
         startingBalance: parseInt(
           String(createStrategyForm.formValues.startingBalance)
         ),
@@ -58,7 +64,7 @@ const StrategyForm: React.FC<Props> = ({
     },
     {
       onCompleted: (completedData) => {
-        setModalButtonLoadingState(false)
+        setModalButtonLoadingState(false);
         if (completedData && completedData.createStrategy) {
           setShowModal(false);
         }
@@ -79,7 +85,7 @@ const StrategyForm: React.FC<Props> = ({
       },
       {
         onCompleted: (completedData) => {
-          setModalButtonLoadingState(false)
+          setModalButtonLoadingState(false);
           if (completedData && completedData.updateStrategyDetails) {
             setShowModal(false);
           }
@@ -94,7 +100,7 @@ const StrategyForm: React.FC<Props> = ({
 
   async function handleCreateStrategy() {
     try {
-      setModalButtonLoadingState(true)
+      setModalButtonLoadingState(true);
       await createStrategyMutation();
     } catch (error) {
       console.log(error);
@@ -102,7 +108,7 @@ const StrategyForm: React.FC<Props> = ({
   }
   async function handleUpdateStrategy() {
     try {
-      setModalButtonLoadingState(true)
+      setModalButtonLoadingState(true);
       await updateStrategyDetailsMutation();
     } catch (error) {
       console.log(error);
@@ -127,7 +133,7 @@ const StrategyForm: React.FC<Props> = ({
             onChange={createStrategyForm.onChange}
           />
           {createStrategyForm.getFieldError("name") && (
-            <p>This field is requried</p>
+            <p className="errorMsg">This field is requried</p>
           )}
         </PromptInputGroup>
         {!isUpdateForm && (
@@ -141,21 +147,23 @@ const StrategyForm: React.FC<Props> = ({
               onChange={createStrategyForm.onChange}
             />
             {createStrategyForm.getFieldError("startingBalance") && (
-              <p>This field is requried</p>
+              <p className="errorMsg">This field is requried</p>
             )}
           </PromptInputGroup>
         )}
 
         <PromptInputGroup>
-          <PromptTextArea
+          {/* <PromptTextArea
             name="description"
             defaultValue={strategy?.description}
             onChange={createStrategyForm.onChange}
             placeholder="Enter Strategy Description"
-          />
-          {createStrategyForm.getFieldError("description") && (
-            <p>This field is requried</p>
-          )}
+          /> */}
+
+          <RichText setText={setDescription} text={description} />
+          {/* {createStrategyForm.getFieldError("description") && (
+            <p className="errorMsg">This field is requried</p>
+          )} */}
         </PromptInputGroup>
         {/* {loading && (
             <PromptInputGroup>
