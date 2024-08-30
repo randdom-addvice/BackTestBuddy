@@ -44,9 +44,6 @@ const GlobalStyle = createGlobalStyle`
   .fr-second-toolbar a {
     display: none !important;
   }
-  .fr-wrapper > div:first-of-type:not([class]) {
-    height: 0 !important;
-  }
   .fr-wrapper > div:first-of-type:not([class]) a  {
     visibility: hidden !important;
   }
