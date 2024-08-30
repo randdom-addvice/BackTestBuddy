@@ -44,6 +44,10 @@ const GlobalStyle = createGlobalStyle`
   .fr-second-toolbar a {
     display: none !important;
   }
+  .fr-wrapper > div:first-of-type:not([class]) a  {
+    display: none;
+  }
+
  
 `;
 
