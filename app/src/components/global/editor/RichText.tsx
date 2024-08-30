@@ -24,7 +24,6 @@ export default function RichText({
   };
   let config = {
     charCounterCount: false,
-    key: "AVB8B-21B4C3A2E1D2D1A17vC2ve1xhbH1qb1vC2wgheC3I3C7C8C4B4B3A3B2G2==",
     placeholderText: "Enter description",
     toolbarButtons: {
       moreParagraph: {
