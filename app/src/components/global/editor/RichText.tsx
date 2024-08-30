@@ -25,6 +25,7 @@ export default function RichText({
   let config = {
     charCounterCount: false,
     placeholderText: "Enter description",
+    spellcheck: false,
     toolbarButtons: {
       moreParagraph: {
         buttons: [
