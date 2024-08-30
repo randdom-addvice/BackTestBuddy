@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
     margin:0;
     padding:0;
     box-sizing: border-box;
-    color: #1F1F1F;
+    /*color: #1F1F1F;*/
   }
   ::-webkit-scrollbar {
   width: 2px;
@@ -29,6 +29,9 @@ const GlobalStyle = createGlobalStyle`
     background: transparent;
     /* background-image: linear-gradient(45deg, #00aeff, #a68eff); */
     border-radius: 10px;
+  }
+  a {
+    color: #1F1F1F;
   }
 
   .fr-svg {

@@ -92,7 +92,7 @@ export const AccordionContentGrid = styled.div`
   flex-wrap: wrap;
 `;
 export const AccordionName = styled.p`
-  width: 70%;
+  width: 85%;
   font-size: 0.8rem;
 `;
 export const Description = styled.p`

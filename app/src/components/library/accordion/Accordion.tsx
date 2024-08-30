@@ -139,7 +139,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
         <AccordionSummary>
           <StyledFlex>
             <AccordionName>{formValues.name}</AccordionName>
-            <StyledFlex justify="flex-end" align="center">
+            <StyledFlex justify="flex-end" align="center" width="fit-content">
               <DeleteButton
                 onClick={() => {
                   setShowDeleteModal(true);
