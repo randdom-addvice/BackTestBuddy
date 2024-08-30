@@ -45,7 +45,7 @@ const GlobalStyle = createGlobalStyle`
     display: none !important;
   }
   .fr-wrapper > div:first-of-type:not([class]) a  {
-    display: none;
+    display: none !important;
   }
 
  
