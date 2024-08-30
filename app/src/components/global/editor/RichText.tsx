@@ -5,6 +5,7 @@ import FroalaEditorComponent from "react-froala-wysiwyg";
 import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
 import "froala-editor/js/plugins.pkgd.min.js";
 import React, { useState } from "react";
+import { PromptInputGroup } from "@/components/library/common";
 
 export default function RichText({
   text,
@@ -101,14 +102,13 @@ export default function RichText({
     },
   };
   return (
-    <div style={{ width: "500px", margin: "3rem auto" }}>
+    <PromptInputGroup>
       <FroalaEditorComponent
         tag="textarea"
         model={model}
         config={config}
         onModelChange={handleModelChange}
       />
-      {/* <FroalaEditorView model={model} /> */}
-    </div>
+    </PromptInputGroup>
   );
 }

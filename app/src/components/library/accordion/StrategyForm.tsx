@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   PromptInput,
   PromptInputGroup,
@@ -32,13 +32,13 @@ const StrategyForm: React.FC<Props> = ({
   strategy,
 }) => {
   const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false);
-  const [description, setDescription] = useState(strategy?.description ?? " ");
+  const [description, setDescription] = useState(strategy?.description ?? "");
   const createStrategyForm = useForm(
     isUpdateForm ? handleUpdateStrategy : handleCreateStrategy,
     {
       name: strategy?.name ?? "",
       startingBalance: isUpdateForm ? 1 : 0,
-      description: description ?? " ",
+      description, //: description ?? " ",
     },
     {
       name: (value) => value.length > 0,
@@ -47,6 +47,7 @@ const StrategyForm: React.FC<Props> = ({
     }
   );
 
+  const { setFormValue } = createStrategyForm;
   const { name } = createStrategyForm.formValues;
 
   const { createStrategyMutation } = useCreateStrategyMutationHook(
@@ -72,6 +73,7 @@ const StrategyForm: React.FC<Props> = ({
       onError: (error) => {
         console.log(error);
         alert("Something went wrong, please retry");
+        setModalButtonLoadingState(false);
       },
       refetchQueries: ["GetLibraries"],
     }
@@ -93,10 +95,15 @@ const StrategyForm: React.FC<Props> = ({
         onError: (error) => {
           console.log(error);
           alert("Something went wrong, please retry");
+          setModalButtonLoadingState(false);
         },
         refetchQueries: ["GetLibraries"],
       }
     );
+
+  useEffect(() => {
+    setFormValue("description", description);
+  }, [description]);
 
   async function handleCreateStrategy() {
     try {
@@ -161,9 +168,9 @@ const StrategyForm: React.FC<Props> = ({
           /> */}
 
           <RichText setText={setDescription} text={description} />
-          {/* {createStrategyForm.getFieldError("description") && (
-            <p className="errorMsg">This field is requried</p>
-          )} */}
+          {createStrategyForm.getFieldError("description") && (
+            <p className="errorMsg">This field is required</p>
+          )}
         </PromptInputGroup>
         {/* {loading && (
             <PromptInputGroup>

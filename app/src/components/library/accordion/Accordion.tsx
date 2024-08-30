@@ -30,6 +30,7 @@ import { shortenText } from "@/utils/text";
 import InputPromptModal from "@/components/modal/InfoModal/InfoModal";
 import { useCreateStrategyMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
 import StrategyForm from "./StrategyForm";
+import RichTextPreviewModal from "@/components/global/editor/RichTextPreviewModal";
 interface Props {
   library: {
     name: string;
@@ -44,6 +45,8 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false);
+  const [showRichTextPreviewModal, setShowRichTextPreviewModal] =
+    useState(false);
 
   const createStrategyForm = useForm(
     handleCreateStrategy,
@@ -68,6 +71,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
       onError: (error) => {
         console.log(error);
         alert("Something went wrong, please retry");
+        setModalButtonLoadingState(false);
       },
       onCompleted: (completedData) => {
         setModalButtonLoadingState(false);
@@ -97,6 +101,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
       onError: (error) => {
         console.log(error);
         alert("Something went wrong, please retry");
+        setModalButtonLoadingState(false);
       },
       refetchQueries: ["GetLibraries"],
     }
@@ -132,6 +137,10 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
     }
   }
 
+  function viewExpanded() {
+    setShowRichTextPreviewModal(true);
+  }
+
   return (
     <>
       <AccordionDetails>
@@ -165,7 +174,8 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
           </CreateStratBtn>
           <Description title={library.description}>
             Library Description:{" "}
-            <span>{shortenText(library.description, 300)}</span>
+            <span>{shortenText(library.description, 300)}</span>{" "}
+            <button onClick={viewExpanded}>view expanded</button>
           </Description>
           <AccordionContentGrid>
             {strategies.map((strat) => (
@@ -190,6 +200,11 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
         setShowModal={setShowModal}
         libraryId={library.id}
         isUpdateForm={false}
+      />
+      <RichTextPreviewModal
+        showRichTextPreviewModal={showRichTextPreviewModal}
+        setShowRichTextPreviewModal={setShowRichTextPreviewModal}
+        richText={library.description}
       />
     </>
   );

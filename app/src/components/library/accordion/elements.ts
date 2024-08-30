@@ -100,7 +100,8 @@ export const AccordionInput = styled.input`
 export const Description = styled.p`
   font-size: 0.8rem;
   font-weight: 600;
-  span {
+  span,
+  button {
     font-size: 0.7rem;
     font-weight: 500;
   }

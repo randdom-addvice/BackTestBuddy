@@ -28,7 +28,7 @@ export const generateToken = (user: IUser) => {
       _id: user._id,
     },
     JWT_SECRET,
-    { expiresIn: "7d" }
+    { expiresIn: "6d" }
   );
 };
 

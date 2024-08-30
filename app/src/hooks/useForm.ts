@@ -1,4 +1,10 @@
-import { useState, ChangeEvent, FormEvent, useCallback } from "react";
+import {
+  useState,
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+} from "react";
 
 type ValueOf<T> = T[keyof T];
 
@@ -36,6 +42,14 @@ export const useForm = <T extends {} = {}>(
       const { name, value } = event.target;
       setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
       validateField(name as keyof T, value as T[keyof T]);
+    },
+    [validateField]
+  );
+
+  const setFormValue = useCallback(
+    (name: keyof T, value: T[keyof T]) => {
+      setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
+      validateField(name, value);
     },
     [validateField]
   );
@@ -79,5 +93,6 @@ export const useForm = <T extends {} = {}>(
     formValues,
     getFieldError,
     handleNonFormSubmit,
+    setFormValue,
   };
 };
