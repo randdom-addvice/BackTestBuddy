@@ -5,3 +5,8 @@ export function shortenText(text: string, maxLength: number): string {
   const shortenedText = text.substring(0, maxLength - 3).trim();
   return shortenedText + "...";
 }
+
+export function removeHTMLTags(text: string) {
+  return text.replace(/<[^>]*>/g, "");
+  //const strippedString = originalString.replace(/(<([^>]+)>)/gi, "");
+}

@@ -91,11 +91,9 @@ export const AccordionContentGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
-export const AccordionInput = styled.input`
-  &:focus {
-    border: 2px solid ${({ theme }) => theme.colors.primary};
-    outline: none;
-  }
+export const AccordionName = styled.p`
+  width: 70%;
+  font-size: 0.8rem;
 `;
 export const Description = styled.p`
   font-size: 0.8rem;

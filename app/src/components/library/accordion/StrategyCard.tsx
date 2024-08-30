@@ -11,7 +11,7 @@ import {
   ViewLink,
 } from "./elements";
 import { FaEdit, FaExpand, FaTrash } from "react-icons/fa";
-import { shortenText } from "@/utils/text";
+import { removeHTMLTags, shortenText } from "@/utils/text";
 import { StyledFlex } from "@/styles/globalElements";
 import { AppRoutes } from "@/routes/routesDeclaration";
 import { StrategyCardType } from "../common";
@@ -53,11 +53,6 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
     } catch (error) {
       alert("something went wrong");
     }
-  }
-
-  function removeHTMLTags(text: string) {
-    return text.replace(/<[^>]*>/g, "");
-    //const strippedString = originalString.replace(/(<([^>]+)>)/gi, "");
   }
 
   function viewExpanded() {

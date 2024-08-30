@@ -4,7 +4,7 @@ import {
   AccordionContent,
   AccordionContentGrid,
   AccordionDetails,
-  AccordionInput,
+  AccordionName,
   AccordionSummary,
   CreateStratBtn,
   DeleteButton,
@@ -26,11 +26,12 @@ import {
   useModifyLibraryMutationHook,
 } from "@/graphql/mutations/library/library.mutations";
 import { useForm } from "@/hooks/useForm";
-import { shortenText } from "@/utils/text";
+import { removeHTMLTags, shortenText } from "@/utils/text";
 import InputPromptModal from "@/components/modal/InfoModal/InfoModal";
 import { useCreateStrategyMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
 import StrategyForm from "./StrategyForm";
 import RichTextPreviewModal from "@/components/global/editor/RichTextPreviewModal";
+import LibraryForm from "../LibraryForm";
 interface Props {
   library: {
     name: string;
@@ -41,8 +42,8 @@ interface Props {
 }
 
 const Accordion: React.FC<Props> = ({ library, strategies }) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [showUpdateLibraryModal, setShowUpdateLibraryModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false);
   const [showRichTextPreviewModal, setShowRichTextPreviewModal] =
@@ -62,9 +63,6 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
     }
   );
   const { onChange, formValues } = useForm(() => {}, { name: library.name });
-  const { updateLibrary } = useModifyLibraryMutationHook({
-    modifyLibraryInput: { name: formValues.name, library_id: library.id },
-  });
   const { deleteLibrary } = useDeleteLibraryMutationHook(
     { deleteLibraryId: library.id },
     {
@@ -108,14 +106,11 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
   );
 
   function handleEditButtonClick() {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    setShowUpdateLibraryModal(true);
   }
 
   async function handleBlur() {
     if (formValues.name === library.name) return;
-    await updateLibrary();
   }
 
   async function handleDeleteLibrary() {
@@ -146,14 +141,7 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
       <AccordionDetails>
         <AccordionSummary>
           <StyledFlex>
-            <AccordionInput
-              ref={inputRef}
-              onBlur={handleBlur}
-              name="name"
-              type="text"
-              value={formValues.name}
-              onChange={onChange}
-            />
+            <AccordionName>{formValues.name}</AccordionName>
             <StyledFlex justify="flex-end" align="center">
               <DeleteButton
                 onClick={() => {
@@ -172,9 +160,12 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
           <CreateStratBtn onClick={() => setShowModal(true)}>
             Create Strategy
           </CreateStratBtn>
-          <Description title={library.description}>
+          <Description>
             Library Description:{" "}
-            <span>{shortenText(library.description, 300)}</span>{" "}
+            {/* <span>{shortenText(library.description, 300)}</span>{" "} */}
+            <span title={removeHTMLTags(library.description)}>
+              {shortenText(removeHTMLTags(library.description), 300)}{" "}
+            </span>
             <button onClick={viewExpanded}>view expanded</button>
           </Description>
           <AccordionContentGrid>
@@ -200,6 +191,12 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
         setShowModal={setShowModal}
         libraryId={library.id}
         isUpdateForm={false}
+      />
+      <LibraryForm
+        showModal={showUpdateLibraryModal}
+        setShowModal={setShowUpdateLibraryModal}
+        isUpdateForm={true}
+        library={library}
       />
       <RichTextPreviewModal
         showRichTextPreviewModal={showRichTextPreviewModal}
