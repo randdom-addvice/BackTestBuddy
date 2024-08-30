@@ -19,19 +19,22 @@ import {
 } from "./elements";
 import Switch from "./Switch";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { shortenText } from "@/utils/text";
+import { removeHTMLTags, shortenText } from "@/utils/text";
 import GrowthChart from "./chart/GrowthChart";
 import AnalyticsCharts from "./chart/analyticsChart/AnalyticsCharts";
 import { TradeStats } from "@/graphql/api";
 import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
 import { useUpdateStrategyStatsMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
 import { strategyActions } from "@/redux/reducers/strategy/strategySlice";
+import RichTextPreviewModal from "@/components/global/editor/RichTextPreviewModal";
 
 interface IProps {
   tradeStats: TradeStats;
 }
 
 const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
+  const [showRichTextPreviewModal, setShowRichTextPreviewModal] =
+    useState(false);
   const state = useAppSelector((state) => state.strategy);
   const dispatch = useAppDispatch();
   const { updateStrategyStatsMutation, loading, error } =
@@ -65,6 +68,10 @@ const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
     }
   }
 
+  function viewExpanded() {
+    setShowRichTextPreviewModal(true);
+  }
+
   return (
     <Container>
       <div className="wrapper">
@@ -96,7 +103,8 @@ const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
           <InfoBlock>
             <InfoLabel>Description</InfoLabel>
             <InfoText title={metrix?.description}>
-              {shortenText(metrix?.description ?? "", 25)}
+              {shortenText(removeHTMLTags(metrix?.description ?? ""), 25)}
+              <button onClick={viewExpanded}>view expanded</button>
             </InfoText>
           </InfoBlock>
         </SectionWrapper>
@@ -107,7 +115,11 @@ const DetailsBlock: React.FC<IProps> = ({ tradeStats }) => {
           <AnalyticsCharts />
         </>
       )}
-      {/* <Chart /> */}
+      <RichTextPreviewModal
+        showRichTextPreviewModal={showRichTextPreviewModal}
+        setShowRichTextPreviewModal={setShowRichTextPreviewModal}
+        richText={metrix?.description ?? ""}
+      />
     </Container>
   );
 };

@@ -25,6 +25,7 @@ interface IProps {
 const DataTabContent: React.FC<IProps> = ({ tradeStats }) => {
   const [showExpandedData, setShowExpandedData] = useState(false);
   const metrix = useStrategyMetrix(tradeStats);
+
   return (
     <Container>
       <Sections>
@@ -40,8 +41,8 @@ const DataTabContent: React.FC<IProps> = ({ tradeStats }) => {
         <StatList>
           <StatListItem>
             <StatListItemTitle>Gain: </StatListItemTitle>
-            <StatListItemText title={metrix.profitGain.toString()}>
-              {shortenText(metrix.profitGain.toString() ?? "", 10)}%
+            <StatListItemText title={metrix.profitGain?.toString() ?? ""}>
+              {shortenText(metrix.profitGain?.toString() ?? "", 10)}%
             </StatListItemText>
           </StatListItem>
           <StatListItem>

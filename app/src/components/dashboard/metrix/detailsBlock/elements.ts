@@ -154,10 +154,14 @@ export const InfoLabel = styled.h4`
 `;
 export const InfoText = styled.p`
   color: ${({ theme }) => theme.colors.black};
-  font-size: 18px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  display: inline-block;
+  button {
+    font-size: 9px;
+  }
 `;
 
 const spin = keyframes`
