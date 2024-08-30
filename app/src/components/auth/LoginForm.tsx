@@ -48,7 +48,6 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
     fetchPolicy: "no-cache",
     onCompleted(completedData) {
       if (completedData) {
-        console.log(completedData);
         setAuthCookies(completedData.loginUser);
         window.location.reload();
       }
@@ -60,7 +59,6 @@ const LoginForm = ({ handleToggle }: { handleToggle: () => void }) => {
       setInAppGraphQLError("");
       await loginUser();
     } catch (error) {
-      console.log((error as Error).message, "error logging");
       setInAppGraphQLError((error as Error).message ?? "Something went wrong");
     }
   }

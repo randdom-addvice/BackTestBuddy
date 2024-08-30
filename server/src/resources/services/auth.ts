@@ -15,7 +15,6 @@ export const getUserFromToken = (
     if (!token) return null;
 
     const decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
-    // console.log(decoded);
     return decoded;
   } catch (error) {
     return null;

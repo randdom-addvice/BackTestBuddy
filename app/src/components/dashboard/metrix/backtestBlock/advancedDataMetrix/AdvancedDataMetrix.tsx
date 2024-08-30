@@ -150,11 +150,15 @@ const AdvancedDataMetrix: React.FC<IProps> = ({
     },
     {
       name: "Average Win Dollars (%)",
-      value: `$${metrix.averageWinDollars.toFixed(2)} (${(metrix.averageWinDollars / tradeStats.initialBalance) * 100}%)`,
+      value: `$${metrix.averageWinDollars.toFixed(2)} (${
+        (metrix.averageWinDollars / tradeStats.initialBalance) * 100
+      }%)`,
     },
     {
       name: "Average Loss Dollars (%)",
-      value: `$${metrix.averageLossDollars.toFixed(2)} (${(metrix.averageLossDollars / tradeStats.initialBalance) * 100}%)`,
+      value: `$${metrix.averageLossDollars.toFixed(2)} (${
+        (metrix.averageLossDollars / tradeStats.initialBalance) * 100
+      }%)`,
     },
     {
       name: "Avg. Risk-to-reward",
@@ -209,7 +213,6 @@ const AdvancedDataMetrix: React.FC<IProps> = ({
       value: `${metrix.ghpr.toFixed(2)}%`,
     },
   ];
-  //   console.log("xx averageLossDollars", averageLossDollars);
   return (
     <InfoModal
       headerTitle="Trade Analysis"

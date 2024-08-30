@@ -11,7 +11,6 @@ import { authActions } from "@/redux/reducers/auth/authSlice";
 export const useGetUserQueryHook = (
   options?: QueryHookOptions<GetUserQuery, GetUserQueryVariables>
 ) => {
-  console.log("i must not see it run here");
   const dispatch = useAppDispatch();
   const { data, loading, error } = useGetUserQuery(options);
   if (data?.getUser) dispatch(authActions.setUserData(data?.getUser));

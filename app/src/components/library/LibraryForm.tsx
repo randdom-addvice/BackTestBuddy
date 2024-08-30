@@ -64,7 +64,6 @@ const LibraryForm: React.FC<Props> = ({
         }
       },
       onError: (error) => {
-        console.log(error);
         alert("Something went wrong, please retry");
         setModalButtonLoadingState(false);
       },
@@ -89,7 +88,6 @@ const LibraryForm: React.FC<Props> = ({
         }
       },
       onError: (error) => {
-        console.log(error);
         alert("Something went wrong, please retry");
         setModalButtonLoadingState(false);
       },
@@ -113,8 +111,6 @@ const LibraryForm: React.FC<Props> = ({
     try {
       setModalButtonLoadingState(true);
       await createLibrary();
-      console.log(data, "data");
-      console.log(error, "error");
     } catch (error) {
       console.log(error);
     }

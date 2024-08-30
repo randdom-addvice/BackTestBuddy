@@ -61,7 +61,6 @@ const RegisterForm = ({ handleToggle }: { handleToggle: () => void }) => {
       fetchPolicy: "no-cache",
       onCompleted(completedData) {
         if (completedData) {
-          console.log(completedData);
           setAuthCookies(completedData.registerUser);
           window.location.reload();
         }
@@ -74,7 +73,6 @@ const RegisterForm = ({ handleToggle }: { handleToggle: () => void }) => {
       setInAppGraphQLError("");
       await registerUser();
     } catch (error) {
-      console.log((error as Error).message, "error logging");
       setInAppGraphQLError((error as Error).message ?? "Something went wrong");
     }
   }

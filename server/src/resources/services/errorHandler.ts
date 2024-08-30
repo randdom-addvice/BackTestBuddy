@@ -11,7 +11,6 @@ export function throwGraphQLError(code: string, message: string) {
 }
 
 export function catchGraphQLError(error: any) {
-  console.log(error);
   if (error instanceof Error && error.name === "ValidationError") {
     throwGraphQLError("USER_INPUT_ERROR", "Invalid user input");
   }

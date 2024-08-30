@@ -96,9 +96,7 @@ export default function RichText({
       },
     },
     events: {
-      contentChanged: function () {
-        console.log("Test Events");
-      },
+      contentChanged: function () {},
     },
   };
   return (

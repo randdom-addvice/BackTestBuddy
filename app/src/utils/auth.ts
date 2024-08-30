@@ -16,7 +16,6 @@ export const checkTokenValidity = (
       return false;
     }
   } catch (error) {
-    console.error("Error decoding JWT:", error);
     return false;
   }
 };

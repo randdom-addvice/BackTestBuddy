@@ -67,7 +67,6 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
     { deleteLibraryId: library.id },
     {
       onError: (error) => {
-        console.log(error);
         alert("Something went wrong, please retry");
         setModalButtonLoadingState(false);
       },
@@ -97,7 +96,6 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
         }
       },
       onError: (error) => {
-        console.log(error);
         alert("Something went wrong, please retry");
         setModalButtonLoadingState(false);
       },
@@ -121,7 +119,6 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
       console.log(error);
     }
   }
-  console.log(createStrategyForm.formValues);
 
   async function handleCreateStrategy() {
     try {

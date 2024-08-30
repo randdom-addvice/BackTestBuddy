@@ -50,8 +50,6 @@ export function PieChartJS() {
     [result.values]
   );
 
-  console.log("roll");
-
   const generateBackgroundColor = useMemo(
     () =>
       backgroundColorCodes.map((i) => `rgba(${i[0]}, ${i[1]}, ${i[2]}, 0.2)`),
@@ -91,7 +89,6 @@ const Pie = () => {
     (state) => state.strategy.selectedStrategyMetrix
   );
   const result = useMemo(() => {
-    // console.clear();
     const groupedData: Record<string, number[]> = {};
     const trades = metrix?.tradeStats.tradesSequence ?? [];
     trades.forEach((trade) => {

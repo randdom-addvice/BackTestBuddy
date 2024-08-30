@@ -26,7 +26,6 @@ const resolvers = {
         },
         { lean: false }
       );
-      console.log(strategies);
       // const strategies = library?.strategies ?? [];
       return strategies;
     },
@@ -60,11 +59,6 @@ const resolvers = {
       { user }: { user?: IUser }
     ) => {
       try {
-        console.log({
-          tradeStats: {
-            initialBalance: startingBalance,
-          },
-        });
         if (!user)
           return throwGraphQLError(
             "FORBIDDEN",
@@ -169,40 +163,30 @@ const resolvers = {
         );
         return true;
       } catch (error) {
-        console.log(error);
         return false;
       }
     },
-    undoLastStrategyStats: async (
-      _: any,
-      {id}: { id: string }
-    ) => {
-      try {
-        console.log(id)
-        await MongooseServices.findAndUpdate(
-          StrategyModel,
-          { _id: id },
-          { $pop: { 'tradeStats.tradesSequence': 1 } }
-        );
-        return true;
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
-    },
-    resetStrategyStats: async (
-      _: any,
-      {id}: { id: string }
-    ) => {
+    undoLastStrategyStats: async (_: any, { id }: { id: string }) => {
       try {
         await MongooseServices.findAndUpdate(
           StrategyModel,
           { _id: id },
-          { $set: { 'tradeStats.tradesSequence': [] } }
+          { $pop: { "tradeStats.tradesSequence": 1 } }
         );
         return true;
       } catch (error) {
-        console.log(error);
+        return false;
+      }
+    },
+    resetStrategyStats: async (_: any, { id }: { id: string }) => {
+      try {
+        await MongooseServices.findAndUpdate(
+          StrategyModel,
+          { _id: id },
+          { $set: { "tradeStats.tradesSequence": [] } }
+        );
+        return true;
+      } catch (error) {
         return false;
       }
     },

@@ -7,7 +7,6 @@ import { StyledCenteredDiv } from "@/styles/globalElements";
 
 const LibraryContainer = () => {
   const { data, loading, error } = useGetLibrariesQueryHook();
-  console.log(data);
   if (loading) return <StyledCenteredDiv>Loading Libraries</StyledCenteredDiv>;
   if (error)
     return (

@@ -293,8 +293,6 @@ export async function seedDatabase(cb: any) {
       data.strategies.push(createdStrategy._id);
       await data.save();
     });
-
-    console.log("Seed completed successfully");
   } catch (error) {
     console.error("Error seeding database:", error);
   } finally {

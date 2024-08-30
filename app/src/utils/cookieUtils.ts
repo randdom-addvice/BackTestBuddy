@@ -53,7 +53,6 @@ export default CookieUtility;
 
 //     cookieString += `; SameSite=${sameSite}`;
 //     document.cookie = cookieString;
-//     console.log(cookieString);
 //   }
 
 //   public static getCookie(name: string): string | null {

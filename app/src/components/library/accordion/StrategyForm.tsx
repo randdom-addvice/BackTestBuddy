@@ -71,7 +71,6 @@ const StrategyForm: React.FC<Props> = ({
         }
       },
       onError: (error) => {
-        console.log(error);
         alert("Something went wrong, please retry");
         setModalButtonLoadingState(false);
       },
@@ -93,7 +92,6 @@ const StrategyForm: React.FC<Props> = ({
           }
         },
         onError: (error) => {
-          console.log(error);
           alert("Something went wrong, please retry");
           setModalButtonLoadingState(false);
         },

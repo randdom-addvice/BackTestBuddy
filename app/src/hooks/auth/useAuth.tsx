@@ -32,7 +32,6 @@ const useAuth = () => {
           setIsTokenValid(false);
         }
       } catch (error) {
-        console.error("Error decoding JWT:", error);
         setIsTokenValid(false);
       }
     };
@@ -50,7 +49,6 @@ const useAuth = () => {
       secure: true,
       sameSite: "Strict",
     });
-    console.log("Set all tokens");
   }
 
   return { authToken, setAuthCookies };

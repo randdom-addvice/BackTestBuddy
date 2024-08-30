@@ -27,7 +27,10 @@ import { strategyActions } from "@/redux/reducers/strategy/strategySlice";
 import useStrategyMetrix from "@/hooks/strategy/useStrategyMetrix";
 import { UseMetricsInputLocalStorage } from "@/utils/storage";
 import InputPromptModal from "@/components/modal/InfoModal/InfoModal";
-import { useResetStrategyStatsMutationHook, useUndoLastStrategyStatsMutationHook } from "@/graphql/mutations/strategy/strategy.mutations";
+import {
+  useResetStrategyStatsMutationHook,
+  useUndoLastStrategyStatsMutationHook,
+} from "@/graphql/mutations/strategy/strategy.mutations";
 
 interface TradeDetail {
   commission: number;
@@ -40,7 +43,7 @@ interface TradeDetail {
 
 interface IProps {
   tradeStats: TradeStats;
-  metrics_id: string
+  metrics_id: string;
 }
 
 const metricsLocalStorage = UseMetricsInputLocalStorage.getInstance();
@@ -59,8 +62,13 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats, metrics_id }) => {
   const [tradeStatsToUpdate, setTradeStatsToUpdate] = useState<
     TradeSequenceDetail[]
   >([]);
-  const {resetStrategyStatsMutation} = useResetStrategyStatsMutationHook({resetStrategyStatsId: metrics_id})
-  const {undoLastStrategyStatsMutation} = useUndoLastStrategyStatsMutationHook({undoLastStrategyStatsId: metrics_id})
+  const { resetStrategyStatsMutation } = useResetStrategyStatsMutationHook({
+    resetStrategyStatsId: metrics_id,
+  });
+  const { undoLastStrategyStatsMutation } =
+    useUndoLastStrategyStatsMutationHook({
+      undoLastStrategyStatsId: metrics_id,
+    });
   const metrix = useStrategyMetrix(tradeStats);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -96,14 +104,14 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats, metrics_id }) => {
       const profitValue =
         tradeDetail.valueType === "dollar"
           ? (Math.abs(Number(tradeDetail.profitValue)) /
-            tradeStats.initialBalance) *
-          100
+              tradeStats.initialBalance) *
+            100
           : Number(tradeDetail.profitValue);
       const lossValue =
         tradeDetail.valueType === "dollar"
           ? (Number(-Math.abs(tradeDetail.lossValue)) /
-            tradeStats.initialBalance) *
-          100
+              tradeStats.initialBalance) *
+            100
           : Number(-Math.abs(tradeDetail.lossValue));
       const trade: TradeSequenceDetail = {
         asset: tradeDetail.asset,
@@ -128,17 +136,12 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats, metrics_id }) => {
     updateTradeCount(false);
   }
   function undoLastAction() {
-    undoLastStrategyStatsMutation()
-    dispatch(strategyActions.undoLastTradeUpdate())
+    undoLastStrategyStatsMutation();
+    dispatch(strategyActions.undoLastTradeUpdate());
   }
   function resetStats() {
-    setShowResetModal(true)
+    setShowResetModal(true);
   }
-
-  useEffect(() => {
-    console.log(tradeDetail.lossValue, "xxx");
-    // console.log(metrix.growth, "xxx");
-  }, [tradeStats]);
 
   return (
     <>
@@ -151,7 +154,9 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats, metrics_id }) => {
               name="lossValue"
               type="number"
             />
-            <InputButton onClick={addLoss}>Add loss {tradeDetail.valueType === "dollar" ? "$" : "%"}</InputButton>
+            <InputButton onClick={addLoss}>
+              Add loss {tradeDetail.valueType === "dollar" ? "$" : "%"}
+            </InputButton>
           </InputGroup>
           <InputGroup position="flex-end">
             <Input
@@ -160,7 +165,9 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats, metrics_id }) => {
               name="profitValue"
               type="number"
             />
-            <InputButtonGreen onClick={addProfit}>Add profit {tradeDetail.valueType === "dollar" ? "$" : "%"}</InputButtonGreen>
+            <InputButtonGreen onClick={addProfit}>
+              Add profit {tradeDetail.valueType === "dollar" ? "$" : "%"}
+            </InputButtonGreen>
           </InputGroup>
         </InputBlock>
         <Group>
@@ -262,17 +269,17 @@ const BacktestTabContent: React.FC<IProps> = ({ tradeStats, metrics_id }) => {
       <InputPromptModal
         headerTitle="Reset Metrix"
         onSubmit={() => {
-          dispatch(strategyActions.resetAllStrategyStatsData())
-          resetStrategyStatsMutation()
-          setShowResetModal(false)
+          dispatch(strategyActions.resetAllStrategyStatsData());
+          resetStrategyStatsMutation();
+          setShowResetModal(false);
         }}
         showModal={showResetModal}
         setShowModal={setShowResetModal}
       >
-        <p>
-          Are you sure you want to reset the current metrix data?
+        <p>Are you sure you want to reset the current metrix data?</p>
+        <p style={{ marginTop: "0.5rem" }}>
+          This action is irreversible, are you sure you want to proceed?
         </p>
-        <p style={{marginTop: "0.5rem"}}>This action is irreversible, are you sure you want to proceed?</p>
       </InputPromptModal>
     </>
   );
