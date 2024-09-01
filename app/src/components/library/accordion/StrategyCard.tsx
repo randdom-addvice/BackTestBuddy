@@ -34,6 +34,7 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
   const { deleteStrategyMutation } = useDeleteStrategyMutationHook(
     {
       deleteStrategyId: strategy.id,
+      library_id: strategy.libraryId,
     },
     {
       onCompleted: (completedData) => {
@@ -42,7 +43,7 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
           setShowModal(false);
         }
       },
-      refetchQueries: ["GetLibraries"],
+      // refetchQueries: ["GetLibraries"],
     }
   );
 

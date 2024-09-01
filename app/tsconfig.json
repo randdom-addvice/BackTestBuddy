@@ -31,5 +31,6 @@
       "@styles/*": ["styles/*"]
     }
   },
-  "include": ["src", "custom.d.ts"]
+  "files": ["graphql.d.ts"],
+  "include": ["src", "custom.d.ts", "graphql.d.ts"]
 }

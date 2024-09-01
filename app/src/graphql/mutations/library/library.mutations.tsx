@@ -8,7 +8,12 @@ import {
   useDeleteLibraryMutation,
   DeleteLibraryMutationVariables,
   DeleteLibraryMutationOptions,
+  Library,
+  GetLibrariesQuery,
 } from "@/graphql/api";
+
+import { loader } from "graphql.macro";
+const GET_LIBRARIES = loader("../../queries/library/library.graphql");
 
 export const useCreateLibraryMutationHook = (
   { createLibraryInput }: CreateLibraryMutationVariables,

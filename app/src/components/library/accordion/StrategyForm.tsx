@@ -83,6 +83,7 @@ const StrategyForm: React.FC<Props> = ({
         description,
         name,
         strategy_id: strategy?.id ?? "",
+        library_id: libraryId,
       },
       {
         onCompleted: (completedData) => {
@@ -93,9 +94,10 @@ const StrategyForm: React.FC<Props> = ({
         },
         onError: (error) => {
           alert("Something went wrong, please retry");
+          console.log(error);
           setModalButtonLoadingState(false);
         },
-        refetchQueries: ["GetLibraries"],
+        // refetchQueries: ["GetLibraries"],
       }
     );
 

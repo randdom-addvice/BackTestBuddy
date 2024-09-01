@@ -3,6 +3,8 @@ import {
   CreateStrategyMutationVariables,
   DeleteStrategyMutationOptions,
   DeleteStrategyMutationVariables,
+  GetLibrariesQuery,
+  Library,
   ResetStrategyStatsMutationOptions,
   ResetStrategyStatsMutationVariables,
   UndoLastStrategyStatsMutationOptions,
@@ -13,11 +15,15 @@ import {
   UpdateStrategyStatsMutationVariables,
   useCreateStrategyMutation,
   useDeleteStrategyMutation,
+  useGetLibrariesQuery,
   useResetStrategyStatsMutation,
   useUndoLastStrategyStatsMutation,
   useUpdateStrategyDetailsMutation,
   useUpdateStrategyStatsMutation,
 } from "@/graphql/api";
+
+import { loader } from "graphql.macro";
+const GET_LIBRARIES = loader("../../queries/library/library.graphql");
 
 export const useCreateStrategyMutationHook = (
   { createStrategyInput }: CreateStrategyMutationVariables,
@@ -33,12 +39,39 @@ export const useCreateStrategyMutationHook = (
 };
 
 export const useDeleteStrategyMutationHook = (
-  { deleteStrategyId }: DeleteStrategyMutationVariables,
+  {
+    deleteStrategyId,
+    library_id,
+  }: DeleteStrategyMutationVariables & { library_id: string },
   options?: DeleteStrategyMutationOptions
 ) => {
   const [deleteStrategyMutation, { data, loading, error }] =
     useDeleteStrategyMutation({
       variables: { deleteStrategyId },
+      update: (cache, _) => {
+        try {
+          cache.updateQuery({ query: GET_LIBRARIES }, (libraries) => {
+            if (!libraries || !libraries.getLibraries) return libraries; // Safeguard against null
+
+            const updatedLibraries = libraries.getLibraries.map(
+              (library: Library) => {
+                if (library._id === library_id) {
+                  // Filter out the strategy with the specified strategy_id
+                  const updatedStrategies = library.strategies.filter(
+                    (strategy) => strategy._id !== deleteStrategyId
+                  );
+                  return { ...library, strategies: updatedStrategies };
+                }
+                return library;
+              }
+            );
+            return { getLibraries: updatedLibraries };
+          });
+        } catch (error) {
+          console.error("Cache update error:", error);
+        }
+      },
+
       ...options,
     });
 
@@ -46,12 +79,42 @@ export const useDeleteStrategyMutationHook = (
 };
 
 export const useUpdateStrategyDetailsMutationHook = (
-  args: UpdateStrategyDetailsInput,
+  {
+    strategy_id,
+    name,
+    description,
+    library_id,
+  }: UpdateStrategyDetailsInput & { library_id: string },
   options?: UpdateStrategyDetailsMutationOptions
 ) => {
   const [updateStrategyDetailsMutation, { data, loading, error }] =
     useUpdateStrategyDetailsMutation({
-      variables: { updateStrategyInput: { ...args } },
+      variables: { updateStrategyInput: { strategy_id, name, description } },
+      update: (cache, _) => {
+        try {
+          cache.updateQuery({ query: GET_LIBRARIES }, (libraries) => {
+            const updatedLibraries = libraries?.getLibraries?.map(
+              (library: Library) => {
+                if (library?._id === library_id) {
+                  const updatedStrategies = library.strategies.map(
+                    (strategy) => {
+                      if (strategy._id === strategy_id) {
+                        return { ...strategy, name, description };
+                      }
+                      return strategy;
+                    }
+                  );
+                  return { ...library, strategies: updatedStrategies };
+                }
+                return library;
+              }
+            );
+            return { getLibraries: updatedLibraries };
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      },
       ...options,
     });
 
