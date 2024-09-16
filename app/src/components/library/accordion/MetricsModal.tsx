@@ -149,7 +149,7 @@ const MetricsModal: React.FC<IProps> = ({
           </li>
         </AnalyticsList>
         <QuarterAnalyticsList>
-          {calculateQuarterlyLibraryAnalytics(strategies, 4)}
+          {calculateQuarterlyLibraryAnalytics(strategies, 3)}
         </QuarterAnalyticsList>
       </section>
     </InfoModal>
