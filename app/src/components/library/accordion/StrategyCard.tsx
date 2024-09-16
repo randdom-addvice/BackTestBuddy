@@ -94,7 +94,11 @@ const StrategyCard: React.FC<Props> = ({ strategy }) => {
             <span>{strategy.profitGain}%</span>
           </StatisticsListItem>
         </StatisticsList>
-        <ViewLink to={`${AppRoutes.METRIX_DYNAMIC}${strategy.id}`}>
+        <ViewLink
+          href={`${AppRoutes.METRIX_DYNAMIC}${strategy.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           View Metrix
         </ViewLink>
       </CardContainer>

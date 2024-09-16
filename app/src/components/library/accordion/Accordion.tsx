@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   AccordionContainer,
   AccordionContent,
@@ -6,10 +6,12 @@ import {
   AccordionDetails,
   AccordionName,
   AccordionSummary,
+  AnalyticsList,
   CreateStratBtn,
   DeleteButton,
   Description,
   EditButton,
+  QuarterAnalyticsList,
 } from "./elements";
 import StrategyCard from "./StrategyCard";
 import { GetLibrariesQuery, Library, Strategy } from "@/graphql/api";
@@ -32,6 +34,8 @@ import { useCreateStrategyMutationHook } from "@/graphql/mutations/strategy/stra
 import StrategyForm from "./StrategyForm";
 import RichTextPreviewModal from "@/components/global/editor/RichTextPreviewModal";
 import LibraryForm from "../LibraryForm";
+import InfoModal from "@/components/modal/InfoModal/InfoModal";
+import MetricsModal from "./MetricsModal";
 interface Props {
   library: {
     name: string;
@@ -43,6 +47,7 @@ interface Props {
 
 const Accordion: React.FC<Props> = ({ library, strategies }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showMetricsModal, setShowMetricsModal] = useState(false);
   const [showUpdateLibraryModal, setShowUpdateLibraryModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false);
@@ -164,6 +169,14 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
               {shortenText(removeHTMLTags(library.description), 300)}{" "}
             </span>
             <button onClick={viewExpanded}>view expanded</button>
+            <br />
+            <button
+              onClick={() => {
+                setShowMetricsModal(true);
+              }}
+            >
+              view analytics
+            </button>
           </Description>
           <AccordionContentGrid>
             {strategies.map((strat) => (
@@ -199,6 +212,12 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
         showRichTextPreviewModal={showRichTextPreviewModal}
         setShowRichTextPreviewModal={setShowRichTextPreviewModal}
         richText={library.description}
+      />
+      <MetricsModal
+        showMetricsModal={showMetricsModal}
+        setShowMetricsModal={setShowMetricsModal}
+        library={library}
+        strategies={strategies}
       />
     </>
   );

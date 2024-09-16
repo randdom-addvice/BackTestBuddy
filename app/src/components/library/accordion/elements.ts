@@ -167,7 +167,7 @@ export const StatisticsListItem = styled.li`
   margin-bottom: 0.5rem;
 `;
 
-export const ViewLink = styled(Link)`
+export const ViewLink = styled.a`
   text-decoration: none;
   color: inherit;
   display: block;
@@ -192,5 +192,37 @@ export const ViewExpanded = styled.button`
 
   &:hover {
     text-decoration: none;
+  }
+`;
+export const AnalyticsList = styled.ul`
+  list-style: none;
+  width: 600px;
+  max-width: 100%;
+  background: white;
+  // box-shadow: 0.25rem 0.25rem 0.75rem rgb(0 0 0 / 0.15);
+  padding: 0;
+  margin: 0;
+  border-radius: 0.1rem;
+
+  li {
+    padding: 0.3rem 0;
+
+    strong {
+      color: #364242;
+    }
+    span {
+      color: green;
+      margin-left: 0.4rem;
+    }
+  }
+`;
+export const QuarterAnalyticsList = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+
+  div {
+    width: 250px;
+    margin-top: 1rem;
   }
 `;
