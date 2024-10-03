@@ -2,7 +2,7 @@ import React from "react";
 import Accordion from "./accordion/Accordion";
 import { useGetLibrariesQueryHook } from "@/graphql/queries/library/library.queries";
 import { AccordionContainer } from "./accordion/elements";
-import { Library } from "@/graphql/api";
+import { Library, TradeStats } from "@/graphql/api";
 import { StyledCenteredDiv } from "@/styles/globalElements";
 
 const LibraryContainer = () => {
@@ -42,6 +42,7 @@ const LibraryContainer = () => {
                   totalTrades: i.tradeStats.totalTrades,
                   percentageWin: i.tradeStats.percentageWin,
                   profitGain: i.tradeStats.profitGain,
+                  tradeStats: i.tradeStats,
                 })) ?? []
               }
             />

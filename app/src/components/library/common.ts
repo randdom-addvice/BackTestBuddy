@@ -1,3 +1,4 @@
+import { TradeStats } from "@/graphql/api";
 import styled from "styled-components";
 
 export type StrategyCardType = {
@@ -8,6 +9,7 @@ export type StrategyCardType = {
   totalTrades: number;
   percentageWin: number;
   profitGain: number;
+  tradeStats: TradeStats;
 };
 
 export const PromptInputGroup = styled.div`

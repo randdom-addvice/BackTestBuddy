@@ -9,6 +9,8 @@ export const checkTokenValidity = (
 
   try {
     const decodedToken = jwtDecode(authToken);
+    console.log(decodedToken);
+    console.log();
     if (decodedToken.exp && decodedToken.exp * 1000 > Date.now()) {
       return true;
     } else {

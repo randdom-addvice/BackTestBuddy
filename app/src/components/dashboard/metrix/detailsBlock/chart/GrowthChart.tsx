@@ -11,11 +11,9 @@ interface IProps {
 }
 
 const GrowthChart: React.FC<IProps> = ({ tradeStats }) => {
-  const metrix = useAppSelector(
-    (state) => state.strategy.selectedStrategyMetrix
-  );
   const { balance, growth } = useStrategyMetrix(tradeStats);
   const [activeTab, setActiveTab] = useState<number>(1);
+  // console.log(tradeStats, "tradeStats");
 
   const [debouncedState, setDebouncedState] = useState({
     options: {

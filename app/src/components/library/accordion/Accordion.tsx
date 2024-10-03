@@ -36,6 +36,7 @@ import RichTextPreviewModal from "@/components/global/editor/RichTextPreviewModa
 import LibraryForm from "../LibraryForm";
 import InfoModal from "@/components/modal/InfoModal/InfoModal";
 import MetricsModal from "./MetricsModal";
+import AnalyticsChartModal from "./AnalyticsChartModal";
 interface Props {
   library: {
     name: string;
@@ -48,6 +49,7 @@ interface Props {
 const Accordion: React.FC<Props> = ({ library, strategies }) => {
   const [showModal, setShowModal] = useState(false);
   const [showMetricsModal, setShowMetricsModal] = useState(false);
+  const [showAnalyticsChartModal, setShowAnalyticsChartModal] = useState(false);
   const [showUpdateLibraryModal, setShowUpdateLibraryModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [modalButtonLoadingState, setModalButtonLoadingState] = useState(false);
@@ -177,6 +179,14 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
             >
               view analytics
             </button>
+            <br />
+            <button
+              onClick={() => {
+                setShowAnalyticsChartModal(true);
+              }}
+            >
+              view analytics chart
+            </button>
           </Description>
           <AccordionContentGrid>
             {strategies.map((strat) => (
@@ -217,6 +227,11 @@ const Accordion: React.FC<Props> = ({ library, strategies }) => {
         showMetricsModal={showMetricsModal}
         setShowMetricsModal={setShowMetricsModal}
         library={library}
+        strategies={strategies}
+      />
+      <AnalyticsChartModal
+        showAnalyticsChartModal={showAnalyticsChartModal}
+        setShowAnalyticsChartModal={setShowAnalyticsChartModal}
         strategies={strategies}
       />
     </>

@@ -313,7 +313,7 @@ export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename?: 'Use
 export type GetLibrariesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLibrariesQuery = { __typename?: 'Query', getLibraries: Array<{ __typename?: 'Library', _id: string, name: string, description: string, user_id: string, strategies: Array<{ __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number } }> } | null> };
+export type GetLibrariesQuery = { __typename?: 'Query', getLibraries: Array<{ __typename?: 'Library', _id: string, name: string, description: string, user_id: string, strategies: Array<{ __typename?: 'Strategy', _id: string, library_id: string, name: string, description: string, tradeStats: { __typename?: 'TradeStats', _id?: string | null, winCountValue: number, lossCountValue: number, balance: number, initialBalance: number, totalTrades: number, totalLossesPercent: number, totalWinningsPercent: number, totalLosses: number, totalWinnings: number, percentageWin: number, profitGain: number, profitFactor: number, tradesSequence: Array<{ __typename?: 'TradeSequenceDetail', asset: string, value: number, commission: number, direction: Direction }>, growth: Array<{ __typename?: 'TradeSequenceDetail', asset: string, value: number, commission: number, direction: Direction }> } }> } | null> };
 
 export type GetProFeaturesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -740,6 +740,18 @@ export const GetLibrariesDocument = gql`
         percentageWin
         profitGain
         profitFactor
+        tradesSequence {
+          asset
+          value
+          commission
+          direction
+        }
+        growth {
+          asset
+          value
+          commission
+          direction
+        }
       }
     }
   }

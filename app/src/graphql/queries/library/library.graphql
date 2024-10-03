@@ -23,6 +23,18 @@ query GetLibraries {
         percentageWin
         profitGain
         profitFactor
+        tradesSequence {
+          asset
+          value
+          commission
+          direction
+        }
+        growth {
+          asset
+          value
+          commission
+          direction
+        }
       }
     }
   }
