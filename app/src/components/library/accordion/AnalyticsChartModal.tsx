@@ -52,7 +52,7 @@ const AnalyticsChartModal: React.FC<IProps> = ({
       showFooter={false}
     >
       <section>
-        {strategies[0].tradeStats.growth ? (
+        {strategies[0]?.tradeStats.growth ? (
           <GrowthChart
             tradeStats={{
               ...strategies[0].tradeStats,
